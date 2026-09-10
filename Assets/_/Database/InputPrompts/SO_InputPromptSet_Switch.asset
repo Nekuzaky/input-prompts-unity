@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20878230fd720d74d873f0800a31c93c, type: 3}
+  m_Name: SO_InputPromptSet_Switch
+  m_EditorClassIdentifier: InputPrompts.Runtime::InputPrompts.InputPromptSet
+  m_style: 4
+  m_layouts:
+  - SwitchProControllerHID
+  m_blankSprite: {fileID: -679083064054180673, guid: 0cdf2444d43feaf40895577fc2251a30, type: 3}
+  m_fallback: {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  _entries:
+  - m_key: a
+    m_sprite: {fileID: -679083064054180673, guid: 0cdf2444d43feaf40895577fc2251a30, type: 3}
+  - m_key: b
+    m_sprite: {fileID: -34248066573713719, guid: 85f849ab256c6fa488033a7c709fa4a9, type: 3}
+  - m_key: buttoneast
+    m_sprite: {fileID: -679083064054180673, guid: 0cdf2444d43feaf40895577fc2251a30, type: 3}
+  - m_key: buttonnorth
+    m_sprite: {fileID: -1042983111052659530, guid: 932cda33825095743ad7237ba489e96b, type: 3}
+  - m_key: buttonsouth
+    m_sprite: {fileID: -34248066573713719, guid: 85f849ab256c6fa488033a7c709fa4a9, type: 3}
+  - m_key: buttonwest
+    m_sprite: {fileID: 6336310393044179604, guid: ebcd2517eed5e8f4f83db0e3fb091c81, type: 3}
+  - m_key: capture
+    m_sprite: {fileID: -6388235864207041120, guid: add9f71f0cac86f408508b3e25d64c75, type: 3}
+  - m_key: circle
+    m_sprite: {fileID: -679083064054180673, guid: 0cdf2444d43feaf40895577fc2251a30, type: 3}
+  - m_key: cross
+    m_sprite: {fileID: -34248066573713719, guid: 85f849ab256c6fa488033a7c709fa4a9, type: 3}
+  - m_key: dpad
+    m_sprite: {fileID: -3656674626466866406, guid: a8bcdfe248f87e94e9b17b1f9c1d8479, type: 3}
+  - m_key: dpad/down
+    m_sprite: {fileID: -5451132923876387043, guid: 464e98cc000d3264194ffe025cb36225, type: 3}
+  - m_key: dpad/left
+    m_sprite: {fileID: -2368825800229423949, guid: 6f0e3b23316cb1d47bf1ed7280032a69, type: 3}
+  - m_key: dpad/right
+    m_sprite: {fileID: 5652331927395226624, guid: 84437cd0a8bd45c46999dff38036a1e2, type: 3}
+  - m_key: dpad/up
+    m_sprite: {fileID: 3833203816414812479, guid: 04c6475736c78a244a6a3741e01def48, type: 3}
+  - m_key: dpad/x
+    m_sprite: {fileID: 9123785647448946303, guid: bcec7b1f8f0aee1418697d69aa16404c, type: 3}
+  - m_key: dpad/y
+    m_sprite: {fileID: 1333129185435315670, guid: e3cfcbc81b2ec2c429159319067ded85, type: 3}
+  - m_key: home
+    m_sprite: {fileID: 8710425448549980878, guid: 71e295a2791e17246874f66c6ab710e2, type: 3}
+  - m_key: l
+    m_sprite: {fileID: -8896013569825370043, guid: f383d8136244d704f8c8377d4e98f4e2, type: 3}
+  - m_key: l1
+    m_sprite: {fileID: -8896013569825370043, guid: f383d8136244d704f8c8377d4e98f4e2, type: 3}
+  - m_key: l2
+    m_sprite: {fileID: -1300769168869769837, guid: ccf5f2c0241428c488040a3007cc6406, type: 3}
+  - m_key: leftshoulder
+    m_sprite: {fileID: -8896013569825370043, guid: f383d8136244d704f8c8377d4e98f4e2, type: 3}
+  - m_key: leftstick
+    m_sprite: {fileID: -2062895221512709040, guid: 2f4f02f562c74964b992f8e08913a4be, type: 3}
+  - m_key: leftstick/down
+    m_sprite: {fileID: -3905367669617441088, guid: 36532749fdfabb648976012aa6c70d5b, type: 3}
+  - m_key: leftstick/left
+    m_sprite: {fileID: -4916995327079169832, guid: d3e7e547eeb96f34b97186be20ecec42, type: 3}
+  - m_key: leftstick/right
+    m_sprite: {fileID: 6418093153501537213, guid: 503fe6941fc55134fb8529a400203587, type: 3}
+  - m_key: leftstick/up
+    m_sprite: {fileID: -7861055630340284789, guid: af09f65e77301454b939ccb8ab1835cc, type: 3}
+  - m_key: leftstick/x
+    m_sprite: {fileID: -5347710746055372754, guid: 0186a0dbd87c5214a906d5e73cb340d0, type: 3}
+  - m_key: leftstick/y
+    m_sprite: {fileID: 4382090106620409451, guid: 978792b6a072152419e4c1032490cfc7, type: 3}
+  - m_key: leftstickpress
+    m_sprite: {fileID: -5407249421438544752, guid: 73bf85ccc1b197a4caab1ac6c237e6f5, type: 3}
+  - m_key: lefttrigger
+    m_sprite: {fileID: -1300769168869769837, guid: ccf5f2c0241428c488040a3007cc6406, type: 3}
+  - m_key: minus
+    m_sprite: {fileID: -3825685005599645169, guid: d244bc8ec66bd284db55de074c03c79f, type: 3}
+  - m_key: plus
+    m_sprite: {fileID: -6684437488700297761, guid: 79f5fa37ec3be5b45b69be507e2b24ae, type: 3}
+  - m_key: r
+    m_sprite: {fileID: -7671505313890964669, guid: 41e106839175a7e4cb83b35ace11d21b, type: 3}
+  - m_key: r1
+    m_sprite: {fileID: -7671505313890964669, guid: 41e106839175a7e4cb83b35ace11d21b, type: 3}
+  - m_key: r2
+    m_sprite: {fileID: 1687500630011675422, guid: f67701455241af142a7e700407560f4f, type: 3}
+  - m_key: rightshoulder
+    m_sprite: {fileID: -7671505313890964669, guid: 41e106839175a7e4cb83b35ace11d21b, type: 3}
+  - m_key: rightstick
+    m_sprite: {fileID: -2615466989162533860, guid: ce52935148c57b34da664e534b6b2d91, type: 3}
+  - m_key: rightstick/down
+    m_sprite: {fileID: 6601753856683419804, guid: 6a86c1d9e3c52a04b9295b940d3314a4, type: 3}
+  - m_key: rightstick/left
+    m_sprite: {fileID: 5026694123053857621, guid: 799fbd9f3f5b8eb429a4468e683d01dd, type: 3}
+  - m_key: rightstick/right
+    m_sprite: {fileID: -628568930383593835, guid: 2154a37a3b40599469cf10333f63e18e, type: 3}
+  - m_key: rightstick/up
+    m_sprite: {fileID: 2973894123171282680, guid: ba80b53f46f8bfe4dbf8f11143b6309f, type: 3}
+  - m_key: rightstick/x
+    m_sprite: {fileID: -2944095536241850758, guid: 4bb40aac435b60144a2a47b2971f7b01, type: 3}
+  - m_key: rightstick/y
+    m_sprite: {fileID: 3449618509553994126, guid: 645b4b043b6eff34a9cd103699726bce, type: 3}
+  - m_key: rightstickpress
+    m_sprite: {fileID: 2176531306190813766, guid: eded048068da6c745b053cca7bc63618, type: 3}
+  - m_key: righttrigger
+    m_sprite: {fileID: 1687500630011675422, guid: f67701455241af142a7e700407560f4f, type: 3}
+  - m_key: select
+    m_sprite: {fileID: -3825685005599645169, guid: d244bc8ec66bd284db55de074c03c79f, type: 3}
+  - m_key: square
+    m_sprite: {fileID: 6336310393044179604, guid: ebcd2517eed5e8f4f83db0e3fb091c81, type: 3}
+  - m_key: start
+    m_sprite: {fileID: -6684437488700297761, guid: 79f5fa37ec3be5b45b69be507e2b24ae, type: 3}
+  - m_key: systembutton
+    m_sprite: {fileID: 8710425448549980878, guid: 71e295a2791e17246874f66c6ab710e2, type: 3}
+  - m_key: triangle
+    m_sprite: {fileID: -1042983111052659530, guid: 932cda33825095743ad7237ba489e96b, type: 3}
+  - m_key: x
+    m_sprite: {fileID: -1042983111052659530, guid: 932cda33825095743ad7237ba489e96b, type: 3}
+  - m_key: y
+    m_sprite: {fileID: 6336310393044179604, guid: ebcd2517eed5e8f4f83db0e3fb091c81, type: 3}
+  - m_key: zl
+    m_sprite: {fileID: -1300769168869769837, guid: ccf5f2c0241428c488040a3007cc6406, type: 3}
+  - m_key: zr
+    m_sprite: {fileID: 1687500630011675422, guid: f67701455241af142a7e700407560f4f, type: 3}

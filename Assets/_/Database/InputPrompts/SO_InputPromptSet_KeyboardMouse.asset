@@ -1,0 +1,289 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20878230fd720d74d873f0800a31c93c, type: 3}
+  m_Name: SO_InputPromptSet_KeyboardMouse
+  m_EditorClassIdentifier: InputPrompts.Runtime::InputPrompts.InputPromptSet
+  m_style: 1
+  m_layouts:
+  - Keyboard
+  - Mouse
+  m_blankSprite: {fileID: 1084870471915973256, guid: 15df7f857cd053749ad086770836049c, type: 3}
+  m_fallback: {fileID: 0}
+  _entries:
+  - m_key: 0
+    m_sprite: {fileID: -298569682275349766, guid: 1752143206bed9b4a8196f2aa5664e17, type: 3}
+  - m_key: 1
+    m_sprite: {fileID: 2285120093584573513, guid: 2ef64db6004b37b4383871620c6cbb8c, type: 3}
+  - m_key: 2
+    m_sprite: {fileID: -4842122482347598607, guid: 5be3b1c5b9e255543b1ae2cac7cfbf1b, type: 3}
+  - m_key: 3
+    m_sprite: {fileID: -7699723923551181482, guid: 8daa88ca5f2c34044b335adc757e455d, type: 3}
+  - m_key: 4
+    m_sprite: {fileID: 4871772481475680366, guid: 2be95d77c62763546afd99cb1137841c, type: 3}
+  - m_key: 5
+    m_sprite: {fileID: 3284144849386901357, guid: bdcfe009b299014498f14f6cebdb827c, type: 3}
+  - m_key: 6
+    m_sprite: {fileID: -1550802614037358739, guid: 95f9760fdc5c78e4191bc69a230a0111, type: 3}
+  - m_key: 7
+    m_sprite: {fileID: 3132562753328626587, guid: 43abd309b7c841a4a81b150fb87ea2dd, type: 3}
+  - m_key: 8
+    m_sprite: {fileID: 890350665705472834, guid: 65ad90b795073724c9e304bb1b8c2383, type: 3}
+  - m_key: 9
+    m_sprite: {fileID: 4052524382370747962, guid: 73bc4d47e84d53a4ea8bd7d9324f5ead, type: 3}
+  - m_key: a
+    m_sprite: {fileID: 1145220741083561907, guid: 734d18fb06575664c871305248b3e192, type: 3}
+  - m_key: alt
+    m_sprite: {fileID: -8537438008601397705, guid: 8493265dd09ea4e47b3cd8880b888420, type: 3}
+  - m_key: anykey
+    m_sprite: {fileID: 110552308490896519, guid: cca9949aca32e804ead7c8ca3fb8590f, type: 3}
+  - m_key: b
+    m_sprite: {fileID: 4387665465535511833, guid: 4d5d2038d70fc4c438460bb0dd1bf00d, type: 3}
+  - m_key: backbutton
+    m_sprite: {fileID: -4204200759116492266, guid: 1f5eede06df7db44f8021b1c53392848, type: 3}
+  - m_key: backquote
+    m_sprite: {fileID: -927971289186269160, guid: 7d93f17ef5a325945af9519d2f3b442c, type: 3}
+  - m_key: backslash
+    m_sprite: {fileID: 2269918448686567404, guid: 9a5cef6a3ded61149b0e87e0de8f0d2b, type: 3}
+  - m_key: backspace
+    m_sprite: {fileID: 8086792615903017955, guid: a39a74dbb470f4741aad6554ad432d85, type: 3}
+  - m_key: c
+    m_sprite: {fileID: 7489297749385158885, guid: 4997fb870f0b3644c92a024de6909a8f, type: 3}
+  - m_key: capslock
+    m_sprite: {fileID: -8070800040580810078, guid: 9d6a9968577b1064c91b12d58f5fa068, type: 3}
+  - m_key: comma
+    m_sprite: {fileID: -6681133147278788448, guid: c557546ef28b23946b222a11c5ec7c43, type: 3}
+  - m_key: contextmenu
+    m_sprite: {fileID: -2270610884487199720, guid: f99d70d992c42f345a7b4af7d680b073, type: 3}
+  - m_key: ctrl
+    m_sprite: {fileID: 3795127328408915156, guid: 5cd41c9a3be217b4fb1219ce91d01f8b, type: 3}
+  - m_key: d
+    m_sprite: {fileID: -8387302115945079765, guid: 03e43542b6290924ab108dc9e8da3977, type: 3}
+  - m_key: delete
+    m_sprite: {fileID: 4774142277166468255, guid: e30ad57f7f330584fa18034c195df03e, type: 3}
+  - m_key: delta
+    m_sprite: {fileID: -3856384690477637461, guid: 4b3caede057485140b5dc2f66aec0b1e, type: 3}
+  - m_key: delta/down
+    m_sprite: {fileID: -4610427758365128009, guid: 0cb1448bf34b336458527b32457a7e86, type: 3}
+  - m_key: delta/left
+    m_sprite: {fileID: 1547040054447506337, guid: 6730318712668214e9d9ff0ac008c7bd, type: 3}
+  - m_key: delta/right
+    m_sprite: {fileID: 1547040054447506337, guid: 6730318712668214e9d9ff0ac008c7bd, type: 3}
+  - m_key: delta/up
+    m_sprite: {fileID: -4610427758365128009, guid: 0cb1448bf34b336458527b32457a7e86, type: 3}
+  - m_key: delta/x
+    m_sprite: {fileID: 1547040054447506337, guid: 6730318712668214e9d9ff0ac008c7bd, type: 3}
+  - m_key: delta/y
+    m_sprite: {fileID: -4610427758365128009, guid: 0cb1448bf34b336458527b32457a7e86, type: 3}
+  - m_key: downarrow
+    m_sprite: {fileID: 5154032583816780984, guid: 00711516823349a45a7b470e5ca86703, type: 3}
+  - m_key: e
+    m_sprite: {fileID: 1622727937493990531, guid: 10d025e9232a4dd4b9d88d829189f9ab, type: 3}
+  - m_key: end
+    m_sprite: {fileID: -8269448446418963542, guid: 5d142c754603b8544bef51d215bdefa4, type: 3}
+  - m_key: enter
+    m_sprite: {fileID: -4761915745340555039, guid: 8bf070b9ac6b2df45b274d5a5fa9d6f4, type: 3}
+  - m_key: equals
+    m_sprite: {fileID: -5703737665441673626, guid: 2de0167476971fe4c998d16e6f4b8018, type: 3}
+  - m_key: escape
+    m_sprite: {fileID: 5161238624427270819, guid: 1d5fac1ccc8b0294f8c8fbf1122bfdc8, type: 3}
+  - m_key: f
+    m_sprite: {fileID: -9125861541802950594, guid: 6c62d4bb0b1ecd3478ded32b4db4baba, type: 3}
+  - m_key: f1
+    m_sprite: {fileID: -5276268084499866289, guid: 472af40cf1bfe314589b53bd8c158059, type: 3}
+  - m_key: f10
+    m_sprite: {fileID: 3344012895008649251, guid: d73970746c782704992a298be747a1fb, type: 3}
+  - m_key: f11
+    m_sprite: {fileID: 5868078030359579539, guid: 8cb8f9f122cd54a418998302157fd303, type: 3}
+  - m_key: f12
+    m_sprite: {fileID: -3131574434052127199, guid: e8102563c2533704796b6ba16b9cb4b4, type: 3}
+  - m_key: f2
+    m_sprite: {fileID: -8406788298635153352, guid: 71accb32349225040b33797ec0363e38, type: 3}
+  - m_key: f3
+    m_sprite: {fileID: 8009288347919174658, guid: d7d7a5b9831c7bb42a513f453a6029eb, type: 3}
+  - m_key: f4
+    m_sprite: {fileID: -1380453812768227926, guid: 34c8418d581a4214d81dc57e4d0f5e61, type: 3}
+  - m_key: f5
+    m_sprite: {fileID: -5414126393478914263, guid: 56880369f5199d748918260f65255968, type: 3}
+  - m_key: f6
+    m_sprite: {fileID: -2478374994428999686, guid: 5ea8656aa9f7dda44ba1fa6855289f7d, type: 3}
+  - m_key: f7
+    m_sprite: {fileID: -8021247133056268021, guid: 49188461fc5adbf4daf35417b9c11580, type: 3}
+  - m_key: f8
+    m_sprite: {fileID: 5797952619067910518, guid: 79bc74e208e8a114fa39dc82b87cac59, type: 3}
+  - m_key: f9
+    m_sprite: {fileID: 6301311132233469706, guid: 281fab2b70ed194449e544fec9c7987e, type: 3}
+  - m_key: forwardbutton
+    m_sprite: {fileID: 236718682393994631, guid: be61627421b4d9742915d0d5cb7a3cbb, type: 3}
+  - m_key: g
+    m_sprite: {fileID: -6228684978618632526, guid: 8491010f71699024d87351385a08b1b7, type: 3}
+  - m_key: h
+    m_sprite: {fileID: -9011578454848037910, guid: 279108a6de33c6c4ba6c24010f283268, type: 3}
+  - m_key: home
+    m_sprite: {fileID: -6980483413758840211, guid: bde2dd3ecd6c2d7469e489738b203dd1, type: 3}
+  - m_key: i
+    m_sprite: {fileID: 6624163752006436703, guid: cce7cb3b9780ea94a8d8829c8b2600c2, type: 3}
+  - m_key: insert
+    m_sprite: {fileID: 436866400090294973, guid: b2473677ccf8f2b4f98ddcb456940d94, type: 3}
+  - m_key: j
+    m_sprite: {fileID: -2577820472799158749, guid: 24c942d3d2f8f984b9fd3fc9825f3641, type: 3}
+  - m_key: k
+    m_sprite: {fileID: 3290407570213495539, guid: 35815500d9f4f194d865099ba1ad2ec0, type: 3}
+  - m_key: l
+    m_sprite: {fileID: 2711562684772605928, guid: ac393a527adb3e84096caea8f0910ec7, type: 3}
+  - m_key: leftalt
+    m_sprite: {fileID: -8537438008601397705, guid: 8493265dd09ea4e47b3cd8880b888420, type: 3}
+  - m_key: leftapple
+    m_sprite: {fileID: -6860617701136312013, guid: 9cd7ed64f1dfee3499d42a130a1964ad, type: 3}
+  - m_key: leftarrow
+    m_sprite: {fileID: -3607151359317351652, guid: ace940f0d52afd1478494269f70feb17, type: 3}
+  - m_key: leftbracket
+    m_sprite: {fileID: 6859698589740800194, guid: 8e4f509c2e49dd743967964e9f22476e, type: 3}
+  - m_key: leftbutton
+    m_sprite: {fileID: 4721984945286338058, guid: 19cd176753a71a34e9531ba32e55701f, type: 3}
+  - m_key: leftcommand
+    m_sprite: {fileID: -6860617701136312013, guid: 9cd7ed64f1dfee3499d42a130a1964ad, type: 3}
+  - m_key: leftctrl
+    m_sprite: {fileID: 3795127328408915156, guid: 5cd41c9a3be217b4fb1219ce91d01f8b, type: 3}
+  - m_key: leftmeta
+    m_sprite: {fileID: -6181505624115334152, guid: 512efac8de43be04db41b220bb29df0d, type: 3}
+  - m_key: leftshift
+    m_sprite: {fileID: -465843913026089529, guid: 3c36a4e49a267f847894bad71c6eec4e, type: 3}
+  - m_key: leftwindows
+    m_sprite: {fileID: -6181505624115334152, guid: 512efac8de43be04db41b220bb29df0d, type: 3}
+  - m_key: m
+    m_sprite: {fileID: 8162251711410599823, guid: 20da1a91f31a3b24fac6f6b1cb5ee0cd, type: 3}
+  - m_key: middlebutton
+    m_sprite: {fileID: 769054023411251779, guid: f77dcb6c2a3197c4b991b8df4760abbe, type: 3}
+  - m_key: minus
+    m_sprite: {fileID: -2999733867205281054, guid: dca29900bc9dc8c4684b1dd08cc9d709, type: 3}
+  - m_key: n
+    m_sprite: {fileID: 1613905444216025894, guid: b55a39b79d7f5a142a0e3081dc495bfc, type: 3}
+  - m_key: numlock
+    m_sprite: {fileID: -2151229654994512011, guid: 354a8b4ee348aa84eb957a414364b08c, type: 3}
+  - m_key: numpad0
+    m_sprite: {fileID: -298569682275349766, guid: 1752143206bed9b4a8196f2aa5664e17, type: 3}
+  - m_key: numpad1
+    m_sprite: {fileID: 2285120093584573513, guid: 2ef64db6004b37b4383871620c6cbb8c, type: 3}
+  - m_key: numpad2
+    m_sprite: {fileID: -4842122482347598607, guid: 5be3b1c5b9e255543b1ae2cac7cfbf1b, type: 3}
+  - m_key: numpad3
+    m_sprite: {fileID: -7699723923551181482, guid: 8daa88ca5f2c34044b335adc757e455d, type: 3}
+  - m_key: numpad4
+    m_sprite: {fileID: 4871772481475680366, guid: 2be95d77c62763546afd99cb1137841c, type: 3}
+  - m_key: numpad5
+    m_sprite: {fileID: 3284144849386901357, guid: bdcfe009b299014498f14f6cebdb827c, type: 3}
+  - m_key: numpad6
+    m_sprite: {fileID: -1550802614037358739, guid: 95f9760fdc5c78e4191bc69a230a0111, type: 3}
+  - m_key: numpad7
+    m_sprite: {fileID: 3132562753328626587, guid: 43abd309b7c841a4a81b150fb87ea2dd, type: 3}
+  - m_key: numpad8
+    m_sprite: {fileID: 890350665705472834, guid: 65ad90b795073724c9e304bb1b8c2383, type: 3}
+  - m_key: numpad9
+    m_sprite: {fileID: 4052524382370747962, guid: 73bc4d47e84d53a4ea8bd7d9324f5ead, type: 3}
+  - m_key: numpaddivide
+    m_sprite: {fileID: 8558015319005732945, guid: 6512901ac38ab9d4e98e3fdbc28925c9, type: 3}
+  - m_key: numpadenter
+    m_sprite: {fileID: -5228559535882919277, guid: b5dfacad377487b49934dd8875cc1d80, type: 3}
+  - m_key: numpadequals
+    m_sprite: {fileID: -5703737665441673626, guid: 2de0167476971fe4c998d16e6f4b8018, type: 3}
+  - m_key: numpadminus
+    m_sprite: {fileID: -2999733867205281054, guid: dca29900bc9dc8c4684b1dd08cc9d709, type: 3}
+  - m_key: numpadmultiply
+    m_sprite: {fileID: -8581236328691645878, guid: 31c84f005b983ab4bb861f10960884f0, type: 3}
+  - m_key: numpadperiod
+    m_sprite: {fileID: -7957453670165720738, guid: f558bdd6a16f4d44695a6de1066530bc, type: 3}
+  - m_key: numpadplus
+    m_sprite: {fileID: 3056828074748105826, guid: 419ee3ab92df4fe47b3a796b02f1fbbd, type: 3}
+  - m_key: o
+    m_sprite: {fileID: 5237277465588018485, guid: 81cb69a3446791241badc949247a8f5e, type: 3}
+  - m_key: p
+    m_sprite: {fileID: 7358378815127608425, guid: 707b5e356a329cc4a9c7233233ede3f9, type: 3}
+  - m_key: pagedown
+    m_sprite: {fileID: 3705201507620354667, guid: 410b88d793b44204f9b61393d69a4c9d, type: 3}
+  - m_key: pageup
+    m_sprite: {fileID: -1033187720645169652, guid: 3dad4a8dc7d669f499ddb35741625ce2, type: 3}
+  - m_key: pause
+    m_sprite: {fileID: 2127228123153342334, guid: fc915dcaf1fd28a4d8bebc26fa1adffc, type: 3}
+  - m_key: period
+    m_sprite: {fileID: -7957453670165720738, guid: f558bdd6a16f4d44695a6de1066530bc, type: 3}
+  - m_key: position
+    m_sprite: {fileID: -3856384690477637461, guid: 4b3caede057485140b5dc2f66aec0b1e, type: 3}
+  - m_key: press
+    m_sprite: {fileID: 4721984945286338058, guid: 19cd176753a71a34e9531ba32e55701f, type: 3}
+  - m_key: printscreen
+    m_sprite: {fileID: 3144470462153080845, guid: 4b2a1b12b762f904799ee1624d9f7779, type: 3}
+  - m_key: q
+    m_sprite: {fileID: 1179216485070693450, guid: b0ff78ff6e840f5478e77b2986423de0, type: 3}
+  - m_key: quote
+    m_sprite: {fileID: 785660994695051435, guid: ebf0113e0693fb749b93bfd4977cc824, type: 3}
+  - m_key: r
+    m_sprite: {fileID: -6780523318993171746, guid: a5638f13fe265424685c86abe4420818, type: 3}
+  - m_key: rightalt
+    m_sprite: {fileID: -8537438008601397705, guid: 8493265dd09ea4e47b3cd8880b888420, type: 3}
+  - m_key: rightapple
+    m_sprite: {fileID: -6860617701136312013, guid: 9cd7ed64f1dfee3499d42a130a1964ad, type: 3}
+  - m_key: rightarrow
+    m_sprite: {fileID: -4797783203767385232, guid: 2308d5d310b47264d8f664420875f222, type: 3}
+  - m_key: rightbracket
+    m_sprite: {fileID: 3681141240734532656, guid: 30854c2e270b12847bb909f20ee3138e, type: 3}
+  - m_key: rightbutton
+    m_sprite: {fileID: -4914911570186814470, guid: 8a0a079fefefdb04d81fb81ff1cbee86, type: 3}
+  - m_key: rightcommand
+    m_sprite: {fileID: -6860617701136312013, guid: 9cd7ed64f1dfee3499d42a130a1964ad, type: 3}
+  - m_key: rightctrl
+    m_sprite: {fileID: 3795127328408915156, guid: 5cd41c9a3be217b4fb1219ce91d01f8b, type: 3}
+  - m_key: rightmeta
+    m_sprite: {fileID: -6181505624115334152, guid: 512efac8de43be04db41b220bb29df0d, type: 3}
+  - m_key: rightshift
+    m_sprite: {fileID: -465843913026089529, guid: 3c36a4e49a267f847894bad71c6eec4e, type: 3}
+  - m_key: rightwindows
+    m_sprite: {fileID: -6181505624115334152, guid: 512efac8de43be04db41b220bb29df0d, type: 3}
+  - m_key: s
+    m_sprite: {fileID: -3937758826142331281, guid: 84c6d50d97bc5f044823cbd591d8023f, type: 3}
+  - m_key: scroll
+    m_sprite: {fileID: 769054023411251779, guid: f77dcb6c2a3197c4b991b8df4760abbe, type: 3}
+  - m_key: scroll/down
+    m_sprite: {fileID: -7625063221403478981, guid: 9b7b188343d0b5346927813b450b359b, type: 3}
+  - m_key: scroll/up
+    m_sprite: {fileID: -3306866293255054848, guid: bf86c943cfbc25a4a9c908573e07aae1, type: 3}
+  - m_key: scroll/x
+    m_sprite: {fileID: 1547040054447506337, guid: 6730318712668214e9d9ff0ac008c7bd, type: 3}
+  - m_key: scroll/y
+    m_sprite: {fileID: 4157215641068919267, guid: 9402065ef04241c4da4edddfedfb393e, type: 3}
+  - m_key: scrolllock
+    m_sprite: {fileID: -5106382841924089004, guid: 14d68cf7c8aed9244be33aa494965d7c, type: 3}
+  - m_key: semicolon
+    m_sprite: {fileID: 2062452209080724124, guid: 52ad5396bed0f804ba74ce75f20e6001, type: 3}
+  - m_key: shift
+    m_sprite: {fileID: -465843913026089529, guid: 3c36a4e49a267f847894bad71c6eec4e, type: 3}
+  - m_key: slash
+    m_sprite: {fileID: 8558015319005732945, guid: 6512901ac38ab9d4e98e3fdbc28925c9, type: 3}
+  - m_key: space
+    m_sprite: {fileID: -557078281788634498, guid: a850f4d78c1ac6842bc452228ec59772, type: 3}
+  - m_key: t
+    m_sprite: {fileID: 3804896374830911662, guid: f9571894fea243a41a5ada604df55a3d, type: 3}
+  - m_key: tab
+    m_sprite: {fileID: 2363609691092413705, guid: 960c2c2850484f34d83dcaceb1f40777, type: 3}
+  - m_key: u
+    m_sprite: {fileID: 1897869547920896223, guid: 04b0c743dd16dc947a50abb098fe7c94, type: 3}
+  - m_key: uparrow
+    m_sprite: {fileID: 2349417091975035521, guid: e9c5143418640264c8ca4d4e78b7a7f6, type: 3}
+  - m_key: v
+    m_sprite: {fileID: -8655167945723465343, guid: 672a7683fd25c2143b1a2ce9f9e50365, type: 3}
+  - m_key: w
+    m_sprite: {fileID: 6539619573780045288, guid: c0b493c12037d514eb34efd151bf53a4, type: 3}
+  - m_key: x
+    m_sprite: {fileID: -1679339380555045785, guid: e277251b78018294da314c2ca1f19346, type: 3}
+  - m_key: y
+    m_sprite: {fileID: -2318533488985238692, guid: 9e5ee5d6195a3d8438e4f5b5ca3a2c8d, type: 3}
+  - m_key: z
+    m_sprite: {fileID: 8988070500663906562, guid: e28aaed7e5143634f811fc42e1385e4f, type: 3}

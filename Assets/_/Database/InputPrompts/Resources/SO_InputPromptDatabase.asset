@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69931f35d65386246897be8be682a4e1, type: 3}
+  m_Name: SO_InputPromptDatabase
+  m_EditorClassIdentifier: InputPrompts.Runtime::InputPrompts.InputPromptDatabase
+  m_sets:
+  - {fileID: 11400000, guid: 68e0ba58ed4de444dab13047bba3fb89, type: 2}
+  - {fileID: 11400000, guid: a0cd38dd08bd76d42a76be0bcb62352d, type: 2}
+  - {fileID: 11400000, guid: 98d49f0510e7021458155c77359b6ef1, type: 2}
+  - {fileID: 11400000, guid: 7beaa43141b1c3145bea59cbdacdf9b7, type: 2}
+  - {fileID: 11400000, guid: ee6db5f0f0065b54d9f3f25f61a2da6e, type: 2}
+  - {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  m_gamepadFallback: {fileID: 11400000, guid: a0cd38dd08bd76d42a76be0bcb62352d, type: 2}
+  m_defaultStyle: 1

@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20878230fd720d74d873f0800a31c93c, type: 3}
+  m_Name: SO_InputPromptSet_Xbox
+  m_EditorClassIdentifier: InputPrompts.Runtime::InputPrompts.InputPromptSet
+  m_style: 2
+  m_layouts:
+  - XInputController
+  m_blankSprite: {fileID: 1536610985664812233, guid: 9e0bb41cb1b8ab24c96ee48e641a970b, type: 3}
+  m_fallback: {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  _entries:
+  - m_key: a
+    m_sprite: {fileID: 1536610985664812233, guid: 9e0bb41cb1b8ab24c96ee48e641a970b, type: 3}
+  - m_key: b
+    m_sprite: {fileID: -5139752235935985354, guid: c83e417b9024f134eaf999b6bbb3f891, type: 3}
+  - m_key: buttoneast
+    m_sprite: {fileID: -5139752235935985354, guid: c83e417b9024f134eaf999b6bbb3f891, type: 3}
+  - m_key: buttonnorth
+    m_sprite: {fileID: -1852535901072925621, guid: aa059801f4cfde24586493c762403b1a, type: 3}
+  - m_key: buttonsouth
+    m_sprite: {fileID: 1536610985664812233, guid: 9e0bb41cb1b8ab24c96ee48e641a970b, type: 3}
+  - m_key: buttonwest
+    m_sprite: {fileID: -9085605288992608834, guid: a47e8f201f9ba614894ed28c85e56209, type: 3}
+  - m_key: circle
+    m_sprite: {fileID: -5139752235935985354, guid: c83e417b9024f134eaf999b6bbb3f891, type: 3}
+  - m_key: cross
+    m_sprite: {fileID: 1536610985664812233, guid: 9e0bb41cb1b8ab24c96ee48e641a970b, type: 3}
+  - m_key: dpad
+    m_sprite: {fileID: -5197839481415047839, guid: 5aa2cd4aedaa577458664bb5e3444076, type: 3}
+  - m_key: dpad/down
+    m_sprite: {fileID: 4692930742817869381, guid: 074134958f3ee534ba85ca7b923d56db, type: 3}
+  - m_key: dpad/left
+    m_sprite: {fileID: -6164935804030125252, guid: f41ee3811b293ae41a83a5c52319c5c8, type: 3}
+  - m_key: dpad/right
+    m_sprite: {fileID: -8794133603664248715, guid: fd5382bc7ac58cd4bbbca85698b1d27c, type: 3}
+  - m_key: dpad/up
+    m_sprite: {fileID: -8469937635646949677, guid: 9080203cc7368a44fbfc8619855b24a8, type: 3}
+  - m_key: dpad/x
+    m_sprite: {fileID: -5985726356368612277, guid: ffd3ef75d2450394b8c65ad49800d636, type: 3}
+  - m_key: dpad/y
+    m_sprite: {fileID: 2359391360792562025, guid: f2b2ce0b90b03c8489009be66cbab193, type: 3}
+  - m_key: guide
+    m_sprite: {fileID: 3772289639529948489, guid: 67487f9b78eed124ba079aac6d298743, type: 3}
+  - m_key: l1
+    m_sprite: {fileID: 2267800731179639549, guid: d7d7fb344a8154742b4ee3229a69937d, type: 3}
+  - m_key: l2
+    m_sprite: {fileID: -3997850089383228863, guid: f213236438df78e479176e73a6957fcd, type: 3}
+  - m_key: leftshoulder
+    m_sprite: {fileID: 2267800731179639549, guid: d7d7fb344a8154742b4ee3229a69937d, type: 3}
+  - m_key: leftstick
+    m_sprite: {fileID: -8016873682913189246, guid: 063368138ccb67f4ab738b393cbe4489, type: 3}
+  - m_key: leftstick/down
+    m_sprite: {fileID: -6157015308907440503, guid: 16cfd63b3152cdc4bbe5a3bedc75d3e6, type: 3}
+  - m_key: leftstick/left
+    m_sprite: {fileID: -2926610403125193776, guid: 2b593bac75df15c41a1e82a5f1c98ab6, type: 3}
+  - m_key: leftstick/right
+    m_sprite: {fileID: -7852748577579673936, guid: 9ef2816bd4ff05e48bec947ae32bb9f1, type: 3}
+  - m_key: leftstick/up
+    m_sprite: {fileID: 7877496642147825795, guid: e98ca9ee7c0aab14f9dd2abaaee6b2f2, type: 3}
+  - m_key: leftstick/x
+    m_sprite: {fileID: -3554666584571092534, guid: da69336752de0234bb638f815f3e1a9f, type: 3}
+  - m_key: leftstick/y
+    m_sprite: {fileID: -8516062660687595550, guid: 26081cb2b37bcc84dba666ecb9547820, type: 3}
+  - m_key: leftstickpress
+    m_sprite: {fileID: 5517859457217657291, guid: b61e6a55a45e3834f9ac10e376835d38, type: 3}
+  - m_key: lefttrigger
+    m_sprite: {fileID: -3997850089383228863, guid: f213236438df78e479176e73a6957fcd, type: 3}
+  - m_key: menu
+    m_sprite: {fileID: -4888617564249088142, guid: 500b9081f885b8f41a65b3e4a5337aea, type: 3}
+  - m_key: r1
+    m_sprite: {fileID: 4249578791139060025, guid: 9991ec7f083fdf241b647dcc2884bb07, type: 3}
+  - m_key: r2
+    m_sprite: {fileID: 3336128370510153928, guid: cfd6c8916728cd34fb36cb939baae2e9, type: 3}
+  - m_key: rightshoulder
+    m_sprite: {fileID: 4249578791139060025, guid: 9991ec7f083fdf241b647dcc2884bb07, type: 3}
+  - m_key: rightstick
+    m_sprite: {fileID: -5313271606796292114, guid: 483e7ea5e8d160843a1da3370ca9ac9f, type: 3}
+  - m_key: rightstick/down
+    m_sprite: {fileID: 246453436953034071, guid: a3b6573961f0e7d46bd404f08de61bf3, type: 3}
+  - m_key: rightstick/left
+    m_sprite: {fileID: -8890445823937379216, guid: b63ca4e29464ea74c85bafe5cf49c40f, type: 3}
+  - m_key: rightstick/right
+    m_sprite: {fileID: 5676446216778957172, guid: 836d774c248fa4b41953ebcde1712544, type: 3}
+  - m_key: rightstick/up
+    m_sprite: {fileID: 2194442242755624189, guid: a8c548e8774a77b4195f72031585207f, type: 3}
+  - m_key: rightstick/x
+    m_sprite: {fileID: 8471430037570485701, guid: 0e7402721111a8345b502907bd3c4719, type: 3}
+  - m_key: rightstick/y
+    m_sprite: {fileID: 4530859688824849922, guid: b191618005b076d4496f13bc01e8ebeb, type: 3}
+  - m_key: rightstickpress
+    m_sprite: {fileID: 9023095465647593558, guid: a8cc50a9e11982c4083ed4e3775aef63, type: 3}
+  - m_key: righttrigger
+    m_sprite: {fileID: 3336128370510153928, guid: cfd6c8916728cd34fb36cb939baae2e9, type: 3}
+  - m_key: select
+    m_sprite: {fileID: -2175723170780908905, guid: 2b3633e61a017a24d8f354643e1a3012, type: 3}
+  - m_key: share
+    m_sprite: {fileID: 8163804113092705876, guid: 91109b2f1f519f84bb604dfb4f64461b, type: 3}
+  - m_key: square
+    m_sprite: {fileID: -9085605288992608834, guid: a47e8f201f9ba614894ed28c85e56209, type: 3}
+  - m_key: start
+    m_sprite: {fileID: -4888617564249088142, guid: 500b9081f885b8f41a65b3e4a5337aea, type: 3}
+  - m_key: systembutton
+    m_sprite: {fileID: 3772289639529948489, guid: 67487f9b78eed124ba079aac6d298743, type: 3}
+  - m_key: triangle
+    m_sprite: {fileID: -1852535901072925621, guid: aa059801f4cfde24586493c762403b1a, type: 3}
+  - m_key: view
+    m_sprite: {fileID: -2175723170780908905, guid: 2b3633e61a017a24d8f354643e1a3012, type: 3}
+  - m_key: x
+    m_sprite: {fileID: -9085605288992608834, guid: a47e8f201f9ba614894ed28c85e56209, type: 3}
+  - m_key: y
+    m_sprite: {fileID: -1852535901072925621, guid: aa059801f4cfde24586493c762403b1a, type: 3}
