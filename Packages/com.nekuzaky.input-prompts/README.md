@@ -1,15 +1,15 @@
 # Input Prompts
 
-Affiche la bonne icône de touche ou de bouton pour une `InputAction`, et la remplace toute seule
-quand le joueur change de périphérique (clavier, Xbox, PlayStation, Switch, Steam Deck).
+Shows the right key or button icon for an `InputAction`, and swaps it on its own when the player
+switches device (keyboard, Xbox, PlayStation, Switch, Steam Deck).
 
-Documentation complète, installation et API :
+Full documentation, installation and API:
 <https://github.com/Nekuzaky/input-prompts-unity>
 
-## Démarrage rapide
+## Quick start
 
-1. Pose le pack [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts) dans ton projet.
-2. `Tools > Input Prompts > Importer` puis *Generate prompt sets*.
-3. `GameObject > UI > Input Prompt Icon`, glisse une `InputActionReference`.
+1. Drop the [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts) pack into your project.
+2. `Tools > Input Prompts > Importer`, then *Generate prompt sets*.
+3. `GameObject > UI > Input Prompt Icon`, drop in an `InputActionReference`.
 
-Les icônes ne sont pas incluses dans le package : elles restent des assets de ton projet.
+Icons are not shipped with the package: they stay assets of your own project.

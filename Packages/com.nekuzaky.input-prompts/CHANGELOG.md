@@ -1,19 +1,18 @@
 # Changelog
 
-Toutes les modifications notables de ce package sont listées ici.
-Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et le
-[versionnage sémantique](https://semver.org/lang/fr/).
+All notable changes to this package are documented here.
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
+[Semantic Versioning](https://semver.org/).
 
 ## [1.0.0] - 2026-09-10
 
-### Ajouté
+### Added
 
-- `InputPromptService` : suivi du périphérique réellement utilisé, résolution d'une `InputAction`
-  vers une icône, évènements `StyleChanged` et `PromptsChanged`.
-- `InputPromptIcon`, `InputPromptGroup` et `InputPromptText` pour l'affichage en uGUI / TextMeshPro.
-- `InputPromptSet` et `InputPromptDatabase` : bases d'icônes par famille de périphérique, avec
-  chaîne de repli.
-- Importer du pack Kenney Input Prompts (`Tools > Input Prompts > Importer`), génération en ligne de
-  commande incluse.
-- Création d'une scène de démo et d'icônes depuis le menu.
-- Aperçu d'un style de manette dans l'éditeur, sans avoir à brancher le périphérique.
+- `InputPromptService`: tracks the device the player actually uses, resolves an `InputAction` to an
+  icon, and raises `StyleChanged` and `PromptsChanged`.
+- `InputPromptIcon`, `InputPromptGroup` and `InputPromptText` for uGUI / TextMeshPro display.
+- `InputPromptSet` and `InputPromptDatabase`: icon sets per device family, with a fallback chain.
+- Importer for the Kenney Input Prompts pack (`Tools > Input Prompts > Importer`), command line
+  generation included.
+- Menu entries to create prompt icons and a demo canvas.
+- Editor preview of any controller style, without plugging the device in.

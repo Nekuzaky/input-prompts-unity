@@ -2,7 +2,7 @@
   "name": "com.nekuzaky.input-prompts",
   "version": "1.0.0",
   "displayName": "Input Prompts",
-  "description": "Affiche l'icone de touche ou de bouton correspondant a une InputAction, et la remplace automatiquement quand le joueur change de peripherique (clavier, Xbox, PlayStation, Switch, Steam Deck). Importe les icones du pack Kenney Input Prompts.",
+  "description": "Shows the right key or button icon for an InputAction and swaps it automatically when the player switches device (keyboard, Xbox, PlayStation, Switch, Steam Deck). Imports the icons from the Kenney Input Prompts pack.",
   "unity": "6000.0",
   "documentationUrl": "https://github.com/Nekuzaky/input-prompts-unity",
   "changelogUrl": "https://github.com/Nekuzaky/input-prompts-unity/blob/main/Packages/com.nekuzaky.input-prompts/CHANGELOG.md",

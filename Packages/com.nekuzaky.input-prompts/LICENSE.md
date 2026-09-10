@@ -20,5 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Les icônes du pack Kenney "Input Prompts" ne sont pas incluses dans ce package.
-Elles sont distribuées séparément par Kenney sous licence CC0.
+The Kenney "Input Prompts" icons are not part of this package. They are distributed
+separately by Kenney under the CC0 licence, and the copy kept in this repository for the
+sample project stays under that licence.

@@ -1,116 +1,119 @@
 # Input Prompts
 
-Package Unity qui affiche la bonne icône de touche ou de bouton pour une `InputAction`, et la
-remplace toute seule quand le joueur passe du clavier à la manette, ou d'une Xbox à une DualSense.
-Les icônes proviennent du pack [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts) (CC0).
+Unity package that shows the right key or button icon for an `InputAction`, and swaps it on its own
+when the player switches device — keyboard to gamepad, Xbox to DualSense, and back.
+Icons come from the [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts) pack (CC0).
 
 | | |
 |---|---|
 | Package | `com.nekuzaky.input-prompts` |
-| Unity | 6000.0 ou plus récent |
-| Dépendances | Input System 1.14+, uGUI |
+| Unity | 6000.0 or newer |
+| Dependencies | Input System 1.14+, uGUI |
 
-Ce dépôt est à la fois **le package** (`Packages/com.nekuzaky.input-prompts`) et le **projet de test**
-qui sert à le développer.
+This repository is both **the package** (`Packages/com.nekuzaky.input-prompts`) and the **sample
+project** used to develop it.
 
 ---
 
 ## Installation
 
-Dans Unity : `Window > Package Manager > + > Install package from git URL...`
+In Unity: `Window > Package Manager > + > Install package from git URL...`
 
 ```
 https://github.com/Nekuzaky/input-prompts-unity.git?path=Packages/com.nekuzaky.input-prompts
 ```
 
-Ou directement dans `Packages/manifest.json` :
+Or straight into `Packages/manifest.json`:
 
 ```json
 "com.nekuzaky.input-prompts": "https://github.com/Nekuzaky/input-prompts-unity.git?path=Packages/com.nekuzaky.input-prompts"
 ```
 
-Le package ne contient **aucun sprite** : télécharge le pack Kenney et pose-le dans ton projet
-(par exemple `Assets/Sprites/input-prompts`), l'importer s'occupe du reste.
+The package itself ships **no sprites**. Drop the Kenney pack into your project (for example
+`Assets/Sprites/input-prompts`) and the importer takes care of the rest. This repository does carry a
+copy of the pack under `Assets/Sprites/input-prompts`, so the sample project works right after a
+clone — those files are Kenney's, under CC0.
 
 ---
 
-## 1. Générer les bases d'icônes
+## 1. Generate the icon sets
 
 `Tools > Input Prompts > Importer`
 
-| Champ | Rôle |
+| Field | Purpose |
 |---|---|
-| **Pack folder** | Dossier du pack Kenney. |
-| **Variant** | `Default` (1x) ou `Double` (2x, pour de la grosse UI). |
-| **Outline icons** | Utilise les variantes `_outline` quand elles existent. |
-| **Coloured face buttons** | Boutons A/B/X/Y et croix/rond/carré/triangle en couleurs. |
-| **Fix texture settings** | Passe les PNG en Sprite, sans mipmaps, clamp. |
-| **Unknown gamepads** | Style utilisé pour une manette non reconnue (Xbox par défaut). |
+| **Pack folder** | Where the Kenney pack lives. |
+| **Variant** | `Default` (1x) or `Double` (2x, for large UI). |
+| **Outline icons** | Use the `_outline` variants wherever they exist. |
+| **Coloured face buttons** | A/B/X/Y and cross/circle/square/triangle in their brand colours. |
+| **Fix texture settings** | Set the PNGs to Sprite, no mipmaps, clamped. |
+| **Unknown gamepads** | Style used for a controller that matches no set (Xbox by default). |
 
-*Generate prompt sets* écrit dans `Assets/_/Database/InputPrompts/` :
+*Generate prompt sets* writes to `Assets/_/Database/InputPrompts/`:
 
-- `SO_InputPromptSet_*.asset` — un jeu d'icônes par famille de périphérique ;
-- `Resources/SO_InputPromptDatabase.asset` — la base chargée automatiquement au lancement, rien à câbler.
+- `SO_InputPromptSet_*.asset` — one icon set per device family;
+- `Resources/SO_InputPromptDatabase.asset` — loaded automatically at startup, nothing to wire.
 
-Le rapport liste les icônes manquantes (`buttonSouth -> xbox_button_a.png`). Les sets restent
-éditables à la main : ce sont de simples listes clé → sprite.
+The report lists every icon it could not find (`buttonSouth -> xbox_button_a.png`). Sets stay
+editable by hand afterwards: they are plain key → sprite lists.
 
-## 2. Afficher un prompt
+## 2. Show a prompt
 
-**Une icône** : `GameObject > UI > Input Prompt Icon`, puis glisse l'`InputActionReference`.
+**A single icon**: `GameObject > UI > Input Prompt Icon`, then drop in an `InputActionReference`.
 
 ```csharp
 icon.Action = playerInput.actions["Jump"];
 ```
 
-**Une action composite (WASD)** : `InputPromptGroup` sur un objet avec un `HorizontalLayoutGroup`,
-plus un prefab d'icône. Il instancie 4 icônes au clavier (Z Q S D en AZERTY) et une seule — le stick
-gauche — à la manette.
+**A composite action (WASD)**: put `InputPromptGroup` on an object with a `HorizontalLayoutGroup`,
+plus an icon prefab. It spawns four icons on keyboard (Z Q S D on AZERTY) and a single one — the left
+stick — on a gamepad.
 
-**Du texte** : `InputPromptText` sur un TextMeshPro, avec un format du type
-`Appuie sur {Player/Jump} pour sauter`. Le token `{Map/Action#part}` accepte une part de composite.
+**Text**: `InputPromptText` on a TextMeshPro component, with a format such as
+`Press {Player/Jump} to jump`. The `{Map/Action#part}` token targets one part of a composite.
 
-**Démo** : sélectionne ton `.inputactions` puis `Tools > Input Prompts > Create Demo Canvas` — une
-ligne par action avec ses icônes.
+**Demo**: select your `.inputactions` asset, then `Tools > Input Prompts > Create Demo Canvas` — one
+row per action with its icons.
 
-## 3. Aperçu dans l'éditeur
+## 3. Editor preview
 
-L'inspector d'`InputPromptIcon` a un menu *Show icons of* : force l'affichage en PlayStation, Switch,
-etc. sans brancher la manette. Ça ne concerne que le mode édition.
+The `InputPromptIcon` inspector has a *Show icons of* dropdown: force PlayStation, Switch or any
+other style without plugging the controller in. Edit mode only.
 
 ---
 
 ## API
 
 ```csharp
-InputPromptService.CurrentStyle;                       // famille de périphérique en cours
-InputPromptService.StyleChanged += style => { };       // clavier -> manette
-InputPromptService.PromptsChanged += () => { };        // périphérique, rebind, base changée
-InputPromptService.GetSprite(action);                  // icône pour l'action
-InputPromptService.GetDisplayString(action);           // "Espace", "A", ...
-InputPromptService.SetActiveDevice(device);            // co-op local : forcer le périphérique d'un joueur
-InputPromptService.PointerMotionSwitchesStyle = true;  // bouger la souris repasse en icônes souris
-InputPromptService.UseKeyboardLayoutLabels = true;     // AZERTY : <Keyboard>/w affiche la touche Z
-InputPromptService.Refresh();                          // après un rebind fait à la main
+InputPromptService.CurrentStyle;                       // device family in use
+InputPromptService.StyleChanged += style => { };       // keyboard -> gamepad
+InputPromptService.PromptsChanged += () => { };        // device, rebind, database swap
+InputPromptService.GetSprite(action);                  // icon for the action
+InputPromptService.GetDisplayString(action);           // "Space", "A", ...
+InputPromptService.SetActiveDevice(device);            // local co-op: pin one player to one device
+InputPromptService.PointerMotionSwitchesStyle = true;  // moving the mouse switches back to mouse icons
+InputPromptService.UseKeyboardLayoutLabels = true;     // AZERTY: <Keyboard>/w draws the Z key
+InputPromptService.Refresh();                          // after a rebind done by hand
 ```
 
-## Ajouter un périphérique
+## Adding a device
 
-1. Ajoute la valeur dans `InputDeviceStyle`.
-2. Complète `KenneyNameTable` (`FolderFor`, `LayoutsFor`, `BlankFor`, et la table de noms).
-3. Relance l'importer.
+1. Add the value to `InputDeviceStyle`.
+2. Fill in `KenneyNameTable` (`FolderFor`, `LayoutsFor`, `BlankFor`, and the name table).
+3. Run the importer again.
 
-Les clés d'un set sont des chemins de contrôle sans le périphérique, en minuscules : `space`,
-`buttonsouth`, `leftstick/up`, `dpad/left`, `scroll/y`.
+Set keys are control paths without the device, lower-cased: `space`, `buttonsouth`, `leftstick/up`,
+`dpad/left`, `scroll/y`.
 
-## Détails traités
+## Details it gets right
 
-- Les faces Switch sont inversées : `buttonSouth` correspond au **B** chez Nintendo.
-- En AZERTY, `<Keyboard>/w` affiche la touche **Z** que le joueur a réellement sous les doigts.
-- Bouger la souris ne fait pas repasser les prompts en clavier tant qu'on n'a rien cliqué.
-- Une touche sans icône dans le pack (F13, oem…) s'affiche sur un capuchon vierge avec son nom.
+- Nintendo face buttons are swapped: `buttonSouth` is the **B** button on a Switch controller.
+- On AZERTY, `<Keyboard>/w` draws the **Z** key the player actually has under their fingers.
+- Moving the mouse does not throw the prompts back to keyboard icons until something is clicked.
+- A key with no icon in the pack (F13, oem…) falls back to a blank cap with its name printed on it.
 
-## Crédits
+## Credits
 
-- Icônes : [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts), CC0. Non redistribuées ici.
-- Code : MIT, voir [LICENSE.md](Packages/com.nekuzaky.input-prompts/LICENSE.md).
+- Icons: [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts), CC0. Included in this
+  repository for the sample project; the package pulls them from your own project.
+- Code: MIT, see [LICENSE.md](Packages/com.nekuzaky.input-prompts/LICENSE.md).
