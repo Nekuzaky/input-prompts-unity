@@ -115,7 +115,7 @@
 .ip-column {
     flex-grow: 1;
     flex-basis: 320px;
-    min-width: 300px;
+    min-width: 260px;
 }
 
 /* ---------------------------------------------------------------- cards */
@@ -162,7 +162,9 @@
 }
 
 .ip-field .unity-base-field__label {
-    min-width: 130px;
+    min-width: 110px;
+    max-width: 150px;
+    flex-shrink: 0;
     color: rgb(168, 175, 190);
     font-size: 11px;
 }
@@ -301,6 +303,7 @@
 /* ---------------------------------------------------------------- footer */
 
 .ip-footer {
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     padding: 8px 18px;
@@ -313,4 +316,49 @@
     font-size: 10px;
     color: rgb(112, 119, 134);
     flex-grow: 1;
+}
+
+/* ---------------------------------------------------------------- responsive */
+
+.ip-header--compact {
+    flex-wrap: wrap;
+}
+
+.ip-header--compact .ip-header__titles {
+    flex-basis: 100%;
+    margin-bottom: 8px;
+}
+
+.ip-header--compact .ip-button {
+    flex-grow: 1;
+    margin: 0 3px;
+}
+
+.ip-columns--compact .ip-column {
+    flex-basis: 100%;
+    min-width: 0;
+}
+
+.ip-columns--compact .ip-device__layout {
+    display: none;
+}
+
+.ip-button--coffee {
+    background-color: rgba(255, 176, 32, 0.14);
+    border-color: rgba(255, 176, 32, 0.45);
+    color: rgb(255, 196, 92);
+}
+
+.ip-button--coffee:hover {
+    background-color: rgba(255, 176, 32, 0.24);
+    color: rgb(255, 214, 140);
+}
+
+.ip-report__text {
+    flex-grow: 1;
+}
+
+.ip-footer__text {
+    min-width: 180px;
+    margin-bottom: 2px;
 }

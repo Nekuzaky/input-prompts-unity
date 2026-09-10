@@ -177,8 +177,12 @@ namespace InputPrompts
             if (!Mathf.Approximately(rectTransform.anchorMin.y, rectTransform.anchorMax.y))
                 return;
 
-            var size = rectTransform.rect.size;
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.y * (rect.width / rect.height));
+            // Before the first layout pass the height can still be 0; resizing then would collapse the icon.
+            var height = rectTransform.rect.height;
+            if (height <= 0f)
+                return;
+
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, height * (rect.width / rect.height));
         }
 
         private void Show(bool isVisible)

@@ -32,6 +32,8 @@ namespace InputPrompts
 
         #region Private and Protected
 
+        private const int MaxFallbackDepth = 8;
+
         [SerializeField] private List<Entry> _entries = new();
 
         private Dictionary<string, Sprite> _lookup;
@@ -57,11 +59,19 @@ namespace InputPrompts
             if (string.IsNullOrEmpty(key))
                 return null;
 
-            BuildLookup();
-            if (_lookup.TryGetValue(key, out var sprite) && sprite != null)
-                return sprite;
+            // Walk the fallback chain iteratively: a set wired back to an earlier one would otherwise
+            // recurse forever.
+            var set = this;
+            for (var depth = 0; set != null && depth < MaxFallbackDepth; depth++)
+            {
+                set.BuildLookup();
+                if (set._lookup.TryGetValue(key, out var sprite) && sprite != null)
+                    return sprite;
 
-            return m_fallback != null && m_fallback != this ? m_fallback.Find(key) : null;
+                set = set.m_fallback != set ? set.m_fallback : null;
+            }
+
+            return null;
         }
 
         public bool Contains(string key)

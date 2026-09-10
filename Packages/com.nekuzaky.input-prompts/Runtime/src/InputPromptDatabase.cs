@@ -71,15 +71,14 @@ namespace InputPrompts
             return set != null ? set.m_style : m_defaultStyle;
         }
 
-        /// <summary>Layouts to look for in an action's bindings when no device is active yet.</summary>
-        public IEnumerable<string> PreferredLayouts(InputDeviceStyle style)
+        /// <summary>
+        /// Layouts to look for in an action's bindings when no device is active yet. Returns the stored
+        /// array rather than an iterator, so resolving a prompt allocates nothing.
+        /// </summary>
+        public IReadOnlyList<string> PreferredLayouts(InputDeviceStyle style)
         {
             var set = GetSet(style);
-            if (set?.m_layouts == null)
-                yield break;
-
-            foreach (var layout in set.m_layouts)
-                yield return layout;
+            return set?.m_layouts ?? Array.Empty<string>();
         }
 
         #endregion

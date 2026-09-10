@@ -84,6 +84,7 @@ namespace InputPrompts
 
         private const string ResourcesPath = "SO_InputPromptDatabase";
         private const float ActuationThreshold = 0.15f;
+        private const int MaxFallbackDepth = 8;
 
         private static InputPromptDatabase _database;
         private static InputDevice _activeDevice;
@@ -173,12 +174,13 @@ namespace InputPrompts
             // No device yet (or it has no binding): fall back to what the current style would use.
             if (Database != null)
             {
-                foreach (var layout in Database.PreferredLayouts(CurrentStyle))
+                var layouts = Database.PreferredLayouts(CurrentStyle);
+                for (var i = 0; i < layouts.Count; i++)
                 {
-                    if (string.IsNullOrEmpty(layout))
+                    var preferred = layouts[i];
+                    if (string.IsNullOrEmpty(preferred))
                         continue;
 
-                    var preferred = layout;
                     index = FindBinding(action, compositePart, path => TargetsLayout(path, preferred));
                     if (index >= 0)
                         return index;
@@ -218,11 +220,11 @@ namespace InputPrompts
         public static Sprite GetBlankSprite()
         {
             var set = CurrentSet;
-            while (set != null)
+            for (var depth = 0; set != null && depth < MaxFallbackDepth; depth++)
             {
                 if (set.m_blankSprite != null)
                     return set.m_blankSprite;
-                set = set.m_fallback;
+                set = set.m_fallback != set ? set.m_fallback : null;
             }
 
             return null;
@@ -261,9 +263,10 @@ namespace InputPrompts
             if (Database == null)
                 return false;
 
-            foreach (var layout in Database.PreferredLayouts(style))
+            var layouts = Database.PreferredLayouts(style);
+            for (var i = 0; i < layouts.Count; i++)
             {
-                if (!string.IsNullOrEmpty(layout) && TargetsLayout(path, layout))
+                if (!string.IsNullOrEmpty(layouts[i]) && TargetsLayout(path, layouts[i]))
                     return true;
             }
 

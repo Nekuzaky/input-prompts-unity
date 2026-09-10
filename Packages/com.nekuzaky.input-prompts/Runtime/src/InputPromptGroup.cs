@@ -8,6 +8,7 @@ namespace InputPrompts
     /// Spawns one <see cref="InputPromptIcon"/> per part of an action, e.g. the four keys of a WASD
     /// composite on keyboard and the single left stick icon on a gamepad.
     /// </summary>
+    [ExecuteAlways]
     [AddComponentMenu("Input Prompts/Input Prompt Group")]
     public class InputPromptGroup : MonoBehaviour
     {
@@ -44,7 +45,14 @@ namespace InputPrompts
             Rebuild();
         }
 
-        private void OnDisable() => InputPromptService.PromptsChanged -= Rebuild;
+        private void OnDisable()
+        {
+            InputPromptService.PromptsChanged -= Rebuild;
+
+            // Icons spawned while editing are previews, not scene content: drop them.
+            if (!Application.isPlaying)
+                ClearSpawned();
+        }
 
         #endregion
 
@@ -128,6 +136,11 @@ namespace InputPrompts
             {
                 var icon = Instantiate(_iconPrefab, parent);
                 icon.gameObject.name = $"{_iconPrefab.name} ({_spawned.Count})";
+
+                // Edit mode previews must never end up saved in the scene.
+                if (!Application.isPlaying)
+                    icon.gameObject.hideFlags = HideFlags.DontSave;
+
                 _spawned.Add(icon);
             }
 
@@ -136,6 +149,17 @@ namespace InputPrompts
                 if (_spawned[i] != null)
                     _spawned[i].gameObject.SetActive(i < count);
             }
+        }
+
+        private void ClearSpawned()
+        {
+            foreach (var icon in _spawned)
+            {
+                if (icon != null)
+                    DestroyImmediate(icon.gameObject);
+            }
+
+            _spawned.Clear();
         }
 
         #endregion

@@ -18,6 +18,13 @@ namespace InputPrompts.Editor
         private const string StyleSheetPath =
             "Packages/com.nekuzaky.input-prompts/Editor/UI/InputPromptDashboard.uss";
 
+        private const string RepositoryUrl = "https://github.com/Nekuzaky/input-prompts-unity";
+        private const string GitHubUrl = "https://github.com/Nekuzaky";
+        private const string CoffeeUrl = "https://buymeacoffee.com/nekuzaky";
+
+        /// <summary>Below this width the two columns stack instead of sitting side by side.</summary>
+        private const float CompactWidth = 760f;
+
         private static readonly string[] GamepadPreviewKeys =
         {
             "buttonsouth", "buttoneast", "buttonwest", "buttonnorth",
@@ -39,6 +46,8 @@ namespace InputPrompts.Editor
 
         private Label _statusPill;
         private Label _databaseNote;
+        private VisualElement _header;
+        private VisualElement _columns;
         private VisualElement _deviceList;
         private VisualElement _previewGrid;
         private Label _previewTitle;
@@ -63,8 +72,17 @@ namespace InputPrompts.Editor
             root.Add(BuildHeader());
             root.Add(BuildBody());
             root.Add(BuildFooter());
+            root.RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
 
             RefreshAll();
+        }
+
+        /// <summary>Stacks the layout when the window is too narrow for two columns.</summary>
+        private void OnGeometryChanged(GeometryChangedEvent evt)
+        {
+            var isCompact = evt.newRect.width < CompactWidth;
+            _columns?.EnableInClassList("ip-columns--compact", isCompact);
+            _header?.EnableInClassList("ip-header--compact", isCompact);
         }
 
         private void OnFocus()
@@ -83,7 +101,7 @@ namespace InputPrompts.Editor
         {
             var window = GetWindow<InputPromptDashboard>();
             window.titleContent = new GUIContent("Input Prompts");
-            window.minSize = new Vector2(720, 520);
+            window.minSize = new Vector2(420, 380);
             window.Show();
         }
 
@@ -109,6 +127,7 @@ namespace InputPrompts.Editor
         {
             var header = new VisualElement();
             header.AddToClassList("ip-header");
+            _header = header;
 
             var titles = new VisualElement();
             titles.AddToClassList("ip-header__titles");
@@ -132,6 +151,7 @@ namespace InputPrompts.Editor
 
             var columns = new VisualElement();
             columns.AddToClassList("ip-columns");
+            _columns = columns;
 
             var left = new VisualElement();
             left.AddToClassList("ip-column");
@@ -291,9 +311,13 @@ namespace InputPrompts.Editor
             card.style.marginLeft = 6;
             card.style.marginRight = 6;
 
+            var scroll = new ScrollView();
+            scroll.AddToClassList("ip-report");
+
             _report = new TextField { multiline = true, isReadOnly = true, value = "—" };
-            _report.AddToClassList("ip-report");
-            content.Add(_report);
+            _report.AddToClassList("ip-report__text");
+            scroll.Add(_report);
+            content.Add(scroll);
 
             return card;
         }
@@ -305,10 +329,14 @@ namespace InputPrompts.Editor
 
             var version = UnityEditor.PackageManager.PackageInfo.FindForAssembly(GetType().Assembly)?.version;
             footer.Add(MakeLabel($"com.nekuzaky.input-prompts {(version != null ? "v" + version : "(embedded)")}"
-                            + "   ·   icônes Kenney, CC0", "ip-footer__text"));
+                                 + "   ·   icônes Kenney, CC0   ·   0 coroutine, 0 Update", "ip-footer__text"));
 
-            footer.Add(MakeButton("📖  Docs", () => Application.OpenURL("https://github.com/Nekuzaky/input-prompts-unity"),
+            footer.Add(MakeButton("📖  Docs", () => Application.OpenURL(RepositoryUrl),
                 "ip-button", "ip-button--ghost"));
+            footer.Add(MakeButton("🐙  @Nekuzaky", () => Application.OpenURL(GitHubUrl),
+                "ip-button", "ip-button--ghost"));
+            footer.Add(MakeButton("☕  Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
+                "ip-button", "ip-button--coffee"));
 
             return footer;
         }
@@ -534,7 +562,9 @@ namespace InputPrompts.Editor
         {
             var row = MakeRow();
 
-            var field = new TextField(label) { value = value };
+            // isDelayed: the callback writes to ProjectSettings, so wait for Enter or focus loss
+            // instead of saving on every keystroke.
+            var field = new TextField(label) { value = value, isDelayed = true };
             field.AddToClassList("ip-field");
             field.AddToClassList("ip-row__grow");
             field.RegisterValueChangedCallback(evt => onChanged(evt.newValue));
