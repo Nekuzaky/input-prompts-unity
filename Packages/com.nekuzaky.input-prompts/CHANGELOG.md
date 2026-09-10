@@ -12,7 +12,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
   icon, and raises `StyleChanged` and `PromptsChanged`.
 - `InputPromptIcon`, `InputPromptGroup` and `InputPromptText` for uGUI / TextMeshPro display.
 - `InputPromptSet` and `InputPromptDatabase`: icon sets per device family, with a fallback chain.
-- Importer for the Kenney Input Prompts pack (`Tools > Input Prompts > Importer`), command line
+- Dark themed dashboard (`Tools > Input Prompts > Dashboard`): import settings, per device sets,
+  live icon preview and runtime defaults, with settings shared through ProjectSettings.
+- Importer for the Kenney Input Prompts pack, command line
   generation included.
 - Menu entries to create prompt icons and a demo canvas.
 - Editor preview of any controller style, without plugging the device in.

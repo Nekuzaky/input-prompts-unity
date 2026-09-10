@@ -1,0 +1,316 @@
+/* Dark dashboard theme, independent from the editor skin. */
+
+.ip-root {
+    flex-grow: 1;
+    background-color: rgb(22, 24, 29);
+}
+
+/* ---------------------------------------------------------------- header */
+
+.ip-header {
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 18px;
+    background-color: rgb(29, 32, 39);
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(45, 49, 59);
+}
+
+.ip-header__titles {
+    flex-grow: 1;
+}
+
+.ip-title {
+    font-size: 17px;
+    color: rgb(233, 236, 243);
+    -unity-font-style: bold;
+}
+
+.ip-subtitle {
+    font-size: 11px;
+    color: rgb(139, 146, 162);
+    margin-top: 2px;
+}
+
+/* ---------------------------------------------------------------- pills */
+
+.ip-pill {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    margin-right: 10px;
+    background-color: rgb(40, 44, 53);
+    color: rgb(190, 196, 209);
+}
+
+.ip-pill--ok {
+    background-color: rgba(61, 220, 132, 0.16);
+    color: rgb(93, 226, 150);
+}
+
+.ip-pill--warn {
+    background-color: rgba(255, 176, 32, 0.16);
+    color: rgb(255, 190, 74);
+}
+
+.ip-pill--error {
+    background-color: rgba(255, 92, 92, 0.16);
+    color: rgb(255, 122, 122);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.ip-button {
+    height: 28px;
+    padding: 0 14px;
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgb(56, 61, 73);
+    background-color: rgb(43, 47, 57);
+    color: rgb(222, 226, 235);
+    font-size: 12px;
+    margin: 0 0 0 6px;
+}
+
+.ip-button:hover {
+    background-color: rgb(52, 57, 69);
+    border-color: rgb(72, 79, 94);
+}
+
+.ip-button--primary {
+    background-color: rgb(58, 128, 232);
+    border-color: rgb(78, 148, 252);
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+}
+
+.ip-button--primary:hover {
+    background-color: rgb(72, 142, 246);
+}
+
+.ip-button--ghost {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+    color: rgb(150, 157, 172);
+}
+
+.ip-button--ghost:hover {
+    background-color: rgb(40, 44, 53);
+    color: rgb(222, 226, 235);
+}
+
+/* ---------------------------------------------------------------- layout */
+
+.ip-body {
+    flex-grow: 1;
+    padding: 14px;
+}
+
+.ip-columns {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ip-column {
+    flex-grow: 1;
+    flex-basis: 320px;
+    min-width: 300px;
+}
+
+/* ---------------------------------------------------------------- cards */
+
+.ip-card {
+    background-color: rgb(30, 33, 40);
+    border-width: 1px;
+    border-color: rgb(45, 49, 59);
+    border-radius: 10px;
+    margin: 0 6px 12px 6px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ip-card__header {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: rgb(34, 37, 45);
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(45, 49, 59);
+}
+
+.ip-card__title {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgb(226, 230, 239);
+    flex-grow: 1;
+}
+
+.ip-card__hint {
+    font-size: 10px;
+    color: rgb(122, 129, 145);
+}
+
+.ip-card__content {
+    padding: 12px 14px;
+}
+
+/* ---------------------------------------------------------------- fields */
+
+.ip-field {
+    margin-bottom: 8px;
+}
+
+.ip-field .unity-base-field__label {
+    min-width: 130px;
+    color: rgb(168, 175, 190);
+    font-size: 11px;
+}
+
+.ip-field .unity-base-field__input {
+    background-color: rgb(24, 26, 32);
+    border-width: 1px;
+    border-color: rgb(52, 57, 68);
+    border-radius: 5px;
+    color: rgb(226, 230, 239);
+    padding: 3px 6px;
+}
+
+.ip-field .unity-base-field__input:focus {
+    border-color: rgb(58, 128, 232);
+}
+
+.ip-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.ip-row__grow {
+    flex-grow: 1;
+}
+
+.ip-note {
+    font-size: 10px;
+    color: rgb(122, 129, 145);
+    white-space: normal;
+    margin-top: 4px;
+}
+
+.ip-note--warn {
+    color: rgb(255, 190, 74);
+}
+
+/* ---------------------------------------------------------------- devices */
+
+.ip-device {
+    flex-direction: row;
+    align-items: center;
+    padding: 7px 8px;
+    border-radius: 6px;
+    margin-bottom: 3px;
+    background-color: rgb(26, 29, 35);
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.ip-device:hover {
+    background-color: rgb(35, 39, 47);
+}
+
+.ip-device--selected {
+    border-color: rgb(58, 128, 232);
+    background-color: rgba(58, 128, 232, 0.10);
+}
+
+.ip-device__badge {
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.ip-device__name {
+    flex-grow: 1;
+    font-size: 12px;
+    color: rgb(226, 230, 239);
+}
+
+.ip-device__layout {
+    font-size: 10px;
+    color: rgb(122, 129, 145);
+    margin-right: 10px;
+}
+
+.ip-device__count {
+    font-size: 11px;
+    color: rgb(150, 157, 172);
+    min-width: 66px;
+    -unity-text-align: middle-right;
+}
+
+/* ---------------------------------------------------------------- preview */
+
+.ip-preview {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ip-tile {
+    width: 78px;
+    align-items: center;
+    padding: 8px 4px;
+    margin: 4px;
+    border-radius: 8px;
+    background-color: rgb(26, 29, 35);
+    border-width: 1px;
+    border-color: rgb(43, 47, 57);
+}
+
+.ip-tile--missing {
+    border-color: rgb(84, 60, 60);
+    background-color: rgba(255, 92, 92, 0.06);
+}
+
+.ip-tile__icon {
+    width: 44px;
+    height: 44px;
+}
+
+.ip-tile__label {
+    font-size: 9px;
+    color: rgb(139, 146, 162);
+    margin-top: 6px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+/* ---------------------------------------------------------------- report */
+
+.ip-report {
+    min-height: 120px;
+    max-height: 260px;
+}
+
+.ip-report .unity-base-text-field__input {
+    background-color: rgb(19, 21, 26);
+    border-width: 1px;
+    border-color: rgb(45, 49, 59);
+    border-radius: 6px;
+    color: rgb(168, 175, 190);
+    font-size: 11px;
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.ip-footer {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 18px;
+    background-color: rgb(29, 32, 39);
+    border-top-width: 1px;
+    border-top-color: rgb(45, 49, 59);
+}
+
+.ip-footer__text {
+    font-size: 10px;
+    color: rgb(112, 119, 134);
+    flex-grow: 1;
+}

@@ -36,25 +36,33 @@ clone — those files are Kenney's, under CC0.
 
 ---
 
-## 1. Generate the icon sets
+## 1. The dashboard
 
-`Tools > Input Prompts > Importer`
+`Tools > Input Prompts > Dashboard` — one dark window holding the whole configuration: import
+settings, per device sets, a live preview of the generated icons and the runtime defaults.
 
-| Field | Purpose |
+| Card | What it holds |
 |---|---|
-| **Pack folder** | Where the Kenney pack lives. |
-| **Variant** | `Default` (1x) or `Double` (2x, for large UI). |
-| **Outline icons** | Use the `_outline` variants wherever they exist. |
-| **Coloured face buttons** | A/B/X/Y and cross/circle/square/triangle in their brand colours. |
-| **Fix texture settings** | Set the PNGs to Sprite, no mipmaps, clamped. |
-| **Unknown gamepads** | Style used for a controller that matches no set (Xbox by default). |
+| 📁 **Source** | Pack folder, `Default` (1x) or `Double` (2x) variant, `_outline` icons, coloured face buttons, texture fixing. |
+| 💾 **Output** | Where the sets are written, style used for unknown gamepads, style shown at startup. |
+| 🔧 **Runtime** | Pointer motion behaviour and keyboard layout labels, written into the database. |
+| 🎛️ **Devices** | One row per device family: enable it, see its layouts and its icon count, click to preview. |
+| 🎨 **Preview** | The generated icons for the selected family, and a button to force that style in the editor. |
+| 📊 **Report** | What the last generation produced, missing icons included. |
 
-*Generate prompt sets* writes to `Assets/_/Database/InputPrompts/`:
+Settings live in `ProjectSettings/InputPromptsSettings.asset`, so a whole team shares the same import
+configuration. On a build machine, run the import headless:
+
+```bash
+Unity -batchmode -quit -projectPath . -executeMethod InputPrompts.Editor.InputPromptGenerator.GenerateWithDefaults
+```
+
+*Generate* writes to `Assets/_/Database/InputPrompts/`:
 
 - `SO_InputPromptSet_*.asset` — one icon set per device family;
 - `Resources/SO_InputPromptDatabase.asset` — loaded automatically at startup, nothing to wire.
 
-The report lists every icon it could not find (`buttonSouth -> xbox_button_a.png`). Sets stay
+The 📊 Report card lists every icon it could not find (`buttonSouth -> xbox_button_a.png`). Sets stay
 editable by hand afterwards: they are plain key → sprite lists.
 
 ## 2. Show a prompt
@@ -100,7 +108,7 @@ InputPromptService.Refresh();                          // after a rebind done by
 
 1. Add the value to `InputDeviceStyle`.
 2. Fill in `KenneyNameTable` (`FolderFor`, `LayoutsFor`, `BlankFor`, and the name table).
-3. Run the importer again.
+3. Hit *Generate* in the dashboard again.
 
 Set keys are control paths without the device, lower-cased: `space`, `buttonsouth`, `leftstick/up`,
 `dpad/left`, `scroll/y`.

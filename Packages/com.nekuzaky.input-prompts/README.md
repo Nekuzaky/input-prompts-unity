@@ -9,7 +9,7 @@ Full documentation, installation and API:
 ## Quick start
 
 1. Drop the [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts) pack into your project.
-2. `Tools > Input Prompts > Importer`, then *Generate prompt sets*.
+2. `Tools > Input Prompts > Dashboard`, then *Generate*.
 3. `GameObject > UI > Input Prompt Icon`, drop in an `InputActionReference`.
 
 Icons are not shipped with the package: they stay assets of your own project.

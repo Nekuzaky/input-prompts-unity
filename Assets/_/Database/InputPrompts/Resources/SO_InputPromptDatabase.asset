@@ -21,3 +21,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
   m_gamepadFallback: {fileID: 11400000, guid: a0cd38dd08bd76d42a76be0bcb62352d, type: 2}
   m_defaultStyle: 1
+  m_pointerMotionSwitchesStyle: 0
+  m_useKeyboardLayoutLabels: 1

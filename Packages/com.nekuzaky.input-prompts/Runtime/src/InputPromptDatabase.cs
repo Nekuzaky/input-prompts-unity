@@ -25,6 +25,12 @@ namespace InputPrompts
         [Tooltip("Style shown before the player has touched anything.")]
         public InputDeviceStyle m_defaultStyle = InputDeviceStyle.KeyboardMouse;
 
+        [Tooltip("Moving the mouse switches the prompts back to mouse icons.")]
+        public bool m_pointerMotionSwitchesStyle;
+
+        [Tooltip("Pick key icons from the label printed on the player keyboard (AZERTY, QWERTZ, ...).")]
+        public bool m_useKeyboardLayoutLabels = true;
+
         #endregion
 
 

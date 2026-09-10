@@ -110,6 +110,13 @@ namespace InputPrompts
             InputSystem.onActionChange += OnActionChange;
 
             _activeDevice ??= Gamepad.current as InputDevice ?? Keyboard.current;
+
+            var database = Database;
+            if (database == null)
+                return;
+
+            PointerMotionSwitchesStyle = database.m_pointerMotionSwitchesStyle;
+            UseKeyboardLayoutLabels = database.m_useKeyboardLayoutLabels;
         }
 
         public static void Shutdown()
