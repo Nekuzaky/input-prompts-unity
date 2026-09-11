@@ -258,7 +258,7 @@ namespace Nekuzaky.InputPrompts
         public static bool MatchesCurrentStyle(string path) => MatchesStyle(path, CurrentStyle);
 
         /// <summary>True when a device of <paramref name="style"/> can actuate the binding path.</summary>
-        public static bool MatchesStyle(string path, InputDeviceStyle style) =>
+        internal static bool MatchesStyle(string path, InputDeviceStyle style) =>
             Database != null && MatchesAnyLayout(path, Database.PreferredLayouts(style));
 
         /// <summary>True when the binding path belongs to the exact device in use.</summary>

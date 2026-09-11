@@ -45,3 +45,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
   dashboard, restores the previous behaviour for projects that want the prompt to follow the exact
   device in use.
 - `InputPromptService.MatchesCurrentStyle`, the family-wide counterpart of `MatchesCurrentDevice`.
+
+## [1.1.1] - 2026-09-11
+
+### Fixed
+
+- Resolving a prompt no longer re-reads the device family for every binding it walks. The style and
+  its layouts are read once per lookup, and once per group rebuild, instead of once per binding of
+  every prompt on screen at each device switch.
