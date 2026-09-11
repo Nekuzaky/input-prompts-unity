@@ -27,7 +27,6 @@ namespace Nekuzaky.InputPrompts.Editor
         public const string Browse = "three-dots";
         public const string Keyboard = "keyboard";
         public const string Mouse = "mouse";
-        public const string Dot = "circle-fill";
         public const string Ring = "circle";
 
         #endregion

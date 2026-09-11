@@ -94,7 +94,7 @@ namespace Nekuzaky.InputPrompts.Editor
             window.Show();
         }
 
-        public static (string icon, Color tint) BadgeFor(InputDeviceStyle style) => style switch
+        private static (string icon, Color tint) BadgeFor(InputDeviceStyle style) => style switch
         {
             InputDeviceStyle.KeyboardMouse => (DashboardGlyphs.Keyboard, new Color(0.67f, 0.70f, 0.76f)),
             InputDeviceStyle.Xbox => (DashboardGlyphs.Controller, new Color(0.24f, 0.77f, 0.38f)),

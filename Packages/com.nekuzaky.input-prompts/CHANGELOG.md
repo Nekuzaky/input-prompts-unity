@@ -81,3 +81,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 ### Removed
 
 - The emoji probe and its plain-symbol fallback, now that no glyph depends on a system font.
+
+## [1.3.1] - 2026-09-11
+
+### Removed
+
+- `circle-fill.svg` and the `DashboardGlyphs.Dot` constant, shipped in 1.3.0 without ever being used.
+- `InputPromptDashboard.BadgeFor` is private again. It was public by accident, and 1.3.0 changed its
+  signature, so any caller was already broken; nothing else in the package used it.
