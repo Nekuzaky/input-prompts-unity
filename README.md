@@ -98,7 +98,7 @@ InputPromptService.StyleChanged += style => { };       // keyboard -> gamepad
 InputPromptService.PromptsChanged += () => { };        // device, rebind, database swap
 InputPromptService.GetSprite(action);                  // icon for the action
 InputPromptService.GetDisplayString(action);           // "Space", "A", ...
-InputPromptService.SetActiveDevice(device);            // local co-op: pin one player to one device
+InputPromptService.SetActiveDevice(device);            // force the device prompts follow (global, single player)
 InputPromptService.PointerMotionSwitchesStyle = true;  // moving the mouse switches back to mouse icons
 InputPromptService.UseKeyboardLayoutLabels = true;     // AZERTY: <Keyboard>/w draws the Z key
 InputPromptService.Refresh();                          // after a rebind done by hand
