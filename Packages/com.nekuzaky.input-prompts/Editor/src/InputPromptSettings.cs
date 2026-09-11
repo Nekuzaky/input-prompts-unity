@@ -3,17 +3,12 @@ using UnityEditor;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
-    /// <summary>Icon resolution shipped by the Kenney pack.</summary>
     public enum IconVariant
     {
         Default = 0,
         Double = 1,
     }
 
-    /// <summary>
-    /// Every dashboard setting, stored in ProjectSettings so the whole team shares the same import
-    /// configuration without it landing in the Assets folder.
-    /// </summary>
     [FilePath("ProjectSettings/InputPromptsSettings.asset", FilePathAttribute.Location.ProjectFolder)]
     public class InputPromptSettings : ScriptableSingleton<InputPromptSettings>
     {
@@ -41,13 +36,11 @@ namespace Nekuzaky.InputPrompts.Editor
 
         #region Main API
 
-        /// <summary>The database has to sit in a Resources folder for the runtime to load it.</summary>
         public string DatabasePath => $"{m_outputFolder}/Resources/{InputPromptGenerator.DatabaseName}.asset";
 
         public string FolderFor(InputDeviceStyle style) =>
             $"{m_packFolder}/{KenneyNameTable.FolderFor(style)}/{m_variant}";
 
-        /// <summary>Where the demo menu writes the icon prefab it needs.</summary>
         public string PrefabPath => $"{m_prefabFolder}/P_InputPromptIcon.prefab";
 
         public string SetPathFor(InputDeviceStyle style) =>

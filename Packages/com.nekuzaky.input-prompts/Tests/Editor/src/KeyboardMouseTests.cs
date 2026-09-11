@@ -5,10 +5,6 @@ using UnityEngine.InputSystem;
 
 namespace Nekuzaky.InputPrompts.Tests
 {
-    /// <summary>
-    /// Keyboard and mouse are two devices but a single prompt family: switching between them must not
-    /// look like switching platform.
-    /// </summary>
     public class KeyboardMouseTests : InputTestFixture
     {
         #region Private and Protected

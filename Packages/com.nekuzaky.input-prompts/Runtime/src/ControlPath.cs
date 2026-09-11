@@ -3,16 +3,10 @@ using UnityEngine.InputSystem;
 
 namespace Nekuzaky.InputPrompts
 {
-    /// <summary>
-    /// Turns Input System control paths into the flat, lower-case keys used by <see cref="InputPromptSet"/>.
-    /// "&lt;Keyboard&gt;/space" and "/Keyboard/space" both become "space";
-    /// "&lt;Gamepad&gt;/leftStick/up" becomes "leftstick/up".
-    /// </summary>
     public static class ControlPath
     {
         #region Main API
 
-        /// <summary>Strips the device part of a binding path and lower-cases the rest.</summary>
         public static string ToKey(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -24,17 +18,14 @@ namespace Nekuzaky.InputPrompts
 
             var key = path.Substring(start);
 
-            // Usages such as "<Gamepad>/{Submit}" cannot be mapped to an icon directly.
             if (key.IndexOf('{') >= 0)
                 return null;
 
             return key.ToLowerInvariant();
         }
 
-        /// <summary>Key for an actual control instance, e.g. the "space" of a live Keyboard.</summary>
         public static string ToKey(InputControl control) => control == null ? null : ToKey(control.path);
 
-        /// <summary>Layout name a binding path targets, e.g. "Gamepad" for "&lt;Gamepad&gt;/buttonSouth".</summary>
         public static string LayoutOf(string path)
         {
             if (string.IsNullOrEmpty(path) || path[0] != '<')
@@ -44,7 +35,6 @@ namespace Nekuzaky.InputPrompts
             return close <= 1 ? null : path.Substring(1, close - 1);
         }
 
-        /// <summary>True when <paramref name="device"/> can actuate a binding written against <paramref name="path"/>.</summary>
         public static bool MatchesDevice(string path, InputDevice device)
         {
             if (device == null)
@@ -63,7 +53,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
-        /// <summary>Index of the first character after the device part, or -1 when there is nothing left.</summary>
         private static int SkipDevice(string path)
         {
             var start = 0;
@@ -77,7 +66,6 @@ namespace Nekuzaky.InputPrompts
             }
             else if (path[0] == '/')
             {
-                // Runtime control paths look like "/Keyboard/space".
                 var next = path.IndexOf('/', 1);
                 if (next < 0)
                     return -1;

@@ -7,10 +7,6 @@ using UnityEngine;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
-    /// <summary>
-    /// Builds <see cref="InputPromptSet"/> assets and a <see cref="InputPromptDatabase"/> out of the
-    /// Kenney "Input Prompts" pack, so the runtime never has to know about file names.
-    /// </summary>
     public static class InputPromptGenerator
     {
         #region Public
@@ -18,7 +14,6 @@ namespace Nekuzaky.InputPrompts.Editor
         public const string DatabaseName = "SO_InputPromptDatabase";
         public const string SetPrefix = "SO_InputPromptSet_";
 
-        /// <summary>Device families the importer knows how to build, in database priority order.</summary>
         public static readonly InputDeviceStyle[] SupportedStyles =
         {
             InputDeviceStyle.KeyboardMouse,
@@ -29,7 +24,6 @@ namespace Nekuzaky.InputPrompts.Editor
             InputDeviceStyle.Generic,
         };
 
-        /// <summary>What one generation run produced, for the dashboard to display.</summary>
         public struct Result
         {
             public int m_icons;
@@ -44,14 +38,9 @@ namespace Nekuzaky.InputPrompts.Editor
 
         #region Main API
 
-        /// <summary>
-        /// Runs the import with the stored settings, for a menu click or a batchmode build step:
-        /// <c>-executeMethod InputPrompts.Editor.InputPromptGenerator.GenerateWithDefaults</c>.
-        /// </summary>
         [MenuItem("Tools/Input Prompts/Generate Prompt Sets")]
         public static void GenerateWithDefaults() => Generate(InputPromptSettings.instance);
 
-        /// <summary>Imports the pack and writes one set per enabled device family, plus the database.</summary>
         public static Result Generate(InputPromptSettings settings)
         {
             var log = new StringBuilder();
@@ -87,7 +76,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return result;
         }
 
-        /// <summary>Number of icons a generated set holds, or -1 when it has not been generated yet.</summary>
         public static int CountIcons(InputPromptSettings settings, InputDeviceStyle style)
         {
             var set = AssetDatabase.LoadAssetAtPath<InputPromptSet>(settings.SetPathFor(style));
@@ -219,7 +207,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return database;
         }
 
-        /// <summary>One reimport for the whole pack instead of one per file.</summary>
         private static void FixTextures(IEnumerable<string> folders)
         {
             try

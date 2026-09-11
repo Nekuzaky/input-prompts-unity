@@ -4,10 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace Nekuzaky.InputPrompts
 {
-    /// <summary>
-    /// Spawns one <see cref="InputPromptIcon"/> per part of an action, e.g. the four keys of a WASD
-    /// composite on keyboard and the single left stick icon on a gamepad.
-    /// </summary>
     [ExecuteAlways]
     [AddComponentMenu("Input Prompts/Input Prompt Group")]
     public class InputPromptGroup : MonoBehaviour
@@ -33,7 +29,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Public
 
-        /// <summary>Action currently displayed. Setting it rebuilds the icons.</summary>
         public InputAction Action
         {
             get => _runtimeAction ?? (_action != null ? _action.action : null);
@@ -60,7 +55,6 @@ namespace Nekuzaky.InputPrompts
         {
             InputPromptService.PromptsChanged -= Rebuild;
 
-            // Icons spawned while editing are previews, not scene content: drop them.
             if (!Application.isPlaying)
                 ClearSpawned();
         }
@@ -70,7 +64,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Main API
 
-        /// <summary>Recreate the icons for the current device. Called automatically on device change.</summary>
         public void Rebuild()
         {
             var action = Action;
@@ -95,16 +88,12 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
-        /// <summary>
-        /// Composite part names the active device uses, or a single empty entry for a plain binding.
-        /// </summary>
         private static List<string> CollectParts(InputAction action)
         {
             var result = new List<string>();
 
             if (InputPromptService.ResolveBindingIndex(action, null, allowAnyDevice: false) >= 0)
             {
-                // Plain binding for this device: one icon, no part name.
                 result.Add(null);
                 return result;
             }
@@ -133,7 +122,6 @@ namespace Nekuzaky.InputPrompts
                     result.Add(name);
             }
 
-            // Nothing bound on this device: show whatever the action does have, rather than nothing.
             if (result.Count == 0 && InputPromptService.ResolveBindingIndex(action) >= 0)
                 result.Add(null);
 
@@ -149,7 +137,6 @@ namespace Nekuzaky.InputPrompts
                 var icon = Instantiate(_iconPrefab, parent);
                 icon.gameObject.name = $"{_iconPrefab.name} ({_spawned.Count})";
 
-                // Edit mode previews must never end up saved in the scene.
                 if (!Application.isPlaying)
                     icon.gameObject.hideFlags = HideFlags.DontSave;
 

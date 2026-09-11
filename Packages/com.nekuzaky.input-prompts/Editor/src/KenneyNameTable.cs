@@ -2,15 +2,10 @@ using System.Collections.Generic;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
-    /// <summary>
-    /// Maps Input System control keys to file names of the Kenney "Input Prompts" pack.
-    /// Only used by the importer: once the prompt sets are generated, nothing here runs at runtime.
-    /// </summary>
     public static class KenneyNameTable
     {
         #region Main API
 
-        /// <summary>Sub-folder of the pack holding the icons of a style.</summary>
         public static string FolderFor(InputDeviceStyle style) => style switch
         {
             InputDeviceStyle.KeyboardMouse => "Keyboard & Mouse",
@@ -23,7 +18,6 @@ namespace Nekuzaky.InputPrompts.Editor
             _ => "Generic",
         };
 
-        /// <summary>Device layouts a style should be picked for.</summary>
         public static string[] LayoutsFor(InputDeviceStyle style) => style switch
         {
             InputDeviceStyle.KeyboardMouse => new[] { "Keyboard", "Mouse" },
@@ -36,7 +30,6 @@ namespace Nekuzaky.InputPrompts.Editor
             _ => new[] { "Gamepad" },
         };
 
-        /// <summary>Icon used as a background when a control has no icon of its own.</summary>
         public static string BlankFor(InputDeviceStyle style) => style switch
         {
             InputDeviceStyle.KeyboardMouse => "keyboard",
@@ -47,7 +40,6 @@ namespace Nekuzaky.InputPrompts.Editor
             _ => "generic_button",
         };
 
-        /// <summary>control key -> Kenney file name (without extension or "_outline" suffix).</summary>
         public static Dictionary<string, string> For(InputDeviceStyle style, bool coloredFaceButtons)
         {
             return style switch
@@ -141,7 +133,6 @@ namespace Nekuzaky.InputPrompts.Editor
                 ("numpadequals", "keyboard_equals"),
                 ("anykey", "keyboard_any"),
 
-                // Mouse
                 ("leftbutton", "mouse_left"),
                 ("rightbutton", "mouse_right"),
                 ("middlebutton", "mouse_scroll"),
@@ -166,7 +157,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return map;
         }
 
-        // ------------------------------------------------------------------ gamepads
 
         private static Dictionary<string, string> Xbox(bool colored)
         {
@@ -224,7 +214,6 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private static Dictionary<string, string> Switch()
         {
-            // Nintendo swaps the face buttons: what Unity calls buttonSouth is physically B.
             var map = Gamepad("switch");
             Add(map, new (string, string)[]
             {
@@ -296,7 +285,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return map;
         }
 
-        /// <summary>Sticks and d-pad, which follow the same naming pattern on every Kenney controller sheet.</summary>
         private static Dictionary<string, string> Gamepad(string prefix)
         {
             var map = new Dictionary<string, string>();

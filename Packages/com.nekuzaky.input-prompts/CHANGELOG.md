@@ -53,3 +53,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 - Resolving a prompt no longer re-reads the device family for every binding it walks. The style and
   its layouts are read once per lookup, and once per group rebuild, instead of once per binding of
   every prompt on screen at each device switch.
+
+## [1.2.0] - 2026-09-11
+
+### Changed
+
+- Comments stripped from the source: the code carries no `//` or `///` any more. Inspector tooltips
+  are kept, and the behaviour that used to be explained in comments is covered by the documentation
+  and by the tests.
+- Dashboard interface translated to English.
+
+### Added
+
+- `Documentation~`: the dashboard card by card, every component field by field, the generated assets,
+  the scripting API including rebinding, and how to extend the package with new devices or another
+  icon pack.

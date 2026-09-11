@@ -7,10 +7,6 @@ using UnityEngine.UIElements;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
-    /// <summary>
-    /// One window for the whole package: import settings, per device sets, live icon preview and the
-    /// runtime defaults written into the database. Dark themed on purpose, whatever the editor skin is.
-    /// </summary>
     public class InputPromptDashboard : EditorWindow
     {
         #region Private and Protected
@@ -21,7 +17,6 @@ namespace Nekuzaky.InputPrompts.Editor
         private const string RepositoryUrl = "https://github.com/Nekuzaky/input-prompts-unity";
         private const string CoffeeUrl = "https://buymeacoffee.com/nekuzaky";
 
-        /// <summary>Below this width the two columns stack instead of sitting side by side.</summary>
         private const float CompactWidth = 760f;
 
         private static readonly string[] GamepadPreviewKeys =
@@ -97,7 +92,6 @@ namespace Nekuzaky.InputPrompts.Editor
             window.Show();
         }
 
-        /// <summary>Emoji standing in for a device family, with a plain symbol for machines without emoji.</summary>
         public static (string emoji, string fallback) BadgeFor(InputDeviceStyle style) => style switch
         {
             InputDeviceStyle.KeyboardMouse => ("⌨️", "▤"),
@@ -128,12 +122,10 @@ namespace Nekuzaky.InputPrompts.Editor
             titleRow.Add(DashboardGlyphs.Icon("🎮", "◆", "ip-glyph--title"));
             titleRow.Add(MakeLabel("Input Prompts", "ip-title"));
             titles.Add(titleRow);
-            titles.Add(MakeLabel("Icônes de touches et de boutons qui suivent le périphérique du joueur",
+            titles.Add(MakeLabel("Key and button icons that follow the device the player is using",
                 "ip-subtitle"));
             header.Add(titles);
 
-            // Pill and buttons share a row of their own, so a narrow window moves the whole block
-            // under the title instead of letting the two overlap.
             var actions = MakeRow("ip-header__actions");
             _statusPill = MakeLabel("…", "ip-pill");
             actions.Add(_statusPill);
@@ -174,7 +166,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildSourceCard()
         {
-            var card = MakeCard("📁", "▤", "Source", "Pack Kenney", out var content);
+            var card = MakeCard("📁", "▤", "Source", "Kenney pack", out var content);
 
             content.Add(MakeFolderField("Pack folder", _settings.m_packFolder, value =>
             {
@@ -209,7 +201,7 @@ namespace Nekuzaky.InputPrompts.Editor
                 _settings.SaveSettings();
             }));
 
-            content.Add(MakeLabel("Default = 1x, Double = 2x. Les réglages sont partagés via ProjectSettings.",
+            content.Add(MakeLabel("Default = 1x, Double = 2x. Settings are shared through ProjectSettings.",
                 "ip-note"));
 
             return card;
@@ -217,7 +209,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildOutputCard()
         {
-            var card = MakeCard("💾", "▣", "Output", "Assets générés", out var content);
+            var card = MakeCard("💾", "▣", "Output", "Generated assets", out var content);
 
             content.Add(MakeFolderField("Prompt sets", _settings.m_outputFolder, value =>
             {
@@ -258,7 +250,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildRuntimeCard()
         {
-            var card = MakeCard("🔧", "⚙", "Runtime", "Écrit dans la database", out var content);
+            var card = MakeCard("🔧", "⚙", "Runtime", "Written into the database", out var content);
 
             content.Add(MakeToggle("Pointer motion switches style", _settings.m_pointerMotionSwitchesStyle, value =>
             {
@@ -282,9 +274,9 @@ namespace Nekuzaky.InputPrompts.Editor
             }));
 
             content.Add(MakeLabel(
-                "AZERTY : <Keyboard>/w affiche la touche Z. Décoche pour garder l'étiquette QWERTY.\n"
-                + "Prefer exact device : une action bindée clavier ET souris suit le dernier appareil "
-                + "utilisé, au lieu de garder le premier binding de la famille.",
+                "AZERTY: <Keyboard>/w draws the Z key. Uncheck to keep the QWERTY label.\n"
+                + "Prefer exact device: an action bound to both a key and a mouse button follows the last "
+                + "device used, instead of keeping the first binding of the family.",
                 "ip-note"));
 
             return card;
@@ -292,18 +284,18 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildDevicesCard()
         {
-            var card = MakeCard("🎛️", "◈", "Devices", "Clic = aperçu", out var content);
+            var card = MakeCard("🎛️", "◈", "Devices", "Click to preview", out var content);
 
             _deviceList = new VisualElement();
             content.Add(_deviceList);
-            content.Add(MakeLabel("Décoche un device pour l'exclure de la génération.", "ip-note"));
+            content.Add(MakeLabel("Uncheck a device to leave it out of the generation.", "ip-note"));
 
             return card;
         }
 
         private VisualElement BuildPreviewCard()
         {
-            var card = MakeCard("🎨", "◐", "Preview", "Icônes générées", out var content);
+            var card = MakeCard("🎨", "◐", "Preview", "Generated icons", out var content);
 
             _previewTitle = MakeLabel(string.Empty, "ip-card__hint");
             content.Add(_previewTitle);
@@ -322,7 +314,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildReportCard()
         {
-            var card = MakeCard("📊", "≡", "Report", "Dernière génération", out var content);
+            var card = MakeCard("📊", "≡", "Report", "Last generation", out var content);
             card.style.marginLeft = 6;
             card.style.marginRight = 6;
 
@@ -345,7 +337,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
             var version = UnityEditor.PackageManager.PackageInfo.FindForAssembly(GetType().Assembly)?.version;
             footer.Add(MakeLabel($"com.nekuzaky.input-prompts {(version != null ? "v" + version : "(embedded)")}"
-                                 + "   ·   icônes Kenney, CC0   ·   0 coroutine, 0 Update", "ip-footer__text"));
+                                 + "   ·   Kenney icons, CC0   ·   0 coroutines, 0 Update", "ip-footer__text"));
 
             var actions = MakeRow("ip-footer__actions");
             actions.Add(MakeTextureButton("d_TextAsset Icon", "Docs", () => Application.OpenURL(RepositoryUrl),
@@ -357,7 +349,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return footer;
         }
 
-        /// <summary>Stacks the layout when the window is too narrow for two columns.</summary>
         private void OnGeometryChanged(GeometryChangedEvent evt)
         {
             var isCompact = evt.newRect.width < CompactWidth;
@@ -366,7 +357,6 @@ namespace Nekuzaky.InputPrompts.Editor
             _footer?.EnableInClassList("ip-footer--compact", isCompact);
         }
 
-        // ------------------------------------------------------------------ refresh
 
         private void RefreshAll()
         {
@@ -386,17 +376,17 @@ namespace Nekuzaky.InputPrompts.Editor
 
             if (!packExists)
             {
-                _statusPill.text = "Pack introuvable";
+                _statusPill.text = "Pack not found";
                 _statusPill.AddToClassList("ip-pill--error");
             }
             else if (database == null)
             {
-                _statusPill.text = "Pas encore généré";
+                _statusPill.text = "Not generated yet";
                 _statusPill.AddToClassList("ip-pill--warn");
             }
             else
             {
-                _statusPill.text = $"{database.m_sets.Count} sets prêts";
+                _statusPill.text = $"{database.m_sets.Count} sets ready";
                 _statusPill.AddToClassList("ip-pill--ok");
             }
 
@@ -404,8 +394,8 @@ namespace Nekuzaky.InputPrompts.Editor
                 return;
 
             _databaseNote.text = database != null
-                ? $"Database : {_settings.DatabasePath}"
-                : $"Sera créée ici : {_settings.DatabasePath}";
+                ? $"Database: {_settings.DatabasePath}"
+                : $"Will be created at: {_settings.DatabasePath}";
             _databaseNote.EnableInClassList("ip-note--warn", database == null);
         }
 
@@ -442,7 +432,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
             var count = InputPromptGenerator.CountIcons(_settings, style);
             var hasFolder = AssetDatabase.IsValidFolder(_settings.FolderFor(style));
-            row.Add(MakeLabel(count >= 0 ? $"{count} icônes" : hasFolder ? "à générer" : "dossier ?",
+            row.Add(MakeLabel(count >= 0 ? $"{count} icons" : hasFolder ? "to generate" : "folder?",
                 "ip-device__count"));
 
             row.RegisterCallback<ClickEvent>(_ =>
@@ -465,7 +455,7 @@ namespace Nekuzaky.InputPrompts.Editor
             var set = AssetDatabase.LoadAssetAtPath<InputPromptSet>(_settings.SetPathFor(_previewStyle));
             _previewTitle.text = set != null
                 ? $"{_previewStyle} · {set.Entries.Count} icônes"
-                : $"{_previewStyle} · set non généré";
+                : $"{_previewStyle} · set not generated";
 
             if (set == null)
                 return;
@@ -489,7 +479,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return tile;
         }
 
-        // ------------------------------------------------------------------ actions
 
         private void RunGeneration()
         {
@@ -503,7 +492,7 @@ namespace Nekuzaky.InputPrompts.Editor
             var database = AssetDatabase.LoadAssetAtPath<InputPromptDatabase>(_settings.DatabasePath);
             if (database == null)
             {
-                _report.value = $"Aucune database à {_settings.DatabasePath}. Lance Generate.";
+                _report.value = $"No database at {_settings.DatabasePath}. Run Generate.";
                 return;
             }
 
@@ -511,7 +500,6 @@ namespace Nekuzaky.InputPrompts.Editor
             EditorGUIUtility.PingObject(database);
         }
 
-        /// <summary>Pushes the runtime toggles into the database without a full regeneration.</summary>
         private void ApplyRuntimeToDatabase()
         {
             var database = AssetDatabase.LoadAssetAtPath<InputPromptDatabase>(_settings.DatabasePath);
@@ -539,7 +527,6 @@ namespace Nekuzaky.InputPrompts.Editor
             SceneView.RepaintAll();
         }
 
-        // ------------------------------------------------------------------ small builders
 
         private static string[] StyleNames() => Enum.GetNames(typeof(InputDeviceStyle));
 
@@ -551,7 +538,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return label;
         }
 
-        /// <summary>A button holding a glyph Label and a text Label, so the emoji font stays isolated.</summary>
         private static Button MakeButton(string emoji, string fallback, string content, Action action,
             params string[] classes)
         {
@@ -564,10 +550,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return button;
         }
 
-        /// <summary>
-        /// A button carrying a built-in editor icon rather than a glyph: the UI font has no book, and
-        /// an icon shipped with the editor always renders.
-        /// </summary>
         private static Button MakeTextureButton(string iconName, string content, Action action,
             params string[] classes)
         {
@@ -622,8 +604,6 @@ namespace Nekuzaky.InputPrompts.Editor
         {
             var row = MakeRow();
 
-            // isDelayed: the callback writes to ProjectSettings, so wait for Enter or focus loss
-            // instead of saving on every keystroke.
             var field = new TextField(label) { value = value, isDelayed = true };
             field.AddToClassList("ip-field");
             field.AddToClassList("ip-row__grow");

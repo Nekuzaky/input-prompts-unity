@@ -9,10 +9,6 @@ using UnityEngine.UI;
 
 namespace Nekuzaky.InputPrompts.Tests
 {
-    /// <summary>
-    /// The components are what a project actually drops into a scene, so they are exercised the way a
-    /// game would: real GameObjects, real devices, real device switches.
-    /// </summary>
     public class PromptComponentTests : InputTestFixture
     {
         #region Private and Protected
@@ -204,7 +200,6 @@ namespace Nekuzaky.InputPrompts.Tests
             return group;
         }
 
-        /// <summary>Serialized fields are private by design; tests reach them through reflection.</summary>
         private static void SetPrivate(object target, string fieldName, object value)
         {
             var field = target.GetType().GetField(fieldName,

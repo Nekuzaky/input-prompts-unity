@@ -5,10 +5,6 @@ using UnityEngine;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
-    /// <summary>
-    /// Adds a device preview to the icon inspector, so a layout can be checked against every controller
-    /// style without owning one of each.
-    /// </summary>
     [CustomEditor(typeof(InputPromptIcon))]
     [CanEditMultipleObjects]
     public class InputPromptIconEditor : UnityEditor.Editor

@@ -5,10 +5,6 @@ using UnityEngine.InputSystem;
 
 namespace Nekuzaky.InputPrompts
 {
-    /// <summary>
-    /// Maps devices to a <see cref="InputPromptSet"/>. Assign one to <see cref="InputPromptService"/>
-    /// (it is picked up automatically when placed in a Resources folder as "SO_InputPromptDatabase").
-    /// </summary>
     [CreateAssetMenu(menuName = "Input Prompts/Prompt Database", fileName = "SO_InputPromptDatabase")]
     public class InputPromptDatabase : ScriptableObject
     {
@@ -50,7 +46,6 @@ namespace Nekuzaky.InputPrompts
             return null;
         }
 
-        /// <summary>Set whose layouts cover <paramref name="device"/>.</summary>
         public InputPromptSet GetSet(InputDevice device)
         {
             if (device == null)
@@ -74,10 +69,6 @@ namespace Nekuzaky.InputPrompts
             return set != null ? set.m_style : m_defaultStyle;
         }
 
-        /// <summary>
-        /// Layouts to look for in an action's bindings when no device is active yet. Returns the stored
-        /// array rather than an iterator, so resolving a prompt allocates nothing.
-        /// </summary>
         public IReadOnlyList<string> PreferredLayouts(InputDeviceStyle style)
         {
             var set = GetSet(style);

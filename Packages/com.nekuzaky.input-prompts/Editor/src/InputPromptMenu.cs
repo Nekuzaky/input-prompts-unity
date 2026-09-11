@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
-    /// <summary>Menu entries that create prompt objects, so nothing has to be wired by hand.</summary>
     public static class InputPromptMenu
     {
         #region Private and Protected
@@ -132,7 +131,6 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private static void CreateLabel(Transform parent, string content)
         {
-            // TextMeshPro needs its essentials imported before it can draw anything.
             if (TMP_Settings.defaultFontAsset == null)
                 return;
 
@@ -146,9 +144,6 @@ namespace Nekuzaky.InputPrompts.Editor
             text.alignment = TextAlignmentOptions.MidlineLeft;
         }
 
-        /// <summary>
-        /// The action reference the demo binds to. Input Action Assets keep one sub-asset per action.
-        /// </summary>
         private static InputActionReference FindReference(InputActionAsset actions, string mapName, string actionName)
         {
             var path = AssetDatabase.GetAssetPath(actions);
@@ -165,7 +160,6 @@ namespace Nekuzaky.InputPrompts.Editor
             return null;
         }
 
-        /// <summary>Any action asset of the project, so the demo works without a fixed file name.</summary>
         private static InputActionAsset FindFirstActionAsset()
         {
             foreach (var guid in AssetDatabase.FindAssets("t:InputActionAsset"))
@@ -180,8 +174,6 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private static InputPromptIcon LoadOrCreateIconPrefab()
         {
-            // The folder comes from the dashboard settings: the package must not impose a layout on
-            // the project that uses it.
             var settings = InputPromptSettings.instance;
             var prefabPath = settings.PrefabPath;
 

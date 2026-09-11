@@ -5,11 +5,6 @@ using UnityEngine.InputSystem.XInput;
 
 namespace Nekuzaky.InputPrompts.Tests
 {
-    /// <summary>
-    /// The promise of the package: prompts follow the device the player is actually using, with no
-    /// polling and no manual checks. These tests drive real devices through the Input System and read
-    /// back what the service resolves.
-    /// </summary>
     public class DeviceDetectionTests : InputTestFixture
     {
         #region Private and Protected
@@ -41,8 +36,6 @@ namespace Nekuzaky.InputPrompts.Tests
             _database.m_gamepadFallback = xboxSet;
             _database.m_defaultStyle = InputDeviceStyle.KeyboardMouse;
 
-            // The fixture rebuilds the Input System around every test, which drops the service
-            // subscriptions: re-arm them before each one.
             InputPromptService.Shutdown();
             InputPromptService.Database = _database;
             InputPromptService.Initialize();

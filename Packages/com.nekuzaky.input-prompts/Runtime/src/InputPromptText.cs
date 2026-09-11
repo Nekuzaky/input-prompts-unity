@@ -5,11 +5,6 @@ using UnityEngine.InputSystem;
 
 namespace Nekuzaky.InputPrompts
 {
-    /// <summary>
-    /// Writes a sentence with control names substituted in, e.g. "Press {Player/Jump} to jump"
-    /// becomes "Press Space to jump" or "Press A to jump" depending on the device in use.
-    /// Use it next to an <see cref="InputPromptIcon"/> when an icon alone is not enough.
-    /// </summary>
     [ExecuteAlways]
     [AddComponentMenu("Input Prompts/Input Prompt Text")]
     [RequireComponent(typeof(TMP_Text))]
@@ -35,7 +30,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Public
 
-        /// <summary>Sentence template. Setting it repaints the text.</summary>
         public string Format
         {
             get => _format;
@@ -84,7 +78,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Main API
 
-        /// <summary>Re-resolve every token and repaint.</summary>
         public void Refresh()
         {
             if (_target == null || string.IsNullOrEmpty(_format))
@@ -119,7 +112,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
-        /// <summary>Turns "Player/Move#up" into the control name bound to that action on this device.</summary>
         private string Resolve(string token)
         {
             if (_actions == null || string.IsNullOrEmpty(token))

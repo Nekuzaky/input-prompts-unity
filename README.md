@@ -19,6 +19,14 @@ Icons come from the [Kenney — Input Prompts](https://kenney.nl/assets/input-pr
 This repository is both **the package** (`Packages/com.nekuzaky.input-prompts`) and the **sample
 project** used to develop it.
 
+**Full documentation** lives in [`Documentation~`](Packages/com.nekuzaky.input-prompts/Documentation~/index.md):
+the [dashboard](Packages/com.nekuzaky.input-prompts/Documentation~/dashboard.md) card by card, every
+[component](Packages/com.nekuzaky.input-prompts/Documentation~/components.md) field by field, the
+[generated assets](Packages/com.nekuzaky.input-prompts/Documentation~/assets.md), the
+[scripting API](Packages/com.nekuzaky.input-prompts/Documentation~/scripting.md) including rebinding,
+and how to [extend it](Packages/com.nekuzaky.input-prompts/Documentation~/extending.md) with your own
+devices or icon pack.
+
 ---
 
 ## Installation

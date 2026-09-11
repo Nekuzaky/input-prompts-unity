@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 namespace Nekuzaky.InputPrompts
 {
-    /// <summary>
-    /// Shows the icon of the control an action is bound to on the device the player is currently using.
-    /// Put it on a UI Image; it swaps the sprite by itself when the player switches device or rebinds.
-    /// </summary>
     [ExecuteAlways]
     [AddComponentMenu("Input Prompts/Input Prompt Icon")]
     [RequireComponent(typeof(Image))]
@@ -41,7 +37,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Public
 
-        /// <summary>Action currently displayed. Setting it refreshes the icon.</summary>
         public InputAction Action
         {
             get => _runtimeAction ?? _action?.action;
@@ -52,7 +47,6 @@ namespace Nekuzaky.InputPrompts
             }
         }
 
-        /// <summary>Composite part shown, e.g. "up". Setting it refreshes the icon.</summary>
         public string CompositePart
         {
             get => _compositePart;
@@ -63,7 +57,6 @@ namespace Nekuzaky.InputPrompts
             }
         }
 
-        /// <summary>Human readable name of the bound control, handy for building sentences next to the icon.</summary>
         public string DisplayString => InputPromptService.GetDisplayString(Action, _compositePart);
 
         #endregion
@@ -108,7 +101,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Main API
 
-        /// <summary>Re-resolve the binding and repaint. Called automatically on device change and rebind.</summary>
         public void Refresh()
         {
             if (_targetImage == null)
@@ -164,7 +156,6 @@ namespace Nekuzaky.InputPrompts
                 _fallbackLabel.text = InputPromptService.GetDisplayString(action, bindingIndex);
         }
 
-        /// <summary>Keeps wide icons (Space, Enter) from being squeezed into a square slot.</summary>
         private void ApplyAspect(Sprite sprite)
         {
             var rect = sprite.rect;
@@ -173,11 +164,9 @@ namespace Nekuzaky.InputPrompts
 
             var rectTransform = (RectTransform)transform;
 
-            // Only meaningful when the height is driven by the layout, not by a stretched anchor.
             if (!Mathf.Approximately(rectTransform.anchorMin.y, rectTransform.anchorMax.y))
                 return;
 
-            // Before the first layout pass the height can still be 0; resizing then would collapse the icon.
             var height = rectTransform.rect.height;
             if (height <= 0f)
                 return;

@@ -7,31 +7,18 @@ using UnityEngine.InputSystem.LowLevel;
 
 namespace Nekuzaky.InputPrompts
 {
-    /// <summary>
-    /// Tracks which device the player is actually using and resolves actions to icons.
-    /// Everything else in this package is a thin view on top of it.
-    /// </summary>
     public static class InputPromptService
     {
         #region Public
 
-        /// <summary>Raised when the active device changes to one using a different icon set.</summary>
         public static event Action<InputDeviceStyle> StyleChanged;
 
-        /// <summary>Raised whenever displayed prompts may be stale (device change, rebind, database swap).</summary>
         public static event Action PromptsChanged;
 
-        /// <summary>Set to true to switch back to mouse icons as soon as the player moves the mouse.</summary>
         public static bool PointerMotionSwitchesStyle { get; set; }
 
-        /// <summary>Use the label printed on the physical keyboard (AZERTY, QWERTZ, ...) to pick key icons.</summary>
         public static bool UseKeyboardLayoutLabels { get; set; } = true;
 
-        /// <summary>
-        /// Resolve bindings against the exact device in use rather than its whole family. Off by
-        /// default: keyboard and mouse are one family, so an action bound to both a key and a mouse
-        /// button would otherwise flip its icon depending on whether the player last typed or clicked.
-        /// </summary>
         public static bool PreferExactDevice { get; set; }
 
         public static InputDevice ActiveDevice => _activeDevice;
@@ -78,10 +65,6 @@ namespace Nekuzaky.InputPrompts
         }
 
 #if UNITY_EDITOR
-        /// <summary>
-        /// Style to show while editing, so a menu can be checked against PlayStation icons without a
-        /// DualSense plugged in. Ignored in play mode and in builds.
-        /// </summary>
         public static InputDeviceStyle? EditorPreviewStyle { get; set; }
 #endif
 
@@ -144,7 +127,6 @@ namespace Nekuzaky.InputPrompts
             InputSystem.onActionChange -= OnActionChange;
         }
 
-        /// <summary>Force the prompts onto a device, e.g. from a PlayerInput in a local co-op game.</summary>
         public static void SetActiveDevice(InputDevice device)
         {
             if (device == _activeDevice)
@@ -160,21 +142,11 @@ namespace Nekuzaky.InputPrompts
             PromptsChanged?.Invoke();
         }
 
-        /// <summary>Tell every live prompt to refresh, e.g. after applying binding overrides.</summary>
         public static void Refresh() => PromptsChanged?.Invoke();
 
-        /// <summary>
-        /// Index of the binding <paramref name="action"/> uses on the active device, or -1.
-        /// Pass <paramref name="compositePart"/> ("up", "left", ...) to target one part of a composite.
-        /// </summary>
         public static int ResolveBindingIndex(InputAction action, string compositePart = null) =>
             ResolveBindingIndex(action, compositePart, allowAnyDevice: true);
 
-        /// <summary>
-        /// Same as <see cref="ResolveBindingIndex(InputAction,string)"/>, but with
-        /// <paramref name="allowAnyDevice"/> set to false it returns -1 instead of falling back to a
-        /// binding meant for another device.
-        /// </summary>
         public static int ResolveBindingIndex(InputAction action, string compositePart, bool allowAnyDevice)
         {
             if (action == null)
@@ -187,9 +159,6 @@ namespace Nekuzaky.InputPrompts
                     return exact;
             }
 
-            // Family first: whichever binding of the current device family comes first in the action
-            // wins, so a mouse click and a key press do not fight over the same prompt. The layouts
-            // are read once here rather than once per binding.
             var layouts = Database != null ? Database.PreferredLayouts(CurrentStyle) : null;
             var index = FindBinding(action, compositePart, path => MatchesAnyLayout(path, layouts));
             if (index >= 0)
@@ -198,7 +167,6 @@ namespace Nekuzaky.InputPrompts
             return allowAnyDevice ? FindBinding(action, compositePart, _ => true) : -1;
         }
 
-        /// <summary>Icon for an action on the active device, or null when nothing matches.</summary>
         public static Sprite GetSprite(InputAction action, string compositePart = null)
         {
             var index = ResolveBindingIndex(action, compositePart);
@@ -213,7 +181,6 @@ namespace Nekuzaky.InputPrompts
             return GetSpriteForPath(action.bindings[bindingIndex].effectivePath);
         }
 
-        /// <summary>Icon for a raw binding path such as "&lt;Gamepad&gt;/buttonSouth".</summary>
         public static Sprite GetSpriteForPath(string path)
         {
             var set = CurrentSet;
@@ -224,7 +191,6 @@ namespace Nekuzaky.InputPrompts
             return key == null ? null : set.Find(key);
         }
 
-        /// <summary>Blank key cap of the current set, drawn behind the display string when no icon exists.</summary>
         public static Sprite GetBlankSprite()
         {
             var set = CurrentSet;
@@ -238,7 +204,6 @@ namespace Nekuzaky.InputPrompts
             return null;
         }
 
-        /// <summary>Human readable name of the bound control, e.g. "Space" or "A".</summary>
         public static string GetDisplayString(InputAction action, string compositePart = null)
         {
             var index = ResolveBindingIndex(action, compositePart);
@@ -251,17 +216,11 @@ namespace Nekuzaky.InputPrompts
                 InputBinding.DisplayStringOptions.DontUseShortDisplayNames |
                 InputBinding.DisplayStringOptions.DontIncludeInteractions);
 
-        /// <summary>
-        /// True when the binding path belongs to the device family the prompts currently show, so a
-        /// keyboard binding still matches while the player is holding the mouse.
-        /// </summary>
         public static bool MatchesCurrentStyle(string path) => MatchesStyle(path, CurrentStyle);
 
-        /// <summary>True when a device of <paramref name="style"/> can actuate the binding path.</summary>
         internal static bool MatchesStyle(string path, InputDeviceStyle style) =>
             Database != null && MatchesAnyLayout(path, Database.PreferredLayouts(style));
 
-        /// <summary>True when the binding path belongs to the exact device in use.</summary>
         public static bool MatchesCurrentDevice(string path)
         {
 #if UNITY_EDITOR
@@ -276,10 +235,6 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
-        /// <summary>
-        /// Without a database nothing can be resolved and every prompt stays blank, which is hard to
-        /// diagnose from the outside. Say it once, loudly enough to be actionable.
-        /// </summary>
         private static void WarnAboutMissingDatabase()
         {
             if (_hasWarnedAboutDatabase)
@@ -305,7 +260,6 @@ namespace Nekuzaky.InputPrompts
             return false;
         }
 
-        /// <summary>True when a device of <paramref name="layout"/> can actuate <paramref name="path"/>.</summary>
         private static bool TargetsLayout(string path, string layout)
         {
             var pathLayout = ControlPath.LayoutOf(path);
@@ -320,7 +274,6 @@ namespace Nekuzaky.InputPrompts
         {
             var key = ControlPath.ToKey(path);
 
-            // On non-QWERTY hardware "<Keyboard>/w" sits where the player reads "Z": show the label they see.
             if (UseKeyboardLayoutLabels &&
                 key != null &&
                 Keyboard.current != null &&
@@ -382,7 +335,6 @@ namespace Nekuzaky.InputPrompts
             }
         }
 
-        /// <summary>True for the controls a mouse keeps reporting even when the player is on a gamepad.</summary>
         private static bool IsPointerNoise(InputControl control)
         {
             if (control == null || control.device is not Pointer)
