@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace InputPrompts.Editor
+namespace Nekuzaky.InputPrompts.Editor
 {
     /// <summary>
     /// Builds <see cref="InputPromptSet"/> assets and a <see cref="InputPromptDatabase"/> out of the

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Maps devices to a <see cref="InputPromptSet"/>. Assign one to <see cref="InputPromptService"/>

@@ -1,16 +1,15 @@
 {
-    "name": "InputPrompts.Tests",
-    "rootNamespace": "InputPrompts.Tests",
+    "name": "Nekuzaky.InputPrompts.PlayTests",
+    "rootNamespace": "Nekuzaky.InputPrompts.Tests",
     "references": [
-        "InputPrompts.Runtime",
+        "Nekuzaky.InputPrompts.Runtime",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
+        "Unity.TextMeshPro",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

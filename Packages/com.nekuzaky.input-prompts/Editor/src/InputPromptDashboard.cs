@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace InputPrompts.Editor
+namespace Nekuzaky.InputPrompts.Editor
 {
     /// <summary>
     /// One window for the whole package: import settings, per device sets, live icon preview and the
@@ -221,6 +221,12 @@ namespace InputPrompts.Editor
                 _settings.m_outputFolder = value;
                 _settings.SaveSettings();
                 RefreshStatus();
+            }));
+
+            content.Add(MakeFolderField("Demo prefab", _settings.m_prefabFolder, value =>
+            {
+                _settings.m_prefabFolder = value;
+                _settings.SaveSettings();
             }));
 
             content.Add(MakeDropdown("Unknown gamepads", StyleNames(), _settings.m_gamepadFallbackStyle.ToString(),

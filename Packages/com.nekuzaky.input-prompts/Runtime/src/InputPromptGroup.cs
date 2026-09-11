@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Spawns one <see cref="InputPromptIcon"/> per part of an action, e.g. the four keys of a WASD
@@ -26,12 +26,23 @@ namespace InputPrompts
 
         private readonly List<InputPromptIcon> _spawned = new();
 
+        private InputAction _runtimeAction;
+
         #endregion
 
 
         #region Public
 
-        public InputAction Action => _action != null ? _action.action : null;
+        /// <summary>Action currently displayed. Setting it rebuilds the icons.</summary>
+        public InputAction Action
+        {
+            get => _runtimeAction ?? (_action != null ? _action.action : null);
+            set
+            {
+                _runtimeAction = value;
+                Rebuild();
+            }
+        }
 
         #endregion
 

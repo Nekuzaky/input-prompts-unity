@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Shows the icon of the control an action is bound to on the device the player is currently using.

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace InputPrompts.Editor
+namespace Nekuzaky.InputPrompts.Editor
 {
     /// <summary>
     /// Adds a device preview to the icon inspector, so a layout can be checked against every controller

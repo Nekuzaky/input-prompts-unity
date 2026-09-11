@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.InputSystem;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Turns Input System control paths into the flat, lower-case keys used by <see cref="InputPromptSet"/>.

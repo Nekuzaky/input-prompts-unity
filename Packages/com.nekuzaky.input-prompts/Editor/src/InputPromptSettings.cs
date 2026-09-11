@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace InputPrompts.Editor
+namespace Nekuzaky.InputPrompts.Editor
 {
     /// <summary>Icon resolution shipped by the Kenney pack.</summary>
     public enum IconVariant
@@ -21,6 +21,7 @@ namespace InputPrompts.Editor
 
         public string m_packFolder = "Assets/Sprites/input-prompts";
         public string m_outputFolder = "Assets/_/Database/InputPrompts";
+        public string m_prefabFolder = "Assets/_/Content/InputPrompts";
         public IconVariant m_variant = IconVariant.Default;
         public bool m_outlineIcons;
         public bool m_coloredFaceButtons = true;
@@ -44,6 +45,9 @@ namespace InputPrompts.Editor
 
         public string FolderFor(InputDeviceStyle style) =>
             $"{m_packFolder}/{KenneyNameTable.FolderFor(style)}/{m_variant}";
+
+        /// <summary>Where the demo menu writes the icon prefab it needs.</summary>
+        public string PrefabPath => $"{m_prefabFolder}/P_InputPromptIcon.prefab";
 
         public string SetPathFor(InputDeviceStyle style) =>
             $"{m_outputFolder}/{InputPromptGenerator.SetPrefix}{style}.asset";

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace InputPrompts.Editor
+namespace Nekuzaky.InputPrompts.Editor
 {
     /// <summary>
     /// Maps Input System control keys to file names of the Kenney "Input Prompts" pack.

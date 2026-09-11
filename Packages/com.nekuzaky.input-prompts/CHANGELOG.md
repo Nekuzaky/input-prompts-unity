@@ -18,3 +18,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
   generation included.
 - Menu entries to create prompt icons and a demo canvas.
 - Editor preview of any controller style, without plugging the device in.
+
+### Changed
+
+- Assemblies and namespaces are prefixed: `Nekuzaky.InputPrompts.Runtime` and
+  `Nekuzaky.InputPrompts.Editor`, so they cannot collide with another package.
+- The demo menu writes its prefab to the folder configured in the dashboard instead of a fixed one,
+  and picks up any Input Action Asset of the project rather than a fixed file name.
+- `InputPromptGroup.Action` can be assigned at runtime, like `InputPromptIcon.Action`.
+- A missing prompt database now logs a warning pointing at the dashboard, instead of leaving every
+  prompt silently empty.
+- Minimum Unity version raised to 6000.3, the version the package is tested on.

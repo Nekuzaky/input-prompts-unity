@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Writes a sentence with control names substituted in, e.g. "Press {Player/Jump} to jump"

@@ -7,7 +7,7 @@ Icons come from the [Kenney — Input Prompts](https://kenney.nl/assets/input-pr
 | | |
 |---|---|
 | Package | `com.nekuzaky.input-prompts` |
-| Unity | 6000.0 or newer |
+| Unity | 6000.3 or newer |
 | Dependencies | Input System 1.14+, uGUI |
 
 This repository is both **the package** (`Packages/com.nekuzaky.input-prompts`) and the **sample
@@ -43,18 +43,18 @@ settings, per device sets, a live preview of the generated icons and the runtime
 
 | Card | What it holds |
 |---|---|
-| 📁 **Source** | Pack folder, `Default` (1x) or `Double` (2x) variant, `_outline` icons, coloured face buttons, texture fixing. |
-| 💾 **Output** | Where the sets are written, style used for unknown gamepads, style shown at startup. |
-| 🔧 **Runtime** | Pointer motion behaviour and keyboard layout labels, written into the database. |
-| 🎛️ **Devices** | One row per device family: enable it, see its layouts and its icon count, click to preview. |
-| 🎨 **Preview** | The generated icons for the selected family, and a button to force that style in the editor. |
-| 📊 **Report** | What the last generation produced, missing icons included. |
+| **Source** | Pack folder, `Default` (1x) or `Double` (2x) variant, `_outline` icons, coloured face buttons, texture fixing. |
+| **Output** | Where the sets and the demo prefab are written, style used for unknown gamepads, style shown at startup. |
+| **Runtime** | Pointer motion behaviour and keyboard layout labels, written into the database. |
+| **Devices** | One row per device family: enable it, see its layouts and its icon count, click to preview. |
+| **Preview** | The generated icons for the selected family, and a button to force that style in the editor. |
+| **Report** | What the last generation produced, missing icons included. |
 
 Settings live in `ProjectSettings/InputPromptsSettings.asset`, so a whole team shares the same import
 configuration. On a build machine, run the import headless:
 
 ```bash
-Unity -batchmode -quit -projectPath . -executeMethod InputPrompts.Editor.InputPromptGenerator.GenerateWithDefaults
+Unity -batchmode -quit -projectPath . -executeMethod Nekuzaky.InputPrompts.Editor.InputPromptGenerator.GenerateWithDefaults
 ```
 
 *Generate* writes to `Assets/_/Database/InputPrompts/`:
@@ -62,7 +62,7 @@ Unity -batchmode -quit -projectPath . -executeMethod InputPrompts.Editor.InputPr
 - `SO_InputPromptSet_*.asset` — one icon set per device family;
 - `Resources/SO_InputPromptDatabase.asset` — loaded automatically at startup, nothing to wire.
 
-The 📊 Report card lists every icon it could not find (`buttonSouth -> xbox_button_a.png`). Sets stay
+The Report card lists every icon it could not find (`buttonSouth -> xbox_button_a.png`). Sets stay
 editable by hand afterwards: they are plain key → sprite lists.
 
 ## 2. Show a prompt
@@ -93,6 +93,8 @@ other style without plugging the controller in. Edit mode only.
 ## API
 
 ```csharp
+using Nekuzaky.InputPrompts;
+
 InputPromptService.CurrentStyle;                       // device family in use
 InputPromptService.StyleChanged += style => { };       // keyboard -> gamepad
 InputPromptService.PromptsChanged += () => { };        // device, rebind, database swap
@@ -119,6 +121,28 @@ Set keys are control paths without the device, lower-cased: `space`, `buttonsout
 - On AZERTY, `<Keyboard>/w` draws the **Z** key the player actually has under their fingers.
 - Moving the mouse does not throw the prompts back to keyboard icons until something is clicked.
 - A key with no icon in the pack (F13, oem…) falls back to a blank cap with its name printed on it.
+
+## Tests
+
+Eleven tests drive real devices through the Input System and read back what the package resolves,
+instead of trusting it.
+
+Seven EditMode tests cover the service: which style a keyboard, an XInputController or an
+unrecognised gamepad selects, that mouse movement alone does not steal the prompts from a gamepad
+while a click does, that an action resolves to the keyboard sprite and then to the gamepad one, and
+that a style change is raised once per switch rather than once per input.
+
+Four PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
+with nothing calling `Refresh`, a composite showing four keys on keyboard and a single stick on
+gamepad, the blank key cap fallback, and a prompt hiding itself when the action has no binding.
+
+```bash
+Unity -batchmode -nographics -runTests -testPlatform EditMode -projectPath . -testResults edit.xml
+Unity -batchmode -nographics -runTests -testPlatform PlayMode -projectPath . -testResults play.xml
+```
+
+Package tests only run when the project lists the package in the `testables` array of
+`Packages/manifest.json`, which this repository does.
 
 ## Credits
 

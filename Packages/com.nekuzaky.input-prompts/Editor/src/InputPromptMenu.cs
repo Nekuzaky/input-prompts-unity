@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace InputPrompts.Editor
+namespace Nekuzaky.InputPrompts.Editor
 {
     /// <summary>Menu entries that create prompt objects, so nothing has to be wired by hand.</summary>
     public static class InputPromptMenu
@@ -12,8 +12,6 @@ namespace InputPrompts.Editor
         #region Private and Protected
 
         private const float IconSize = 48f;
-        private const string PrefabFolder = "Assets/_/Content/InputPrompts";
-        private const string PrefabPath = PrefabFolder + "/P_InputPromptIcon.prefab";
 
         #endregion
 
@@ -33,12 +31,12 @@ namespace InputPrompts.Editor
         [MenuItem("Tools/Input Prompts/Create Demo Canvas")]
         public static void CreateDemo()
         {
-            var actions = Selection.activeObject as InputActionAsset ??
-                          AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/InputSystem_Actions.inputactions");
+            var actions = Selection.activeObject as InputActionAsset ?? FindFirstActionAsset();
             if (actions == null)
             {
                 EditorUtility.DisplayDialog("Input Prompts",
-                    "Select an Input Action Asset in the Project window first.", "OK");
+                    "No Input Action Asset found in this project. Create one, or select it in the Project "
+                    + "window before running this.", "OK");
                 return;
             }
 
@@ -167,16 +165,34 @@ namespace InputPrompts.Editor
             return null;
         }
 
+        /// <summary>Any action asset of the project, so the demo works without a fixed file name.</summary>
+        private static InputActionAsset FindFirstActionAsset()
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:InputActionAsset"))
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<InputActionAsset>(AssetDatabase.GUIDToAssetPath(guid));
+                if (asset != null)
+                    return asset;
+            }
+
+            return null;
+        }
+
         private static InputPromptIcon LoadOrCreateIconPrefab()
         {
-            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            // The folder comes from the dashboard settings: the package must not impose a layout on
+            // the project that uses it.
+            var settings = InputPromptSettings.instance;
+            var prefabPath = settings.PrefabPath;
+
+            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (existing != null)
                 return existing.GetComponent<InputPromptIcon>();
 
-            CreateFolders(PrefabFolder);
+            CreateFolders(settings.m_prefabFolder);
 
             var temp = CreateIconObject("P_InputPromptIcon", null);
-            var prefab = PrefabUtility.SaveAsPrefabAsset(temp.gameObject, PrefabPath);
+            var prefab = PrefabUtility.SaveAsPrefabAsset(temp.gameObject, prefabPath);
             Object.DestroyImmediate(temp.gameObject);
             return prefab.GetComponent<InputPromptIcon>();
         }

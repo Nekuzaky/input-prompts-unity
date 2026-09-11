@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
 
-namespace InputPrompts.Tests
+namespace Nekuzaky.InputPrompts.Tests
 {
     /// <summary>
     /// The promise of the package: prompts follow the device the player is actually using, with no

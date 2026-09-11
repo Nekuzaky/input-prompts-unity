@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.LowLevel;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Tracks which device the player is actually using and resolves actions to icons.
@@ -89,6 +89,7 @@ namespace InputPrompts
         private static InputPromptDatabase _database;
         private static InputDevice _activeDevice;
         private static bool _isInitialized;
+        private static bool _hasWarnedAboutDatabase;
 
 #if UNITY_EDITOR
         private static bool UsesPreview => !Application.isPlaying && EditorPreviewStyle.HasValue;
@@ -114,7 +115,10 @@ namespace InputPrompts
 
             var database = Database;
             if (database == null)
+            {
+                WarnAboutMissingDatabase();
                 return;
+            }
 
             PointerMotionSwitchesStyle = database.m_pointerMotionSwitchesStyle;
             UseKeyboardLayoutLabels = database.m_useKeyboardLayoutLabels;
@@ -257,6 +261,21 @@ namespace InputPrompts
 
 
         #region Tools and Utilities
+
+        /// <summary>
+        /// Without a database nothing can be resolved and every prompt stays blank, which is hard to
+        /// diagnose from the outside. Say it once, loudly enough to be actionable.
+        /// </summary>
+        private static void WarnAboutMissingDatabase()
+        {
+            if (_hasWarnedAboutDatabase)
+                return;
+
+            _hasWarnedAboutDatabase = true;
+            Debug.LogWarning(
+                $"[Input Prompts] No prompt database found at Resources/{ResourcesPath}. Prompts will stay "
+                + "empty until you generate one: Tools > Input Prompts > Dashboard, then Generate.");
+        }
 
         private static bool MatchesStyle(string path, InputDeviceStyle style)
         {

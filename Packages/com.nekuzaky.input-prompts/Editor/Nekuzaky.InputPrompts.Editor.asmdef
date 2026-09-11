@@ -1,11 +1,14 @@
 {
-    "name": "InputPrompts.Runtime",
-    "rootNamespace": "InputPrompts",
+    "name": "Nekuzaky.InputPrompts.Editor",
+    "rootNamespace": "Nekuzaky.InputPrompts.Editor",
     "references": [
+        "Nekuzaky.InputPrompts.Runtime",
         "Unity.InputSystem",
         "Unity.TextMeshPro"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

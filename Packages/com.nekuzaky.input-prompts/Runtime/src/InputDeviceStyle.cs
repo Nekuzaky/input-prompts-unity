@@ -1,4 +1,4 @@
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// Visual family a set of prompt icons belongs to. One <see cref="InputPromptSet"/> per style.

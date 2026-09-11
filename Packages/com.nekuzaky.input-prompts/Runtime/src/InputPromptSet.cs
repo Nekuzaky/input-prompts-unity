@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InputPrompts
+namespace Nekuzaky.InputPrompts
 {
     /// <summary>
     /// All icons for one device family, keyed by control path (see <see cref="ControlPath.ToKey(string)"/>).
