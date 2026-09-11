@@ -10,26 +10,42 @@
 .ip-header {
     flex-direction: row;
     align-items: center;
-    padding: 14px 18px;
+    padding: 12px 16px;
     background-color: rgb(29, 32, 39);
     border-bottom-width: 1px;
     border-bottom-color: rgb(45, 49, 59);
 }
 
+/* min-width 0 lets the block shrink instead of pushing the buttons out of the window. */
 .ip-header__titles {
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ip-header__actions {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .ip-title {
     font-size: 17px;
     color: rgb(233, 236, 243);
     -unity-font-style: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ip-subtitle {
     font-size: 11px;
     color: rgb(139, 146, 162);
     margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* ---------------------------------------------------------------- pills */
@@ -39,9 +55,11 @@
     border-radius: 10px;
     font-size: 11px;
     -unity-font-style: bold;
-    margin-right: 10px;
+    margin-right: 8px;
     background-color: rgb(40, 44, 53);
     color: rgb(190, 196, 209);
+    flex-shrink: 0;
+    -unity-text-align: middle-center;
 }
 
 .ip-pill--ok {
@@ -62,8 +80,12 @@
 /* ---------------------------------------------------------------- buttons */
 
 .ip-button {
-    height: 28px;
-    padding: 0 14px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 26px;
+    padding: 0 12px;
     border-radius: 6px;
     border-width: 1px;
     border-color: rgb(56, 61, 73);
@@ -76,6 +98,12 @@
 .ip-button:hover {
     background-color: rgb(52, 57, 69);
     border-color: rgb(72, 79, 94);
+}
+
+.ip-button__text {
+    -unity-text-align: middle-center;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .ip-button--primary {
@@ -100,11 +128,46 @@
     color: rgb(222, 226, 235);
 }
 
+.ip-button--coffee {
+    background-color: rgba(255, 176, 32, 0.14);
+    border-color: rgba(255, 176, 32, 0.45);
+    color: rgb(255, 196, 92);
+}
+
+.ip-button--coffee:hover {
+    background-color: rgba(255, 176, 32, 0.24);
+    color: rgb(255, 214, 140);
+}
+
+/* ---------------------------------------------------------------- glyphs */
+
+.ip-glyph {
+    font-size: 13px;
+    margin-right: 6px;
+    -unity-text-align: middle-center;
+    flex-shrink: 0;
+}
+
+.ip-glyph--title {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.ip-glyph--texture {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+}
+
+.ip-button .ip-glyph {
+    margin-right: 5px;
+}
+
 /* ---------------------------------------------------------------- layout */
 
 .ip-body {
     flex-grow: 1;
-    padding: 14px;
+    padding: 12px;
 }
 
 .ip-columns {
@@ -126,14 +189,13 @@
     border-color: rgb(45, 49, 59);
     border-radius: 10px;
     margin: 0 6px 12px 6px;
-    padding: 0;
     overflow: hidden;
 }
 
 .ip-card__header {
     flex-direction: row;
     align-items: center;
-    padding: 10px 14px;
+    padding: 9px 12px;
     background-color: rgb(34, 37, 45);
     border-bottom-width: 1px;
     border-bottom-color: rgb(45, 49, 59);
@@ -144,26 +206,35 @@
     -unity-font-style: bold;
     color: rgb(226, 230, 239);
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ip-card__hint {
     font-size: 10px;
     color: rgb(122, 129, 145);
+    flex-shrink: 0;
+    margin-left: 8px;
 }
 
 .ip-card__content {
-    padding: 12px 14px;
+    padding: 10px 12px;
 }
 
 /* ---------------------------------------------------------------- fields */
 
 .ip-field {
     margin-bottom: 8px;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 .ip-field .unity-base-field__label {
-    min-width: 110px;
-    max-width: 150px;
+    min-width: 96px;
+    max-width: 140px;
     flex-shrink: 0;
     color: rgb(168, 175, 190);
     font-size: 11px;
@@ -176,6 +247,7 @@
     border-radius: 5px;
     color: rgb(226, 230, 239);
     padding: 3px 6px;
+    min-width: 0;
 }
 
 .ip-field .unity-base-field__input:focus {
@@ -189,6 +261,8 @@
 
 .ip-row__grow {
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 .ip-note {
@@ -207,7 +281,7 @@
 .ip-device {
     flex-direction: row;
     align-items: center;
-    padding: 7px 8px;
+    padding: 6px 8px;
     border-radius: 6px;
     margin-bottom: 3px;
     background-color: rgb(26, 29, 35);
@@ -226,170 +300,36 @@
 
 .ip-device__badge {
     font-size: 13px;
-    font-size: 14px;
-    margin-right: 8px;
+    flex-shrink: 0;
 }
 
 .ip-device__name {
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
     font-size: 12px;
     color: rgb(226, 230, 239);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ip-device__layout {
     font-size: 10px;
     color: rgb(122, 129, 145);
-    margin-right: 10px;
+    margin-right: 8px;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .ip-device__count {
     font-size: 11px;
     color: rgb(150, 157, 172);
-    min-width: 66px;
-    -unity-text-align: middle-right;
-}
-
-/* ---------------------------------------------------------------- preview */
-
-.ip-preview {
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.ip-tile {
-    width: 78px;
-    align-items: center;
-    padding: 8px 4px;
-    margin: 4px;
-    border-radius: 8px;
-    background-color: rgb(26, 29, 35);
-    border-width: 1px;
-    border-color: rgb(43, 47, 57);
-}
-
-.ip-tile--missing {
-    border-color: rgb(84, 60, 60);
-    background-color: rgba(255, 92, 92, 0.06);
-}
-
-.ip-tile__icon {
-    width: 44px;
-    height: 44px;
-}
-
-.ip-tile__label {
-    font-size: 9px;
-    color: rgb(139, 146, 162);
-    margin-top: 6px;
-    -unity-text-align: middle-center;
-    white-space: normal;
-}
-
-/* ---------------------------------------------------------------- report */
-
-.ip-report {
-    min-height: 120px;
-    max-height: 260px;
-}
-
-.ip-report .unity-base-text-field__input {
-    background-color: rgb(19, 21, 26);
-    border-width: 1px;
-    border-color: rgb(45, 49, 59);
-    border-radius: 6px;
-    color: rgb(168, 175, 190);
-    font-size: 11px;
-}
-
-/* ---------------------------------------------------------------- footer */
-
-.ip-footer {
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    padding: 8px 18px;
-    background-color: rgb(29, 32, 39);
-    border-top-width: 1px;
-    border-top-color: rgb(45, 49, 59);
-}
-
-.ip-footer__text {
-    font-size: 10px;
-    color: rgb(112, 119, 134);
-    flex-grow: 1;
-}
-
-/* ---------------------------------------------------------------- responsive */
-
-.ip-header--compact {
-    flex-wrap: wrap;
-}
-
-.ip-header--compact .ip-header__titles {
-    flex-basis: 100%;
-    margin-bottom: 8px;
-}
-
-.ip-header--compact .ip-button {
-    flex-grow: 1;
-    margin: 0 3px;
-}
-
-.ip-columns--compact .ip-column {
-    flex-basis: 100%;
-    min-width: 0;
-}
-
-.ip-columns--compact .ip-device__layout {
-    display: none;
-}
-
-.ip-button--coffee {
-    background-color: rgba(255, 176, 32, 0.14);
-    border-color: rgba(255, 176, 32, 0.45);
-    color: rgb(255, 196, 92);
-}
-
-.ip-button--coffee:hover {
-    background-color: rgba(255, 176, 32, 0.24);
-    color: rgb(255, 214, 140);
-}
-
-.ip-report__text {
-    flex-grow: 1;
-}
-
-.ip-footer__text {
-    min-width: 180px;
-    margin-bottom: 2px;
-}
-
-/* ---------------------------------------------------------------- glyphs */
-
-.ip-glyph {
-    font-size: 13px;
-    margin-right: 7px;
-    -unity-text-align: middle-center;
+    min-width: 62px;
     flex-shrink: 0;
-}
-
-.ip-glyph--title {
-    font-size: 18px;
-    margin-right: 9px;
-}
-
-.ip-button {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.ip-button .ip-glyph {
-    margin-right: 5px;
-}
-
-.ip-button__text {
-    -unity-text-align: middle-center;
+    -unity-text-align: middle-right;
 }
 
 .ip-badge--KeyboardMouse {
@@ -414,4 +354,133 @@
 
 .ip-badge--Generic {
     color: rgb(130, 137, 152);
+}
+
+/* ---------------------------------------------------------------- preview */
+
+.ip-preview {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ip-tile {
+    width: 74px;
+    align-items: center;
+    padding: 8px 4px;
+    margin: 4px;
+    border-radius: 8px;
+    background-color: rgb(26, 29, 35);
+    border-width: 1px;
+    border-color: rgb(43, 47, 57);
+}
+
+.ip-tile--missing {
+    border-color: rgb(84, 60, 60);
+    background-color: rgba(255, 92, 92, 0.06);
+}
+
+.ip-tile__icon {
+    width: 42px;
+    height: 42px;
+}
+
+.ip-tile__label {
+    font-size: 9px;
+    color: rgb(139, 146, 162);
+    margin-top: 6px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+/* ---------------------------------------------------------------- report */
+
+.ip-report {
+    min-height: 110px;
+    max-height: 240px;
+}
+
+.ip-report__text {
+    flex-grow: 1;
+}
+
+.ip-report .unity-base-text-field__input {
+    background-color: rgb(19, 21, 26);
+    border-width: 1px;
+    border-color: rgb(45, 49, 59);
+    border-radius: 6px;
+    color: rgb(168, 175, 190);
+    font-size: 11px;
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.ip-footer {
+    flex-direction: row;
+    align-items: center;
+    padding: 7px 16px;
+    background-color: rgb(29, 32, 39);
+    border-top-width: 1px;
+    border-top-color: rgb(45, 49, 59);
+}
+
+.ip-footer__text {
+    font-size: 10px;
+    color: rgb(112, 119, 134);
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ip-footer__actions {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------- responsive */
+
+/* Under the breakpoint the header and the footer stack instead of overlapping. */
+.ip-header--compact {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.ip-header--compact .ip-header__actions {
+    margin-top: 10px;
+}
+
+.ip-header--compact .ip-subtitle {
+    display: none;
+}
+
+.ip-header--compact .ip-button {
+    flex-grow: 1;
+    margin: 0 0 0 6px;
+}
+
+.ip-footer--compact {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.ip-footer--compact .ip-footer__text {
+    white-space: normal;
+    margin-bottom: 6px;
+}
+
+.ip-footer--compact .ip-button {
+    flex-grow: 1;
+    margin: 0 0 0 6px;
+}
+
+.ip-columns--compact .ip-column {
+    flex-basis: 100%;
+    min-width: 0;
+}
+
+.ip-columns--compact .ip-device__layout {
+    display: none;
 }

@@ -19,7 +19,6 @@ namespace Nekuzaky.InputPrompts.Editor
             "Packages/com.nekuzaky.input-prompts/Editor/UI/InputPromptDashboard.uss";
 
         private const string RepositoryUrl = "https://github.com/Nekuzaky/input-prompts-unity";
-        private const string GitHubUrl = "https://github.com/Nekuzaky";
         private const string CoffeeUrl = "https://buymeacoffee.com/nekuzaky";
 
         /// <summary>Below this width the two columns stack instead of sitting side by side.</summary>
@@ -47,6 +46,7 @@ namespace Nekuzaky.InputPrompts.Editor
         private Label _statusPill;
         private Label _databaseNote;
         private VisualElement _header;
+        private VisualElement _footer;
         private VisualElement _columns;
         private VisualElement _deviceList;
         private VisualElement _previewGrid;
@@ -132,11 +132,14 @@ namespace Nekuzaky.InputPrompts.Editor
                 "ip-subtitle"));
             header.Add(titles);
 
+            // Pill and buttons share a row of their own, so a narrow window moves the whole block
+            // under the title instead of letting the two overlap.
+            var actions = MakeRow("ip-header__actions");
             _statusPill = MakeLabel("…", "ip-pill");
-            header.Add(_statusPill);
-
-            header.Add(MakeButton("🎬", "▷", "Demo", InputPromptMenu.CreateDemo, "ip-button"));
-            header.Add(MakeButton("⚡", "▶", "Generate", RunGeneration, "ip-button", "ip-button--primary"));
+            actions.Add(_statusPill);
+            actions.Add(MakeButton("🎬", "▷", "Demo", InputPromptMenu.CreateDemo, "ip-button"));
+            actions.Add(MakeButton("⚡", "▶", "Generate", RunGeneration, "ip-button", "ip-button--primary"));
+            header.Add(actions);
 
             return header;
         }
@@ -328,18 +331,19 @@ namespace Nekuzaky.InputPrompts.Editor
         private VisualElement BuildFooter()
         {
             var footer = new VisualElement();
+            _footer = footer;
             footer.AddToClassList("ip-footer");
 
             var version = UnityEditor.PackageManager.PackageInfo.FindForAssembly(GetType().Assembly)?.version;
             footer.Add(MakeLabel($"com.nekuzaky.input-prompts {(version != null ? "v" + version : "(embedded)")}"
                                  + "   ·   icônes Kenney, CC0   ·   0 coroutine, 0 Update", "ip-footer__text"));
 
-            footer.Add(MakeButton("📖", "≡", "Docs", () => Application.OpenURL(RepositoryUrl),
+            var actions = MakeRow("ip-footer__actions");
+            actions.Add(MakeTextureButton("d_TextAsset Icon", "Docs", () => Application.OpenURL(RepositoryUrl),
                 "ip-button", "ip-button--ghost"));
-            footer.Add(MakeButton("🐙", "★", "@Nekuzaky", () => Application.OpenURL(GitHubUrl),
-                "ip-button", "ip-button--ghost"));
-            footer.Add(MakeButton("☕", "♥", "Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
+            actions.Add(MakeButton("☕", "♥", "Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
                 "ip-button", "ip-button--coffee"));
+            footer.Add(actions);
 
             return footer;
         }
@@ -350,6 +354,7 @@ namespace Nekuzaky.InputPrompts.Editor
             var isCompact = evt.newRect.width < CompactWidth;
             _columns?.EnableInClassList("ip-columns--compact", isCompact);
             _header?.EnableInClassList("ip-header--compact", isCompact);
+            _footer?.EnableInClassList("ip-footer--compact", isCompact);
         }
 
         // ------------------------------------------------------------------ refresh
@@ -545,6 +550,31 @@ namespace Nekuzaky.InputPrompts.Editor
                 button.AddToClassList(className);
 
             button.Add(DashboardGlyphs.Icon(emoji, fallback));
+            button.Add(MakeLabel(content, "ip-button__text"));
+            return button;
+        }
+
+        /// <summary>
+        /// A button carrying a built-in editor icon rather than a glyph: the UI font has no book, and
+        /// an icon shipped with the editor always renders.
+        /// </summary>
+        private static Button MakeTextureButton(string iconName, string content, Action action,
+            params string[] classes)
+        {
+            var button = new Button(action);
+            foreach (var className in classes)
+                button.AddToClassList(className);
+
+            var texture = EditorGUIUtility.IconContent(iconName)?.image
+                          ?? EditorGUIUtility.IconContent(iconName.Replace("d_", string.Empty))?.image;
+            if (texture != null)
+            {
+                var icon = new Image { image = texture, scaleMode = ScaleMode.ScaleToFit };
+                icon.AddToClassList("ip-glyph");
+                icon.AddToClassList("ip-glyph--texture");
+                button.Add(icon);
+            }
+
             button.Add(MakeLabel(content, "ip-button__text"));
             return button;
         }
