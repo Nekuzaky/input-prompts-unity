@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -187,8 +188,10 @@ namespace Nekuzaky.InputPrompts
             }
 
             // Family first: whichever binding of the current device family comes first in the action
-            // wins, so a mouse click and a key press do not fight over the same prompt.
-            var index = FindBinding(action, compositePart, MatchesCurrentStyle);
+            // wins, so a mouse click and a key press do not fight over the same prompt. The layouts
+            // are read once here rather than once per binding.
+            var layouts = Database != null ? Database.PreferredLayouts(CurrentStyle) : null;
+            var index = FindBinding(action, compositePart, path => MatchesAnyLayout(path, layouts));
             if (index >= 0)
                 return index;
 
@@ -254,6 +257,10 @@ namespace Nekuzaky.InputPrompts
         /// </summary>
         public static bool MatchesCurrentStyle(string path) => MatchesStyle(path, CurrentStyle);
 
+        /// <summary>True when a device of <paramref name="style"/> can actuate the binding path.</summary>
+        public static bool MatchesStyle(string path, InputDeviceStyle style) =>
+            Database != null && MatchesAnyLayout(path, Database.PreferredLayouts(style));
+
         /// <summary>True when the binding path belongs to the exact device in use.</summary>
         public static bool MatchesCurrentDevice(string path)
         {
@@ -284,12 +291,11 @@ namespace Nekuzaky.InputPrompts
                 + "empty until you generate one: Tools > Input Prompts > Dashboard, then Generate.");
         }
 
-        private static bool MatchesStyle(string path, InputDeviceStyle style)
+        private static bool MatchesAnyLayout(string path, IReadOnlyList<string> layouts)
         {
-            if (Database == null)
+            if (layouts == null)
                 return false;
 
-            var layouts = Database.PreferredLayouts(style);
             for (var i = 0; i < layouts.Count; i++)
             {
                 if (!string.IsNullOrEmpty(layouts[i]) && TargetsLayout(path, layouts[i]))

@@ -45,7 +45,7 @@ settings, per device sets, a live preview of the generated icons and the runtime
 |---|---|
 | **Source** | Pack folder, `Default` (1x) or `Double` (2x) variant, `_outline` icons, coloured face buttons, texture fixing. |
 | **Output** | Where the sets and the demo prefab are written, style used for unknown gamepads, style shown at startup. |
-| **Runtime** | Pointer motion behaviour and keyboard layout labels, written into the database. |
+| **Runtime** | Pointer motion, keyboard layout labels and exact-device resolution, written into the database. |
 | **Devices** | One row per device family: enable it, see its layouts and its icon count, click to preview. |
 | **Preview** | The generated icons for the selected family, and a button to force that style in the editor. |
 | **Report** | What the last generation produced, missing icons included. |
@@ -103,6 +103,7 @@ InputPromptService.GetDisplayString(action);           // "Space", "A", ...
 InputPromptService.SetActiveDevice(device);            // force the device prompts follow (global, single player)
 InputPromptService.PointerMotionSwitchesStyle = true;  // moving the mouse switches back to mouse icons
 InputPromptService.UseKeyboardLayoutLabels = true;     // AZERTY: <Keyboard>/w draws the Z key
+InputPromptService.PreferExactDevice = true;           // follow the exact device, not its family
 InputPromptService.Refresh();                          // after a rebind done by hand
 ```
 
@@ -121,16 +122,19 @@ Set keys are control paths without the device, lower-cased: `space`, `buttonsout
 - On AZERTY, `<Keyboard>/w` draws the **Z** key the player actually has under their fingers.
 - Moving the mouse does not throw the prompts back to keyboard icons until something is clicked.
 - A key with no icon in the pack (F13, oem…) falls back to a blank cap with its name printed on it.
+- Keyboard and mouse are one family: an action bound to both a key and a mouse button keeps a single
+  icon instead of flipping with every input. `PreferExactDevice` restores the per-device behaviour.
 
 ## Tests
 
-Eleven tests drive real devices through the Input System and read back what the package resolves,
+Fifteen tests drive real devices through the Input System and read back what the package resolves,
 instead of trusting it.
 
-Seven EditMode tests cover the service: which style a keyboard, an XInputController or an
+Eleven EditMode tests cover the service: which style a keyboard, an XInputController or an
 unrecognised gamepad selects, that mouse movement alone does not steal the prompts from a gamepad
 while a click does, that an action resolves to the keyboard sprite and then to the gamepad one, and
-that a style change is raised once per switch rather than once per input.
+that a style change is raised once per switch rather than once per input. Three more cover the
+keyboard and mouse family, and one the PreferExactDevice option.
 
 Four PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
 with nothing calling `Refresh`, a composite showing four keys on keyboard and a single stick on

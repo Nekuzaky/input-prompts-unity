@@ -110,6 +110,7 @@ namespace Nekuzaky.InputPrompts
             }
 
             var bindings = action.bindings;
+            var style = InputPromptService.CurrentStyle;
             var hasComposite = false;
 
             for (var i = 0; i < bindings.Count; i++)
@@ -124,7 +125,7 @@ namespace Nekuzaky.InputPrompts
                 if (!bindings[i].isPartOfComposite || !hasComposite)
                     continue;
 
-                if (!InputPromptService.MatchesCurrentStyle(bindings[i].effectivePath))
+                if (!InputPromptService.MatchesStyle(bindings[i].effectivePath, style))
                     continue;
 
                 var name = bindings[i].name;
