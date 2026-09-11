@@ -3,7 +3,7 @@
 [![Unity](https://img.shields.io/badge/Unity-6000.3%2B-2b3038?logo=unity&logoColor=white)](https://unity.com/releases/editor/archive)
 [![Input System](https://img.shields.io/badge/Input%20System-1.14%2B-3a80e8)](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.14/manual/index.html)
 [![Release](https://img.shields.io/github/v/tag/Nekuzaky/input-prompts-unity?label=release&color=3ddc84)](https://github.com/Nekuzaky/input-prompts-unity/tags)
-[![Tests](https://img.shields.io/badge/tests-15%20passing-3ddc84)](#tests)
+[![Tests](https://img.shields.io/badge/tests-16%20passing-3ddc84)](#tests)
 [![License](https://img.shields.io/badge/license-MIT-9aa0ae)](Packages/com.nekuzaky.input-prompts/LICENSE.md)
 
 Unity package that shows the right key or button icon for an `InputAction`, and swaps it on its own
@@ -133,14 +133,15 @@ Set keys are control paths without the device, lower-cased: `space`, `buttonsout
 
 ## Tests
 
-Fifteen tests drive real devices through the Input System and read back what the package resolves,
+Sixteen tests drive real devices through the Input System and read back what the package resolves,
 instead of trusting it.
 
-Eleven EditMode tests cover the service: which style a keyboard, an XInputController or an
+Twelve EditMode tests cover the service: which style a keyboard, an XInputController or an
 unrecognised gamepad selects, that mouse movement alone does not steal the prompts from a gamepad
 while a click does, that an action resolves to the keyboard sprite and then to the gamepad one, and
 that a style change is raised once per switch rather than once per input. Three more cover the
-keyboard and mouse family, and one the PreferExactDevice option.
+keyboard and mouse family, one the PreferExactDevice option, and one checks that applying a binding
+override moves the prompt to the new key on its own.
 
 Four PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
 with nothing calling `Refresh`, a composite showing four keys on keyboard and a single stick on

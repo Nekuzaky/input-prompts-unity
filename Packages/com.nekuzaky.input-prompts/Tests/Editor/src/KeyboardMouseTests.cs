@@ -15,6 +15,7 @@ namespace Nekuzaky.InputPrompts.Tests
 
         private Sprite _keySprite;
         private Sprite _mouseSprite;
+        private Sprite _enterSprite;
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace Nekuzaky.InputPrompts.Tests
 
             _keySprite = MakeSprite();
             _mouseSprite = MakeSprite();
+            _enterSprite = MakeSprite();
 
             var set = ScriptableObject.CreateInstance<InputPromptSet>();
             set.m_style = InputDeviceStyle.KeyboardMouse;
@@ -35,6 +37,7 @@ namespace Nekuzaky.InputPrompts.Tests
             {
                 new() { m_key = "space", m_sprite = _keySprite },
                 new() { m_key = "leftbutton", m_sprite = _mouseSprite },
+                new() { m_key = "enter", m_sprite = _enterSprite },
             });
 
             var database = ScriptableObject.CreateInstance<InputPromptDatabase>();
@@ -139,6 +142,33 @@ namespace Nekuzaky.InputPrompts.Tests
                 InputPromptService.PreferExactDevice = false;
             }
 
+            action.Dispose();
+        }
+
+        [Test]
+        public void A_rebind_moves_the_prompt_to_the_new_key()
+        {
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var action = new InputAction("Jump", binding: "<Keyboard>/space");
+            action.Enable();
+
+            Press(keyboard.spaceKey);
+            Assert.That(InputPromptService.GetSprite(action), Is.SameAs(_keySprite));
+
+            var refreshes = 0;
+            void OnPromptsChanged() => refreshes++;
+            InputPromptService.PromptsChanged += OnPromptsChanged;
+
+            action.ApplyBindingOverride("<Keyboard>/enter");
+
+            InputPromptService.PromptsChanged -= OnPromptsChanged;
+
+            Assert.That(InputPromptService.GetSprite(action), Is.SameAs(_enterSprite),
+                "the prompt must follow the override");
+            Assert.That(refreshes, Is.GreaterThan(0),
+                "live prompts must be told to repaint, without the game calling Refresh");
+
+            action.Disable();
             action.Dispose();
         }
 
