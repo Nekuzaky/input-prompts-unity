@@ -68,3 +68,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 - `Documentation~`: the dashboard card by card, every component field by field, the generated assets,
   the scripting API including rebinding, and how to extend the package with new devices or another
   icon pack.
+
+## [1.3.0] - 2026-09-11
+
+### Changed
+
+- Dashboard icons come from [Bootstrap Icons](https://icons.getbootstrap.com/) (MIT) instead of
+  emoji. Unity imports SVG as `VectorImage`, which UI Toolkit draws natively: the icons stay crisp at
+  any size and are tinted from code, where emoji could not be drawn at all by the editor font.
+- Device rows use a tinted controller or keyboard icon, one colour per family.
+
+### Removed
+
+- The emoji probe and its plain-symbol fallback, now that no glyph depends on a system font.

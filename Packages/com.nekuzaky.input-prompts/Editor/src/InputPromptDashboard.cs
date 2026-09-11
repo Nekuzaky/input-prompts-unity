@@ -19,6 +19,8 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private const float CompactWidth = 760f;
 
+        private static readonly Color AccentColor = new(0.23f, 0.50f, 0.91f);
+
         private static readonly string[] GamepadPreviewKeys =
         {
             "buttonsouth", "buttoneast", "buttonwest", "buttonnorth",
@@ -92,16 +94,16 @@ namespace Nekuzaky.InputPrompts.Editor
             window.Show();
         }
 
-        public static (string emoji, string fallback) BadgeFor(InputDeviceStyle style) => style switch
+        public static (string icon, Color tint) BadgeFor(InputDeviceStyle style) => style switch
         {
-            InputDeviceStyle.KeyboardMouse => ("⌨️", "▤"),
-            InputDeviceStyle.Xbox => ("🟢", "●"),
-            InputDeviceStyle.PlayStation => ("🔵", "●"),
-            InputDeviceStyle.Switch => ("🔴", "●"),
-            InputDeviceStyle.SteamDeck => ("🟣", "●"),
-            InputDeviceStyle.SteamController => ("⚫", "●"),
-            InputDeviceStyle.Touch => ("👆", "◍"),
-            _ => ("⚪", "○"),
+            InputDeviceStyle.KeyboardMouse => (DashboardGlyphs.Keyboard, new Color(0.67f, 0.70f, 0.76f)),
+            InputDeviceStyle.Xbox => (DashboardGlyphs.Controller, new Color(0.24f, 0.77f, 0.38f)),
+            InputDeviceStyle.PlayStation => (DashboardGlyphs.Controller, new Color(0.30f, 0.55f, 0.94f)),
+            InputDeviceStyle.Switch => (DashboardGlyphs.Controller, new Color(0.91f, 0.31f, 0.31f)),
+            InputDeviceStyle.SteamDeck => (DashboardGlyphs.Controller, new Color(0.66f, 0.44f, 0.91f)),
+            InputDeviceStyle.SteamController => (DashboardGlyphs.Controller, new Color(0.55f, 0.58f, 0.65f)),
+            InputDeviceStyle.Touch => (DashboardGlyphs.Mouse, new Color(0.67f, 0.70f, 0.76f)),
+            _ => (DashboardGlyphs.Ring, new Color(0.51f, 0.54f, 0.60f)),
         };
 
         #endregion
@@ -119,7 +121,7 @@ namespace Nekuzaky.InputPrompts.Editor
             titles.AddToClassList("ip-header__titles");
 
             var titleRow = MakeRow();
-            titleRow.Add(DashboardGlyphs.Icon("🎮", "◆", "ip-glyph--title"));
+            titleRow.Add(DashboardGlyphs.Icon(DashboardGlyphs.Controller, AccentColor, "ip-glyph--title"));
             titleRow.Add(MakeLabel("Input Prompts", "ip-title"));
             titles.Add(titleRow);
             titles.Add(MakeLabel("Key and button icons that follow the device the player is using",
@@ -129,8 +131,8 @@ namespace Nekuzaky.InputPrompts.Editor
             var actions = MakeRow("ip-header__actions");
             _statusPill = MakeLabel("…", "ip-pill");
             actions.Add(_statusPill);
-            actions.Add(MakeButton("🎬", "▷", "Demo", InputPromptMenu.CreateDemo, "ip-button"));
-            actions.Add(MakeButton("⚡", "▶", "Generate", RunGeneration, "ip-button", "ip-button--primary"));
+            actions.Add(MakeButton(DashboardGlyphs.Demo, "Demo", InputPromptMenu.CreateDemo, "ip-button"));
+            actions.Add(MakeButton(DashboardGlyphs.Generate, "Generate", RunGeneration, "ip-button", "ip-button--primary"));
             header.Add(actions);
 
             return header;
@@ -166,7 +168,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildSourceCard()
         {
-            var card = MakeCard("📁", "▤", "Source", "Kenney pack", out var content);
+            var card = MakeCard(DashboardGlyphs.Source, "Source", "Kenney pack", out var content);
 
             content.Add(MakeFolderField("Pack folder", _settings.m_packFolder, value =>
             {
@@ -209,7 +211,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildOutputCard()
         {
-            var card = MakeCard("💾", "▣", "Output", "Generated assets", out var content);
+            var card = MakeCard(DashboardGlyphs.Output, "Output", "Generated assets", out var content);
 
             content.Add(MakeFolderField("Prompt sets", _settings.m_outputFolder, value =>
             {
@@ -241,8 +243,8 @@ namespace Nekuzaky.InputPrompts.Editor
             content.Add(_databaseNote);
 
             var actions = MakeRow();
-            actions.Add(MakeButton("🔍", "→", "Ping database", PingDatabase, "ip-button", "ip-button--ghost"));
-            actions.Add(MakeButton("♻️", "↻", "Reload", RefreshAll, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton(DashboardGlyphs.Ping, "Ping database", PingDatabase, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton(DashboardGlyphs.Reload, "Reload", RefreshAll, "ip-button", "ip-button--ghost"));
             content.Add(actions);
 
             return card;
@@ -250,7 +252,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildRuntimeCard()
         {
-            var card = MakeCard("🔧", "⚙", "Runtime", "Written into the database", out var content);
+            var card = MakeCard(DashboardGlyphs.Runtime, "Runtime", "Written into the database", out var content);
 
             content.Add(MakeToggle("Pointer motion switches style", _settings.m_pointerMotionSwitchesStyle, value =>
             {
@@ -284,7 +286,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildDevicesCard()
         {
-            var card = MakeCard("🎛️", "◈", "Devices", "Click to preview", out var content);
+            var card = MakeCard(DashboardGlyphs.Devices, "Devices", "Click to preview", out var content);
 
             _deviceList = new VisualElement();
             content.Add(_deviceList);
@@ -295,7 +297,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildPreviewCard()
         {
-            var card = MakeCard("🎨", "◐", "Preview", "Generated icons", out var content);
+            var card = MakeCard(DashboardGlyphs.Preview, "Preview", "Generated icons", out var content);
 
             _previewTitle = MakeLabel(string.Empty, "ip-card__hint");
             content.Add(_previewTitle);
@@ -305,8 +307,8 @@ namespace Nekuzaky.InputPrompts.Editor
             content.Add(_previewGrid);
 
             var actions = MakeRow();
-            actions.Add(MakeButton("👁️", "◉", "Force this style", ForcePreviewStyle, "ip-button", "ip-button--ghost"));
-            actions.Add(MakeButton("🔄", "↺", "Follow device", ClearPreviewStyle, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton(DashboardGlyphs.Eye, "Force this style", ForcePreviewStyle, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton(DashboardGlyphs.Follow, "Follow device", ClearPreviewStyle, "ip-button", "ip-button--ghost"));
             content.Add(actions);
 
             return card;
@@ -314,7 +316,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         private VisualElement BuildReportCard()
         {
-            var card = MakeCard("📊", "≡", "Report", "Last generation", out var content);
+            var card = MakeCard(DashboardGlyphs.Report, "Report", "Last generation", out var content);
             card.style.marginLeft = 6;
             card.style.marginRight = 6;
 
@@ -340,9 +342,9 @@ namespace Nekuzaky.InputPrompts.Editor
                                  + "   ·   Kenney icons, CC0   ·   0 coroutines, 0 Update", "ip-footer__text"));
 
             var actions = MakeRow("ip-footer__actions");
-            actions.Add(MakeTextureButton("d_TextAsset Icon", "Docs", () => Application.OpenURL(RepositoryUrl),
+            actions.Add(MakeButton(DashboardGlyphs.Docs, "Docs", () => Application.OpenURL(RepositoryUrl),
                 "ip-button", "ip-button--ghost"));
-            actions.Add(MakeButton("☕", "♥", "Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
+            actions.Add(MakeButton(DashboardGlyphs.Coffee, "Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
                 "ip-button", "ip-button--coffee"));
             footer.Add(actions);
 
@@ -423,8 +425,8 @@ namespace Nekuzaky.InputPrompts.Editor
             });
             row.Add(toggle);
 
-            var (emoji, fallback) = BadgeFor(style);
-            row.Add(DashboardGlyphs.Icon(emoji, fallback, "ip-device__badge", $"ip-badge--{style}"));
+            var (icon, tint) = BadgeFor(style);
+            row.Add(DashboardGlyphs.Icon(icon, tint, "ip-device__badge"));
             row.Add(MakeLabel(ObjectNames.NicifyVariableName(style.ToString()), "ip-device__name"));
 
             var layouts = KenneyNameTable.LayoutsFor(style);
@@ -538,35 +540,14 @@ namespace Nekuzaky.InputPrompts.Editor
             return label;
         }
 
-        private static Button MakeButton(string emoji, string fallback, string content, Action action,
+        private static Button MakeButton(string iconName, string content, Action action,
             params string[] classes)
         {
             var button = new Button(action);
             foreach (var className in classes)
                 button.AddToClassList(className);
 
-            button.Add(DashboardGlyphs.Icon(emoji, fallback));
-            button.Add(MakeLabel(content, "ip-button__text"));
-            return button;
-        }
-
-        private static Button MakeTextureButton(string iconName, string content, Action action,
-            params string[] classes)
-        {
-            var button = new Button(action);
-            foreach (var className in classes)
-                button.AddToClassList(className);
-
-            var texture = EditorGUIUtility.IconContent(iconName)?.image
-                          ?? EditorGUIUtility.IconContent(iconName.Replace("d_", string.Empty))?.image;
-            if (texture != null)
-            {
-                var icon = new Image { image = texture, scaleMode = ScaleMode.ScaleToFit };
-                icon.AddToClassList("ip-glyph");
-                icon.AddToClassList("ip-glyph--texture");
-                button.Add(icon);
-            }
-
+            button.Add(DashboardGlyphs.Icon(iconName));
             button.Add(MakeLabel(content, "ip-button__text"));
             return button;
         }
@@ -580,7 +561,7 @@ namespace Nekuzaky.InputPrompts.Editor
             return row;
         }
 
-        private static VisualElement MakeCard(string emoji, string fallback, string title, string hint,
+        private static VisualElement MakeCard(string iconName, string title, string hint,
             out VisualElement content)
         {
             var card = new VisualElement();
@@ -588,7 +569,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
             var header = new VisualElement();
             header.AddToClassList("ip-card__header");
-            header.Add(DashboardGlyphs.Icon(emoji, fallback));
+            header.Add(DashboardGlyphs.Icon(iconName));
             header.Add(MakeLabel(title, "ip-card__title"));
             header.Add(MakeLabel(hint, "ip-card__hint"));
             card.Add(header);
@@ -610,7 +591,7 @@ namespace Nekuzaky.InputPrompts.Editor
             field.RegisterValueChangedCallback(evt => onChanged(evt.newValue));
             row.Add(field);
 
-            row.Add(MakeButton("📂", "…", string.Empty, () =>
+            row.Add(MakeButton(DashboardGlyphs.Browse, string.Empty, () =>
             {
                 var picked = EditorUtility.OpenFolderPanel(label, Application.dataPath, string.Empty);
                 if (string.IsNullOrEmpty(picked) || !picked.StartsWith(Application.dataPath))

@@ -1,6 +1,13 @@
-MIT License
+# Bootstrap Icons
 
-Copyright (c) 2026 Nekuzaky
+The SVG files in this folder come from [Bootstrap Icons](https://icons.getbootstrap.com/),
+by the Bootstrap Authors, released under the MIT licence. Their `fill` attribute was changed from
+`currentColor` to `#ffffff` so the dashboard can tint them.
+
+```
+The MIT License (MIT)
+
+Copyright (c) 2019-2024 The Bootstrap Authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,10 +26,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-The Kenney "Input Prompts" icons are not part of this package. They are distributed
-separately by Kenney under the CC0 licence, and the copy kept in this repository for the
-sample project stays under that licence.
-
-The dashboard icons come from Bootstrap Icons, by the Bootstrap Authors, under the MIT licence.
-See Editor/UI/Icons/LICENSE.md.
+```
