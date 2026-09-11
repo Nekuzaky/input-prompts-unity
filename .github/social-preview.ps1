@@ -20,8 +20,6 @@ $grad = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
     90)
 $g.FillRectangle($grad, $rect)
 
-$accent = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(58, 128, 232))
-$g.FillRectangle($accent, (New-Object System.Drawing.Rectangle(0, 0, $W, 6)))
 
 # One icon per family, picked so no two read the same at a glance.
 $icons = @(
