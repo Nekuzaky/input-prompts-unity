@@ -5,6 +5,7 @@
         "Nekuzaky.InputPrompts.Runtime",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
+        "Unity.TextMeshPro",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

@@ -134,3 +134,29 @@ ControlPath.ToKey("<Keyboard>/space");        // "space"
 ControlPath.LayoutOf("<Gamepad>/buttonSouth") // "Gamepad"
 ControlPath.MatchesDevice(path, device);      // can that device actuate that path
 ```
+
+## Inline icons in TextMeshPro
+
+```csharp
+TMP_SpriteAsset atlas = InputPromptService.CurrentSpriteAsset;   // family in use, null when none
+string name = InputPromptService.GetSpriteName(action);          // "space", "leftstick_up", null
+```
+
+`InputPromptText` uses both: it assigns the atlas to the text component, then writes
+`<sprite name="space">` for each token. Doing it by hand takes the same two calls.
+
+Sprite names are control keys with slashes turned into underscores, because a `<sprite>` tag cannot
+hold a slash. `ControlPath.ToSpriteName` performs that conversion.
+
+## Rebinding, with the component
+
+`InputPromptRebindButton` covers the usual flow. What it is built on:
+
+```csharp
+RebindConflict conflict = RebindConflicts.Find(action, bindingIndex);   // across the whole asset
+RebindConflicts.Swap(conflict, previousPath);                          // give the other one this path
+
+RebindStore.Save(actions);                                             // PlayerPrefs
+RebindStore.Load(actions);
+RebindStore.Clear(actions);
+```

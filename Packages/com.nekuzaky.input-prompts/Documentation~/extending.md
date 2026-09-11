@@ -83,8 +83,5 @@ service into per-player instances, which changes the whole API — a fork, not a
 
 ## What is deliberately absent
 
-- No rebinding UI. Build it on `PerformInteractiveRebinding`; the prompts follow by themselves, see
-  [scripting.md](scripting.md).
-- No TextMeshPro sprite tags. `InputPromptText` substitutes control names, not inline icons.
 - No UI Toolkit or SpriteRenderer components. `InputPromptService` returns plain `Sprite` objects, so
   either is a small component to write against the same API.

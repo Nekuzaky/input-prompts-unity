@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Nekuzaky.InputPrompts
@@ -22,6 +23,9 @@ namespace Nekuzaky.InputPrompts
 
         [Tooltip("When a key is missing here, look it up in this set instead.")]
         public InputPromptSet m_fallback;
+
+        [Tooltip("Generated sprite asset holding the same icons, for inline <sprite> tags in TextMeshPro.")]
+        public TMP_SpriteAsset m_spriteAsset;
 
         #endregion
 

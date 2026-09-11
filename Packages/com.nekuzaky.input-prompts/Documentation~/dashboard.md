@@ -29,6 +29,7 @@ What to read, and how.
 | **Outline icons** | Uses the `_outline` variant of every icon that has one. |
 | **Coloured face buttons** | Xbox A/B/X/Y and PlayStation cross/circle/square/triangle in brand colours instead of monochrome. |
 | **Fix texture settings** | Sets every PNG of the used folders to Sprite, no mipmaps, clamped, alpha is transparency. One reimport for the whole pack. |
+| **TMP sprite assets** | Builds one TextMeshPro sprite asset per family, packing its icons into an atlas, for inline `<sprite>` tags. |
 
 ## Output
 

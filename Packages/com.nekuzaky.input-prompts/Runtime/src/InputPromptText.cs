@@ -23,6 +23,10 @@ namespace Nekuzaky.InputPrompts
         [TextArea]
         [SerializeField] private string _format = "Press {Player/Jump} to jump";
 
+        [Tooltip("Draw the icon inline with a <sprite> tag. Falls back to the control name when the "
+                 + "family has no sprite asset or no icon for that control.")]
+        [SerializeField] private bool _useIcons = true;
+
         private readonly StringBuilder _builder = new();
 
         #endregion
@@ -85,6 +89,13 @@ namespace Nekuzaky.InputPrompts
 
             _builder.Clear();
 
+            if (_useIcons)
+            {
+                var spriteAsset = InputPromptService.CurrentSpriteAsset;
+                if (spriteAsset != null)
+                    _target.spriteAsset = spriteAsset;
+            }
+
             for (var i = 0; i < _format.Length; i++)
             {
                 if (_format[i] != '{')
@@ -128,6 +139,13 @@ namespace Nekuzaky.InputPrompts
             var action = _actions.FindAction(token, throwIfNotFound: false);
             if (action == null)
                 return token;
+
+            if (_useIcons)
+            {
+                var sprite = InputPromptService.GetSpriteName(action, part);
+                if (!string.IsNullOrEmpty(sprite))
+                    return $"<sprite name=\"{sprite}\">";
+            }
 
             var display = InputPromptService.GetDisplayString(action, part);
             return string.IsNullOrEmpty(display) ? token : display;

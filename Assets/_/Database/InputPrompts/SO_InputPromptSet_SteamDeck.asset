@@ -17,6 +17,7 @@ MonoBehaviour:
   - SteamDeckGamepad
   m_blankSprite: {fileID: -6346413941877168446, guid: 04c43870a8fe65e44a6d92a894807d73, type: 3}
   m_fallback: {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: 6d8a70c4856923741933ab1779b6d563, type: 2}
   _entries:
   - m_key: a
     m_sprite: {fileID: -6346413941877168446, guid: 04c43870a8fe65e44a6d92a894807d73, type: 3}

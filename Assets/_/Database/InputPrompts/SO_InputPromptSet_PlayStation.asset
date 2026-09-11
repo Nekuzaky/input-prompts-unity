@@ -17,6 +17,7 @@ MonoBehaviour:
   - DualShockGamepad
   m_blankSprite: {fileID: -6374843167259989680, guid: 41e20f1d4095c1f46aa6c0276c1a96cf, type: 3}
   m_fallback: {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: c82d0225a31e29349b7c0503b936c456, type: 2}
   _entries:
   - m_key: a
     m_sprite: {fileID: -8765976750552961858, guid: b55dab449156cb64883192d8d5abbf5a, type: 3}

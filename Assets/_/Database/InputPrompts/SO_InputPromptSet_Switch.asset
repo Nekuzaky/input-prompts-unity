@@ -17,6 +17,7 @@ MonoBehaviour:
   - SwitchProControllerHID
   m_blankSprite: {fileID: -679083064054180673, guid: 0cdf2444d43feaf40895577fc2251a30, type: 3}
   m_fallback: {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: f4d4938fad44c7f4a9f5e63cb47ca213, type: 2}
   _entries:
   - m_key: a
     m_sprite: {fileID: -679083064054180673, guid: 0cdf2444d43feaf40895577fc2251a30, type: 3}

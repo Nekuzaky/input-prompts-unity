@@ -13,6 +13,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         public const string DatabaseName = "SO_InputPromptDatabase";
         public const string SetPrefix = "SO_InputPromptSet_";
+        public const string SpriteAssetPrefix = "SO_InputPromptSprites_";
 
         public static readonly InputDeviceStyle[] SupportedStyles =
         {
@@ -144,6 +145,10 @@ namespace Nekuzaky.InputPrompts.Editor
             set.m_layouts = KenneyNameTable.LayoutsFor(style);
             set.m_blankSprite = LoadSprite(settings, folder, KenneyNameTable.BlankFor(style));
             set.SetEntries(entries);
+
+            if (settings.m_generateSpriteAssets)
+                set.m_spriteAsset = SpriteAssetBuilder.Build(set, settings.SpriteAssetPathFor(style));
+
             EditorUtility.SetDirty(set);
 
             result.m_icons += entries.Count;

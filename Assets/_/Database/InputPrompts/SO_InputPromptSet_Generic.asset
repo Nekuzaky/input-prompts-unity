@@ -17,6 +17,7 @@ MonoBehaviour:
   - Gamepad
   m_blankSprite: {fileID: -1174372049167162128, guid: 34269d62213c78e4e8c22ecd161cb41a, type: 3}
   m_fallback: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 9c6d65451e98ded459d61d996e523aab, type: 2}
   _entries:
   - m_key: buttoneast
     m_sprite: {fileID: -4281936688644834369, guid: c32735d62a4404a48a4ee03ceb6c84d6, type: 3}

@@ -17,6 +17,7 @@ MonoBehaviour:
   - XInputController
   m_blankSprite: {fileID: 1536610985664812233, guid: 9e0bb41cb1b8ab24c96ee48e641a970b, type: 3}
   m_fallback: {fileID: 11400000, guid: 6196296ecfd261c49b7e2ae642d56e50, type: 2}
+  m_spriteAsset: {fileID: 11400000, guid: e9860e546de61b341b7fec59f8098d4c, type: 2}
   _entries:
   - m_key: a
     m_sprite: {fileID: 1536610985664812233, guid: 9e0bb41cb1b8ab24c96ee48e641a970b, type: 3}

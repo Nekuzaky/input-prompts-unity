@@ -89,3 +89,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 - `circle-fill.svg` and the `DashboardGlyphs.Dot` constant, shipped in 1.3.0 without ever being used.
 - `InputPromptDashboard.BadgeFor` is private again. It was public by accident, and 1.3.0 changed its
   signature, so any caller was already broken; nothing else in the package used it.
+
+## [1.4.0] - 2026-09-11
+
+### Added
+
+- Inline icons in TextMeshPro. The importer builds one `TMP_SpriteAsset` per device family, packing
+  the icons of that family into an atlas, and `InputPromptText` renders a token as a `<sprite>` tag
+  that follows the device. It falls back to the control name when the family has no icon, and the
+  whole thing can be turned off per component or in the dashboard.
+- `InputPromptRebindButton`: listens for the next input, cancels on Escape, keeps the mouse out of
+  the way, and shows the current control through an `InputPromptIcon`.
+- `RebindConflicts`: duplicate detection across the whole action asset, with three policies —
+  allow the duplicate, reject the new binding, or swap the two so no action is left unbound.
+- `RebindStore`: save, load and clear binding overrides through PlayerPrefs.
+- `InputPromptService.CurrentSpriteAsset` and `GetSpriteName`, plus `ControlPath.ToSpriteName`.

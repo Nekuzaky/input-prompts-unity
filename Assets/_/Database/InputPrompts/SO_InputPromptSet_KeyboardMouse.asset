@@ -18,6 +18,7 @@ MonoBehaviour:
   - Mouse
   m_blankSprite: {fileID: 1084870471915973256, guid: 15df7f857cd053749ad086770836049c, type: 3}
   m_fallback: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 05e9a67c8175e244891a685a8ad5debb, type: 2}
   _entries:
   - m_key: 0
     m_sprite: {fileID: -298569682275349766, guid: 1752143206bed9b4a8196f2aa5664e17, type: 3}

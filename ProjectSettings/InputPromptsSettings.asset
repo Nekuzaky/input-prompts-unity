@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 53
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7921c2232ad755b428bf5e82fa664145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Nekuzaky.InputPrompts.Editor::Nekuzaky.InputPrompts.Editor.InputPromptSettings
+  m_packFolder: Assets/Sprites/input-prompts
+  m_outputFolder: Assets/_/Database/InputPrompts
+  m_prefabFolder: Assets/_/Content/InputPrompts
+  m_variant: 0
+  m_outlineIcons: 0
+  m_coloredFaceButtons: 1
+  m_applyTextureSettings: 1
+  m_generateSpriteAssets: 1
+  m_gamepadFallbackStyle: 2
+  m_defaultStyle: 1
+  m_pointerMotionSwitchesStyle: 0
+  m_useKeyboardLayoutLabels: 1
+  m_preferExactDevice: 0
+  m_disabledStyles: 

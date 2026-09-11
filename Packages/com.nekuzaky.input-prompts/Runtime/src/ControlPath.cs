@@ -26,6 +26,9 @@ namespace Nekuzaky.InputPrompts
 
         public static string ToKey(InputControl control) => control == null ? null : ToKey(control.path);
 
+        public static string ToSpriteName(string key) =>
+            string.IsNullOrEmpty(key) ? null : key.Replace("/", "_");
+
         public static string LayoutOf(string path)
         {
             if (string.IsNullOrEmpty(path) || path[0] != '<')

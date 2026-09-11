@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -63,6 +64,8 @@ namespace Nekuzaky.InputPrompts
                 return Database.GetSet(_activeDevice);
             }
         }
+
+        public static TMP_SpriteAsset CurrentSpriteAsset => CurrentSet != null ? CurrentSet.m_spriteAsset : null;
 
 #if UNITY_EDITOR
         public static InputDeviceStyle? EditorPreviewStyle { get; set; }
@@ -208,6 +211,20 @@ namespace Nekuzaky.InputPrompts
         {
             var index = ResolveBindingIndex(action, compositePart);
             return index < 0 ? string.Empty : GetDisplayString(action, index);
+        }
+
+        public static string GetSpriteName(InputAction action, string compositePart = null)
+        {
+            var index = ResolveBindingIndex(action, compositePart);
+            if (index < 0)
+                return null;
+
+            var set = CurrentSet;
+            if (set == null || set.m_spriteAsset == null)
+                return null;
+
+            var key = KeyForPath(action.bindings[index].effectivePath);
+            return key != null && set.Contains(key) ? ControlPath.ToSpriteName(key) : null;
         }
 
         public static string GetDisplayString(InputAction action, int bindingIndex) =>

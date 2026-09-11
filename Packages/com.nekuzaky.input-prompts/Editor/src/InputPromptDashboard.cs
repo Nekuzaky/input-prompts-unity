@@ -203,6 +203,12 @@ namespace Nekuzaky.InputPrompts.Editor
                 _settings.SaveSettings();
             }));
 
+            content.Add(MakeToggle("TMP sprite assets", _settings.m_generateSpriteAssets, value =>
+            {
+                _settings.m_generateSpriteAssets = value;
+                _settings.SaveSettings();
+            }));
+
             content.Add(MakeLabel("Default = 1x, Double = 2x. Settings are shared through ProjectSettings.",
                 "ip-note"));
 
