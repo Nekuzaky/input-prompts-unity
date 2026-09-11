@@ -1,5 +1,11 @@
 # Input Prompts
 
+[![Unity](https://img.shields.io/badge/Unity-6000.3%2B-2b3038?logo=unity&logoColor=white)](https://unity.com/releases/editor/archive)
+[![Input System](https://img.shields.io/badge/Input%20System-1.14%2B-3a80e8)](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.14/manual/index.html)
+[![Release](https://img.shields.io/github/v/tag/Nekuzaky/input-prompts-unity?label=release&color=3ddc84)](https://github.com/Nekuzaky/input-prompts-unity/tags)
+[![Tests](https://img.shields.io/badge/tests-15%20passing-3ddc84)](#tests)
+[![License](https://img.shields.io/badge/license-MIT-9aa0ae)](Packages/com.nekuzaky.input-prompts/LICENSE.md)
+
 Unity package that shows the right key or button icon for an `InputAction`, and swaps it on its own
 when the player switches device — keyboard to gamepad, Xbox to DualSense, and back.
 Icons come from the [Kenney — Input Prompts](https://kenney.nl/assets/input-prompts) pack (CC0).
