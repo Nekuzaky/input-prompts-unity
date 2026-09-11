@@ -77,14 +77,6 @@ namespace InputPrompts.Editor
             RefreshAll();
         }
 
-        /// <summary>Stacks the layout when the window is too narrow for two columns.</summary>
-        private void OnGeometryChanged(GeometryChangedEvent evt)
-        {
-            var isCompact = evt.newRect.width < CompactWidth;
-            _columns?.EnableInClassList("ip-columns--compact", isCompact);
-            _header?.EnableInClassList("ip-header--compact", isCompact);
-        }
-
         private void OnFocus()
         {
             if (_deviceList != null)
@@ -105,17 +97,17 @@ namespace InputPrompts.Editor
             window.Show();
         }
 
-        /// <summary>Emoji badge standing in for the device family, brand colour included.</summary>
-        public static string BadgeFor(InputDeviceStyle style) => style switch
+        /// <summary>Emoji standing in for a device family, with a plain symbol for machines without emoji.</summary>
+        public static (string emoji, string fallback) BadgeFor(InputDeviceStyle style) => style switch
         {
-            InputDeviceStyle.KeyboardMouse => "⌨️",
-            InputDeviceStyle.Xbox => "🟢",
-            InputDeviceStyle.PlayStation => "🔵",
-            InputDeviceStyle.Switch => "🔴",
-            InputDeviceStyle.SteamDeck => "🟣",
-            InputDeviceStyle.SteamController => "⚫",
-            InputDeviceStyle.Touch => "👆",
-            _ => "⚪",
+            InputDeviceStyle.KeyboardMouse => ("⌨️", "▤"),
+            InputDeviceStyle.Xbox => ("🟢", "●"),
+            InputDeviceStyle.PlayStation => ("🔵", "●"),
+            InputDeviceStyle.Switch => ("🔴", "●"),
+            InputDeviceStyle.SteamDeck => ("🟣", "●"),
+            InputDeviceStyle.SteamController => ("⚫", "●"),
+            InputDeviceStyle.Touch => ("👆", "◍"),
+            _ => ("⚪", "○"),
         };
 
         #endregion
@@ -131,15 +123,20 @@ namespace InputPrompts.Editor
 
             var titles = new VisualElement();
             titles.AddToClassList("ip-header__titles");
-            titles.Add(MakeLabel("🎮  Input Prompts", "ip-title"));
-            titles.Add(MakeLabel("Icônes de touches et de boutons qui suivent le périphérique du joueur", "ip-subtitle"));
+
+            var titleRow = MakeRow();
+            titleRow.Add(DashboardGlyphs.Icon("🎮", "◆", "ip-glyph--title"));
+            titleRow.Add(MakeLabel("Input Prompts", "ip-title"));
+            titles.Add(titleRow);
+            titles.Add(MakeLabel("Icônes de touches et de boutons qui suivent le périphérique du joueur",
+                "ip-subtitle"));
             header.Add(titles);
 
             _statusPill = MakeLabel("…", "ip-pill");
             header.Add(_statusPill);
 
-            header.Add(MakeButton("🎬  Demo", InputPromptMenu.CreateDemo, "ip-button"));
-            header.Add(MakeButton("⚡  Generate", RunGeneration, "ip-button", "ip-button--primary"));
+            header.Add(MakeButton("🎬", "▷", "Demo", InputPromptMenu.CreateDemo, "ip-button"));
+            header.Add(MakeButton("⚡", "▶", "Generate", RunGeneration, "ip-button", "ip-button--primary"));
 
             return header;
         }
@@ -174,7 +171,7 @@ namespace InputPrompts.Editor
 
         private VisualElement BuildSourceCard()
         {
-            var card = MakeCard("📁  Source", "Pack Kenney", out var content);
+            var card = MakeCard("📁", "▤", "Source", "Pack Kenney", out var content);
 
             content.Add(MakeFolderField("Pack folder", _settings.m_packFolder, value =>
             {
@@ -217,7 +214,7 @@ namespace InputPrompts.Editor
 
         private VisualElement BuildOutputCard()
         {
-            var card = MakeCard("💾  Output", "Assets générés", out var content);
+            var card = MakeCard("💾", "▣", "Output", "Assets générés", out var content);
 
             content.Add(MakeFolderField("Prompt sets", _settings.m_outputFolder, value =>
             {
@@ -243,8 +240,8 @@ namespace InputPrompts.Editor
             content.Add(_databaseNote);
 
             var actions = MakeRow();
-            actions.Add(MakeButton("🔍  Ping database", PingDatabase, "ip-button", "ip-button--ghost"));
-            actions.Add(MakeButton("♻️  Reload", RefreshAll, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton("🔍", "→", "Ping database", PingDatabase, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton("♻️", "↻", "Reload", RefreshAll, "ip-button", "ip-button--ghost"));
             content.Add(actions);
 
             return card;
@@ -252,7 +249,7 @@ namespace InputPrompts.Editor
 
         private VisualElement BuildRuntimeCard()
         {
-            var card = MakeCard("🔧  Runtime", "Écrit dans la database", out var content);
+            var card = MakeCard("🔧", "⚙", "Runtime", "Écrit dans la database", out var content);
 
             content.Add(MakeToggle("Pointer motion switches style", _settings.m_pointerMotionSwitchesStyle, value =>
             {
@@ -277,7 +274,7 @@ namespace InputPrompts.Editor
 
         private VisualElement BuildDevicesCard()
         {
-            var card = MakeCard("🎛️  Devices", "Clic = aperçu", out var content);
+            var card = MakeCard("🎛️", "◈", "Devices", "Clic = aperçu", out var content);
 
             _deviceList = new VisualElement();
             content.Add(_deviceList);
@@ -288,7 +285,7 @@ namespace InputPrompts.Editor
 
         private VisualElement BuildPreviewCard()
         {
-            var card = MakeCard("🎨  Preview", "Icônes générées", out var content);
+            var card = MakeCard("🎨", "◐", "Preview", "Icônes générées", out var content);
 
             _previewTitle = MakeLabel(string.Empty, "ip-card__hint");
             content.Add(_previewTitle);
@@ -298,8 +295,8 @@ namespace InputPrompts.Editor
             content.Add(_previewGrid);
 
             var actions = MakeRow();
-            actions.Add(MakeButton("👁️  Force this style in the editor", ForcePreviewStyle, "ip-button", "ip-button--ghost"));
-            actions.Add(MakeButton("🔄  Follow device", ClearPreviewStyle, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton("👁️", "◉", "Force this style", ForcePreviewStyle, "ip-button", "ip-button--ghost"));
+            actions.Add(MakeButton("🔄", "↺", "Follow device", ClearPreviewStyle, "ip-button", "ip-button--ghost"));
             content.Add(actions);
 
             return card;
@@ -307,7 +304,7 @@ namespace InputPrompts.Editor
 
         private VisualElement BuildReportCard()
         {
-            var card = MakeCard("📊  Report", "Dernière génération", out var content);
+            var card = MakeCard("📊", "≡", "Report", "Dernière génération", out var content);
             card.style.marginLeft = 6;
             card.style.marginRight = 6;
 
@@ -331,14 +328,22 @@ namespace InputPrompts.Editor
             footer.Add(MakeLabel($"com.nekuzaky.input-prompts {(version != null ? "v" + version : "(embedded)")}"
                                  + "   ·   icônes Kenney, CC0   ·   0 coroutine, 0 Update", "ip-footer__text"));
 
-            footer.Add(MakeButton("📖  Docs", () => Application.OpenURL(RepositoryUrl),
+            footer.Add(MakeButton("📖", "≡", "Docs", () => Application.OpenURL(RepositoryUrl),
                 "ip-button", "ip-button--ghost"));
-            footer.Add(MakeButton("🐙  @Nekuzaky", () => Application.OpenURL(GitHubUrl),
+            footer.Add(MakeButton("🐙", "★", "@Nekuzaky", () => Application.OpenURL(GitHubUrl),
                 "ip-button", "ip-button--ghost"));
-            footer.Add(MakeButton("☕  Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
+            footer.Add(MakeButton("☕", "♥", "Buy me a coffee", () => Application.OpenURL(CoffeeUrl),
                 "ip-button", "ip-button--coffee"));
 
             return footer;
+        }
+
+        /// <summary>Stacks the layout when the window is too narrow for two columns.</summary>
+        private void OnGeometryChanged(GeometryChangedEvent evt)
+        {
+            var isCompact = evt.newRect.width < CompactWidth;
+            _columns?.EnableInClassList("ip-columns--compact", isCompact);
+            _header?.EnableInClassList("ip-header--compact", isCompact);
         }
 
         // ------------------------------------------------------------------ refresh
@@ -361,17 +366,17 @@ namespace InputPrompts.Editor
 
             if (!packExists)
             {
-                _statusPill.text = "❌  Pack introuvable";
+                _statusPill.text = "Pack introuvable";
                 _statusPill.AddToClassList("ip-pill--error");
             }
             else if (database == null)
             {
-                _statusPill.text = "⚠️  Pas encore généré";
+                _statusPill.text = "Pas encore généré";
                 _statusPill.AddToClassList("ip-pill--warn");
             }
             else
             {
-                _statusPill.text = $"✅  {database.m_sets.Count} sets prêts";
+                _statusPill.text = $"{database.m_sets.Count} sets prêts";
                 _statusPill.AddToClassList("ip-pill--ok");
             }
 
@@ -408,7 +413,8 @@ namespace InputPrompts.Editor
             });
             row.Add(toggle);
 
-            row.Add(MakeLabel(BadgeFor(style), "ip-device__badge"));
+            var (emoji, fallback) = BadgeFor(style);
+            row.Add(DashboardGlyphs.Icon(emoji, fallback, "ip-device__badge", $"ip-badge--{style}"));
             row.Add(MakeLabel(ObjectNames.NicifyVariableName(style.ToString()), "ip-device__name"));
 
             var layouts = KenneyNameTable.LayoutsFor(style);
@@ -416,7 +422,8 @@ namespace InputPrompts.Editor
 
             var count = InputPromptGenerator.CountIcons(_settings, style);
             var hasFolder = AssetDatabase.IsValidFolder(_settings.FolderFor(style));
-            row.Add(MakeLabel(count >= 0 ? $"{count} icônes" : hasFolder ? "à générer" : "dossier ?", "ip-device__count"));
+            row.Add(MakeLabel(count >= 0 ? $"{count} icônes" : hasFolder ? "à générer" : "dossier ?",
+                "ip-device__count"));
 
             row.RegisterCallback<ClickEvent>(_ =>
             {
@@ -437,8 +444,8 @@ namespace InputPrompts.Editor
 
             var set = AssetDatabase.LoadAssetAtPath<InputPromptSet>(_settings.SetPathFor(_previewStyle));
             _previewTitle.text = set != null
-                ? $"{BadgeFor(_previewStyle)}  {_previewStyle} · {set.Entries.Count} icônes"
-                : $"{BadgeFor(_previewStyle)}  {_previewStyle} · set non généré";
+                ? $"{_previewStyle} · {set.Entries.Count} icônes"
+                : $"{_previewStyle} · set non généré";
 
             if (set == null)
                 return;
@@ -523,11 +530,16 @@ namespace InputPrompts.Editor
             return label;
         }
 
-        private static Button MakeButton(string content, Action action, params string[] classes)
+        /// <summary>A button holding a glyph Label and a text Label, so the emoji font stays isolated.</summary>
+        private static Button MakeButton(string emoji, string fallback, string content, Action action,
+            params string[] classes)
         {
-            var button = new Button(action) { text = content };
+            var button = new Button(action);
             foreach (var className in classes)
                 button.AddToClassList(className);
+
+            button.Add(DashboardGlyphs.Icon(emoji, fallback));
+            button.Add(MakeLabel(content, "ip-button__text"));
             return button;
         }
 
@@ -540,13 +552,15 @@ namespace InputPrompts.Editor
             return row;
         }
 
-        private static VisualElement MakeCard(string title, string hint, out VisualElement content)
+        private static VisualElement MakeCard(string emoji, string fallback, string title, string hint,
+            out VisualElement content)
         {
             var card = new VisualElement();
             card.AddToClassList("ip-card");
 
             var header = new VisualElement();
             header.AddToClassList("ip-card__header");
+            header.Add(DashboardGlyphs.Icon(emoji, fallback));
             header.Add(MakeLabel(title, "ip-card__title"));
             header.Add(MakeLabel(hint, "ip-card__hint"));
             card.Add(header);
@@ -570,7 +584,7 @@ namespace InputPrompts.Editor
             field.RegisterValueChangedCallback(evt => onChanged(evt.newValue));
             row.Add(field);
 
-            row.Add(MakeButton("…", () =>
+            row.Add(MakeButton("📂", "…", string.Empty, () =>
             {
                 var picked = EditorUtility.OpenFolderPanel(label, Application.dataPath, string.Empty);
                 if (string.IsNullOrEmpty(picked) || !picked.StartsWith(Application.dataPath))

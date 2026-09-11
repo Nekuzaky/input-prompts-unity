@@ -225,6 +225,7 @@
 }
 
 .ip-device__badge {
+    font-size: 13px;
     font-size: 14px;
     margin-right: 8px;
 }
@@ -361,4 +362,56 @@
 .ip-footer__text {
     min-width: 180px;
     margin-bottom: 2px;
+}
+
+/* ---------------------------------------------------------------- glyphs */
+
+.ip-glyph {
+    font-size: 13px;
+    margin-right: 7px;
+    -unity-text-align: middle-center;
+    flex-shrink: 0;
+}
+
+.ip-glyph--title {
+    font-size: 18px;
+    margin-right: 9px;
+}
+
+.ip-button {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.ip-button .ip-glyph {
+    margin-right: 5px;
+}
+
+.ip-button__text {
+    -unity-text-align: middle-center;
+}
+
+.ip-badge--KeyboardMouse {
+    color: rgb(170, 178, 194);
+}
+
+.ip-badge--Xbox {
+    color: rgb(61, 196, 96);
+}
+
+.ip-badge--PlayStation {
+    color: rgb(76, 140, 240);
+}
+
+.ip-badge--Switch {
+    color: rgb(233, 78, 78);
+}
+
+.ip-badge--SteamDeck {
+    color: rgb(168, 112, 232);
+}
+
+.ip-badge--Generic {
+    color: rgb(130, 137, 152);
 }
