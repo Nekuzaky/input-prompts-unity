@@ -274,8 +274,17 @@ namespace Nekuzaky.InputPrompts.Editor
                 ApplyRuntimeToDatabase();
             }));
 
+            content.Add(MakeToggle("Prefer exact device", _settings.m_preferExactDevice, value =>
+            {
+                _settings.m_preferExactDevice = value;
+                _settings.SaveSettings();
+                ApplyRuntimeToDatabase();
+            }));
+
             content.Add(MakeLabel(
-                "AZERTY : <Keyboard>/w affiche la touche Z. Décoche pour garder l'étiquette QWERTY.",
+                "AZERTY : <Keyboard>/w affiche la touche Z. Décoche pour garder l'étiquette QWERTY.\n"
+                + "Prefer exact device : une action bindée clavier ET souris suit le dernier appareil "
+                + "utilisé, au lieu de garder le premier binding de la famille.",
                 "ip-note"));
 
             return card;
@@ -511,6 +520,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
             database.m_pointerMotionSwitchesStyle = _settings.m_pointerMotionSwitchesStyle;
             database.m_useKeyboardLayoutLabels = _settings.m_useKeyboardLayoutLabels;
+            database.m_preferExactDevice = _settings.m_preferExactDevice;
             EditorUtility.SetDirty(database);
             AssetDatabase.SaveAssetIfDirty(database);
         }

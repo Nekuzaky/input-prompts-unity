@@ -29,3 +29,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 - A missing prompt database now logs a warning pointing at the dashboard, instead of leaving every
   prompt silently empty.
 - Minimum Unity version raised to 6000.3, the version the package is tested on.
+
+## [1.1.0] - 2026-09-11
+
+### Fixed
+
+- Keyboard and mouse no longer behave like two platforms. Bindings are resolved against the whole
+  device family rather than the exact device, so an action bound to both a key and a mouse button
+  (`Attack` in the default action asset: `<Mouse>/leftButton` and `<Keyboard>/enter`) keeps one icon
+  instead of flipping depending on the last input.
+
+### Added
+
+- `InputPromptService.PreferExactDevice`, mirrored by a *Prefer exact device* toggle in the
+  dashboard, restores the previous behaviour for projects that want the prompt to follow the exact
+  device in use.
+- `InputPromptService.MatchesCurrentStyle`, the family-wide counterpart of `MatchesCurrentDevice`.

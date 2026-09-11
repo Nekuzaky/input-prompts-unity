@@ -214,6 +214,7 @@ namespace Nekuzaky.InputPrompts.Editor
             database.m_defaultStyle = settings.m_defaultStyle;
             database.m_pointerMotionSwitchesStyle = settings.m_pointerMotionSwitchesStyle;
             database.m_useKeyboardLayoutLabels = settings.m_useKeyboardLayoutLabels;
+            database.m_preferExactDevice = settings.m_preferExactDevice;
             EditorUtility.SetDirty(database);
             return database;
         }

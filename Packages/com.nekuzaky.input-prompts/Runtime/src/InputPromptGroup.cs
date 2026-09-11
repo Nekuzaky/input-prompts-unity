@@ -124,7 +124,7 @@ namespace Nekuzaky.InputPrompts
                 if (!bindings[i].isPartOfComposite || !hasComposite)
                     continue;
 
-                if (!InputPromptService.MatchesCurrentDevice(bindings[i].effectivePath))
+                if (!InputPromptService.MatchesCurrentStyle(bindings[i].effectivePath))
                     continue;
 
                 var name = bindings[i].name;

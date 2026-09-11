@@ -26,6 +26,13 @@ namespace Nekuzaky.InputPrompts
         /// <summary>Use the label printed on the physical keyboard (AZERTY, QWERTZ, ...) to pick key icons.</summary>
         public static bool UseKeyboardLayoutLabels { get; set; } = true;
 
+        /// <summary>
+        /// Resolve bindings against the exact device in use rather than its whole family. Off by
+        /// default: keyboard and mouse are one family, so an action bound to both a key and a mouse
+        /// button would otherwise flip its icon depending on whether the player last typed or clicked.
+        /// </summary>
+        public static bool PreferExactDevice { get; set; }
+
         public static InputDevice ActiveDevice => _activeDevice;
 
         public static InputPromptDatabase Database
@@ -121,6 +128,7 @@ namespace Nekuzaky.InputPrompts
             }
 
             PointerMotionSwitchesStyle = database.m_pointerMotionSwitchesStyle;
+            PreferExactDevice = database.m_preferExactDevice;
             UseKeyboardLayoutLabels = database.m_useKeyboardLayoutLabels;
         }
 
@@ -171,25 +179,18 @@ namespace Nekuzaky.InputPrompts
             if (action == null)
                 return -1;
 
-            var index = FindBinding(action, compositePart, MatchesCurrentDevice);
+            if (PreferExactDevice)
+            {
+                var exact = FindBinding(action, compositePart, MatchesCurrentDevice);
+                if (exact >= 0)
+                    return exact;
+            }
+
+            // Family first: whichever binding of the current device family comes first in the action
+            // wins, so a mouse click and a key press do not fight over the same prompt.
+            var index = FindBinding(action, compositePart, MatchesCurrentStyle);
             if (index >= 0)
                 return index;
-
-            // No device yet (or it has no binding): fall back to what the current style would use.
-            if (Database != null)
-            {
-                var layouts = Database.PreferredLayouts(CurrentStyle);
-                for (var i = 0; i < layouts.Count; i++)
-                {
-                    var preferred = layouts[i];
-                    if (string.IsNullOrEmpty(preferred))
-                        continue;
-
-                    index = FindBinding(action, compositePart, path => TargetsLayout(path, preferred));
-                    if (index >= 0)
-                        return index;
-                }
-            }
 
             return allowAnyDevice ? FindBinding(action, compositePart, _ => true) : -1;
         }
@@ -247,7 +248,13 @@ namespace Nekuzaky.InputPrompts
                 InputBinding.DisplayStringOptions.DontUseShortDisplayNames |
                 InputBinding.DisplayStringOptions.DontIncludeInteractions);
 
-        /// <summary>True when the binding path belongs to the device the prompts are currently showing.</summary>
+        /// <summary>
+        /// True when the binding path belongs to the device family the prompts currently show, so a
+        /// keyboard binding still matches while the player is holding the mouse.
+        /// </summary>
+        public static bool MatchesCurrentStyle(string path) => MatchesStyle(path, CurrentStyle);
+
+        /// <summary>True when the binding path belongs to the exact device in use.</summary>
         public static bool MatchesCurrentDevice(string path)
         {
 #if UNITY_EDITOR

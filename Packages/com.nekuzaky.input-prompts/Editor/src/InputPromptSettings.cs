@@ -32,6 +32,7 @@ namespace Nekuzaky.InputPrompts.Editor
 
         public bool m_pointerMotionSwitchesStyle;
         public bool m_useKeyboardLayoutLabels = true;
+        public bool m_preferExactDevice;
 
         public List<InputDeviceStyle> m_disabledStyles = new();
 

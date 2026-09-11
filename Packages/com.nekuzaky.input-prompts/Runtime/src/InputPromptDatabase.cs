@@ -31,6 +31,9 @@ namespace Nekuzaky.InputPrompts
         [Tooltip("Pick key icons from the label printed on the player keyboard (AZERTY, QWERTZ, ...).")]
         public bool m_useKeyboardLayoutLabels = true;
 
+        [Tooltip("Resolve bindings against the exact device rather than its family. Off keeps keyboard and mouse as one.")]
+        public bool m_preferExactDevice;
+
         #endregion
 
 
