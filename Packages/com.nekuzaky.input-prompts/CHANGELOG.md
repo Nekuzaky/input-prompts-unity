@@ -104,3 +104,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
   allow the duplicate, reject the new binding, or swap the two so no action is left unbound.
 - `RebindStore`: save, load and clear binding overrides through PlayerPrefs.
 - `InputPromptService.CurrentSpriteAsset` and `GetSpriteName`, plus `ControlPath.ToSpriteName`.
+
+## [1.5.0] - 2026-09-13
+
+### Added
+
+- Local co-op. `InputPromptContext` holds what used to be global state: an active device, a style,
+  events. `InputPromptPlayer`, placed next to a `PlayerInput`, gives that player a context fed only
+  by the devices it is paired with. Icons, groups, texts and rebind buttons take an optional
+  **Player**, so each half of a split screen shows its own prompts.
+- `InputPromptService.ControlNameTranslator`: a `(key, name) => string` hook every display string
+  goes through, for localising control names without a hard dependency on a localisation package.
+- `InputPromptService.Register` and `Unregister` for contexts built by hand.
+
+### Changed
+
+- `InputPromptService` is now a facade over a global context. Its whole public API is unchanged and
+  keeps following whoever acted last, so existing projects need no change.

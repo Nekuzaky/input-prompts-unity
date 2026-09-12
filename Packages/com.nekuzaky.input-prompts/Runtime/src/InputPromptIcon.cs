@@ -15,6 +15,9 @@ namespace Nekuzaky.InputPrompts
         [Header("Action")]
         [SerializeField] private InputActionReference _action;
 
+        [Tooltip("Player whose device drives this prompt. Leave empty to follow the last device used by anyone.")]
+        [SerializeField] private InputPromptPlayer _player;
+
         [Tooltip("Part of a composite to show, e.g. \"up\" for the W of a WASD composite. Leave empty for plain bindings.")]
         [SerializeField] private string _compositePart;
 
@@ -31,6 +34,7 @@ namespace Nekuzaky.InputPrompts
         [SerializeField] private bool _resizeToSpriteAspect = true;
 
         private InputAction _runtimeAction;
+        private InputPromptContext _subscribed;
 
         #endregion
 
@@ -57,7 +61,23 @@ namespace Nekuzaky.InputPrompts
             }
         }
 
-        public string DisplayString => InputPromptService.GetDisplayString(Action, _compositePart);
+        public InputPromptPlayer Player
+        {
+            get => _player;
+            set
+            {
+                _player = value;
+                if (!isActiveAndEnabled)
+                    return;
+
+                Subscribe();
+                Refresh();
+            }
+        }
+
+        public InputPromptContext Context => _player != null ? _player.Context : InputPromptService.Global;
+
+        public string DisplayString => Context.GetDisplayString(Action, _compositePart);
 
         #endregion
 
@@ -76,11 +96,11 @@ namespace Nekuzaky.InputPrompts
                 _targetImage = GetComponent<Image>();
 
             InputPromptService.Initialize();
-            InputPromptService.PromptsChanged += Refresh;
+            Subscribe();
             Refresh();
         }
 
-        private void OnDisable() => InputPromptService.PromptsChanged -= Refresh;
+        private void OnDisable() => Unsubscribe();
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -113,17 +133,18 @@ namespace Nekuzaky.InputPrompts
                 return;
             }
 
-            var bindingIndex = InputPromptService.ResolveBindingIndex(action, _compositePart);
+            var context = Context;
+            var bindingIndex = context.ResolveBindingIndex(action, _compositePart);
             if (bindingIndex < 0)
             {
                 Show(isVisible: false);
                 return;
             }
 
-            var sprite = InputPromptService.GetSprite(action, bindingIndex);
+            var sprite = context.GetSprite(action, bindingIndex);
             var usesBlank = sprite == null;
             if (usesBlank)
-                sprite = InputPromptService.GetBlankSprite();
+                sprite = context.GetBlankSprite();
 
             if (sprite == null)
             {
@@ -146,6 +167,21 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
+        private void Subscribe()
+        {
+            Unsubscribe();
+            _subscribed = Context;
+            _subscribed.PromptsChanged += Refresh;
+        }
+
+        private void Unsubscribe()
+        {
+            if (_subscribed != null)
+                _subscribed.PromptsChanged -= Refresh;
+
+            _subscribed = null;
+        }
+
         private void UpdateFallbackLabel(InputAction action, int bindingIndex, bool usesBlank)
         {
             if (_fallbackLabel == null)
@@ -153,7 +189,7 @@ namespace Nekuzaky.InputPrompts
 
             _fallbackLabel.gameObject.SetActive(usesBlank);
             if (usesBlank)
-                _fallbackLabel.text = InputPromptService.GetDisplayString(action, bindingIndex);
+                _fallbackLabel.text = Context.GetDisplayString(action, bindingIndex);
         }
 
         private void ApplyAspect(Sprite sprite)

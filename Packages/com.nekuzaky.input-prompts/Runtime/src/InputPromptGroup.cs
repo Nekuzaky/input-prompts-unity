@@ -13,6 +13,9 @@ namespace Nekuzaky.InputPrompts
         [Header("Action")]
         [SerializeField] private InputActionReference _action;
 
+        [Tooltip("Player whose device drives these prompts. Leave empty to follow the last device used by anyone.")]
+        [SerializeField] private InputPromptPlayer _player;
+
         [Space(15), Header("Display")]
         [Tooltip("Prefab holding an InputPromptIcon. One instance is created per displayed part.")]
         [SerializeField] private InputPromptIcon _iconPrefab;
@@ -23,6 +26,7 @@ namespace Nekuzaky.InputPrompts
         private readonly List<InputPromptIcon> _spawned = new();
 
         private InputAction _runtimeAction;
+        private InputPromptContext _subscribed;
 
         #endregion
 
@@ -39,6 +43,22 @@ namespace Nekuzaky.InputPrompts
             }
         }
 
+        public InputPromptPlayer Player
+        {
+            get => _player;
+            set
+            {
+                _player = value;
+                if (!isActiveAndEnabled)
+                    return;
+
+                Subscribe();
+                Rebuild();
+            }
+        }
+
+        public InputPromptContext Context => _player != null ? _player.Context : InputPromptService.Global;
+
         #endregion
 
 
@@ -47,13 +67,13 @@ namespace Nekuzaky.InputPrompts
         private void OnEnable()
         {
             InputPromptService.Initialize();
-            InputPromptService.PromptsChanged += Rebuild;
+            Subscribe();
             Rebuild();
         }
 
         private void OnDisable()
         {
-            InputPromptService.PromptsChanged -= Rebuild;
+            Unsubscribe();
 
             if (!Application.isPlaying)
                 ClearSpawned();
@@ -73,11 +93,12 @@ namespace Nekuzaky.InputPrompts
                 return;
             }
 
-            var parts = CollectParts(action);
+            var parts = CollectParts(Context, action);
             SetCount(parts.Count);
 
             for (var i = 0; i < parts.Count; i++)
             {
+                _spawned[i].Player = _player;
                 _spawned[i].CompositePart = parts[i];
                 _spawned[i].Action = action;
             }
@@ -88,18 +109,18 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
-        private static List<string> CollectParts(InputAction action)
+        private static List<string> CollectParts(InputPromptContext context, InputAction action)
         {
             var result = new List<string>();
 
-            if (InputPromptService.ResolveBindingIndex(action, null, allowAnyDevice: false) >= 0)
+            if (context.ResolveBindingIndex(action, null, allowAnyDevice: false) >= 0)
             {
                 result.Add(null);
                 return result;
             }
 
             var bindings = action.bindings;
-            var style = InputPromptService.CurrentStyle;
+            var style = context.CurrentStyle;
             var hasComposite = false;
 
             for (var i = 0; i < bindings.Count; i++)
@@ -114,7 +135,7 @@ namespace Nekuzaky.InputPrompts
                 if (!bindings[i].isPartOfComposite || !hasComposite)
                     continue;
 
-                if (!InputPromptService.MatchesStyle(bindings[i].effectivePath, style))
+                if (!PromptResolution.MatchesStyle(bindings[i].effectivePath, style))
                     continue;
 
                 var name = bindings[i].name;
@@ -122,10 +143,25 @@ namespace Nekuzaky.InputPrompts
                     result.Add(name);
             }
 
-            if (result.Count == 0 && InputPromptService.ResolveBindingIndex(action) >= 0)
+            if (result.Count == 0 && context.ResolveBindingIndex(action) >= 0)
                 result.Add(null);
 
             return result;
+        }
+
+        private void Subscribe()
+        {
+            Unsubscribe();
+            _subscribed = Context;
+            _subscribed.PromptsChanged += Rebuild;
+        }
+
+        private void Unsubscribe()
+        {
+            if (_subscribed != null)
+                _subscribed.PromptsChanged -= Rebuild;
+
+            _subscribed = null;
         }
 
         private void SetCount(int count)

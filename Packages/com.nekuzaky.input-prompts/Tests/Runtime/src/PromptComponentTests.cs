@@ -160,6 +160,43 @@ namespace Nekuzaky.InputPrompts.Tests
             action.Dispose();
         }
 
+        [UnityTest]
+        public IEnumerator Two_players_paired_to_different_devices_see_their_own_icons()
+        {
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var gamepad = InputSystem.AddDevice<XInputController>();
+
+            var actions = ScriptableObject.CreateInstance<InputActionAsset>();
+            var jump = actions.AddActionMap("Player").AddAction("Jump", binding: "<Keyboard>/space");
+            jump.AddBinding("<Gamepad>/buttonSouth");
+
+            var prefab = new GameObject("PlayerPrefab");
+            prefab.SetActive(false);
+            prefab.AddComponent<PlayerInput>().actions = actions;
+            prefab.AddComponent<InputPromptPlayer>();
+            _spawned.Add(prefab);
+
+            var one = PlayerInput.Instantiate(prefab, pairWithDevice: keyboard);
+            var two = PlayerInput.Instantiate(prefab, pairWithDevice: gamepad);
+            _spawned.Add(one.gameObject);
+            _spawned.Add(two.gameObject);
+            yield return null;
+
+            Press(keyboard.spaceKey);
+            Press(gamepad.buttonSouth);
+            yield return null;
+
+            var oneContext = one.GetComponent<InputPromptPlayer>().Context;
+            var twoContext = two.GetComponent<InputPromptPlayer>().Context;
+
+            Assert.That(oneContext.CurrentStyle, Is.EqualTo(InputDeviceStyle.KeyboardMouse));
+            Assert.That(twoContext.CurrentStyle, Is.EqualTo(InputDeviceStyle.Xbox));
+            Assert.That(oneContext.GetSprite(one.actions["Jump"]), Is.SameAs(_keyboardSprite));
+            Assert.That(twoContext.GetSprite(two.actions["Jump"]), Is.SameAs(_gamepadSprite));
+
+            Object.DestroyImmediate(actions);
+        }
+
         #endregion
 
 

@@ -119,7 +119,9 @@ InputPromptService.StyleChanged += style => { };       // keyboard -> gamepad
 InputPromptService.PromptsChanged += () => { };        // device, rebind, database swap
 InputPromptService.GetSprite(action);                  // icon for the action
 InputPromptService.GetDisplayString(action);           // "Space", "A", ...
-InputPromptService.SetActiveDevice(device);            // force the device prompts follow (global, single player)
+InputPromptService.SetActiveDevice(device);            // force the device the global context follows
+GetComponent<InputPromptPlayer>().Context;             // per player context, for local co-op
+InputPromptService.ControlNameTranslator = (key, name) => ...;  // localise control names
 InputPromptService.PointerMotionSwitchesStyle = true;  // moving the mouse switches back to mouse icons
 InputPromptService.UseKeyboardLayoutLabels = true;     // AZERTY: <Keyboard>/w draws the Z key
 InputPromptService.PreferExactDevice = true;           // follow the exact device, not its family
@@ -143,6 +145,8 @@ Set keys are control paths without the device, lower-cased: `space`, `buttonsout
 - A key with no icon in the pack (F13, oem…) falls back to a blank cap with its name printed on it.
 - Keyboard and mouse are one family: an action bound to both a key and a mouse button keeps a single
   icon instead of flipping with every input. `PreferExactDevice` restores the per-device behaviour.
+- Split screen works: `InputPromptPlayer` next to each `PlayerInput` gives every player prompts that
+  follow only the devices paired with them.
 
 ## Tests
 

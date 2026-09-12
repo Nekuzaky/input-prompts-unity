@@ -1,6 +1,6 @@
 # Components
 
-Four components cover what a game needs on screen. They all subscribe to
+Five components cover what a game needs on screen. They all subscribe to
 `InputPromptService.PromptsChanged` while enabled, so they repaint themselves on a device change or
 a rebind; nothing polls, nothing runs per frame.
 
@@ -17,6 +17,7 @@ Shows one control: the key or button the action is bound to on the device in use
 |---|---|---|
 | **Action** | none | The `InputActionReference` to display. Leave empty and assign `Action` from code instead. |
 | **Composite part** | empty | Which part of a composite to show: `up`, `down`, `left`, `right`, or any part name of your composite. Empty means a plain, non-composite binding. |
+| **Player** | none | An `InputPromptPlayer`. Set it in local co-op so the icon follows that player's devices only. Empty follows whoever acted last. |
 | **Target Image** | self | The `Image` that receives the sprite. Filled by `Reset`, change it to draw into a child. |
 | **Fallback Label** | none | Optional `TMP_Text`. When the pack has no icon for a control, the blank key cap is drawn and the control name is printed on it. Without a label, the cap is drawn empty. |
 | **Hide When Unbound** | on | Disables the `Image` when the action has no binding at all. Off keeps the last sprite visible. |
@@ -109,6 +110,15 @@ it off to always print names.
 | `Tools > Input Prompts > Generate Prompt Sets` | Runs the import with the stored settings, no window. |
 | `Tools > Input Prompts > Create Demo Canvas` | Builds a canvas with one row per action of the selected `.inputactions` asset, each showing its icons. Creates the icon prefab if it does not exist yet. |
 | `GameObject > UI > Input Prompt Icon` | Creates a ready to use icon under the current canvas. |
+
+---
+
+## InputPromptPlayer
+
+`Add Component > Input Prompts > Input Prompt Player`, next to a `PlayerInput`.
+
+Gives that player its own prompt context, fed only by the devices the `PlayerInput` is paired with.
+No field: reference it from the **Player** field of the other components.
 
 ---
 

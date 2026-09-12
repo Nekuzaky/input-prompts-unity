@@ -110,14 +110,52 @@ m_actions.LoadBindingOverridesFromJson(PlayerPrefs.GetString("bindings"));
 InputPromptService.Refresh();
 ```
 
+## Local co-op
+
+`InputPromptService` is a facade over one global `InputPromptContext`, which follows whoever acted
+last. For split screen, give each player its own context:
+
+1. Add `InputPromptPlayer` next to each `PlayerInput`.
+2. Drag that player into the **Player** field of the icons, groups, texts and rebind buttons that belong
+   to it.
+
+That player's prompts now follow only the devices its `PlayerInput` is paired with. A gamepad pressed
+by player two never repaints player one's prompts.
+
+```csharp
+InputPromptContext context = GetComponent<InputPromptPlayer>().Context;
+context.CurrentStyle;                   // this player's family
+context.GetSprite(playerInput.actions["Jump"]);
+context.PromptsChanged += Repaint;      // only this player's device changes
+```
+
+A context can also be built by hand, for a custom pairing:
+
+```csharp
+var context = new InputPromptContext(device => device == myGamepad);
+InputPromptService.Register(context);   // starts receiving device events
+InputPromptService.Unregister(context); // stops
+```
+
 ## Pinning a device
 
 ```csharp
 InputPromptService.SetActiveDevice(Gamepad.all[0]);
 ```
 
-This forces the device the prompts follow. It is **global**: there is one active device for the
-whole UI, so it cannot give two players different prompts in local co-op.
+This forces the device the global context follows. Per player, call `SetActiveDevice` on that
+player's context instead.
+
+## Localising control names
+
+```csharp
+InputPromptService.ControlNameTranslator = (key, englishName) => myTable.Lookup(key) ?? englishName;
+```
+
+The translator receives the control key (`space`, `buttonsouth`, see [assets.md](assets.md)) and the
+name the Input System produced. Return a translation, or null to keep the original. It applies to
+every display string the package produces, so it plugs straight into Unity Localization or any
+other table.
 
 ## Lifecycle
 

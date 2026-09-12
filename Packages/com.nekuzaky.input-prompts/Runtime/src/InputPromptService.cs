@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.LowLevel;
 
 namespace Nekuzaky.InputPrompts
@@ -12,9 +11,17 @@ namespace Nekuzaky.InputPrompts
     {
         #region Public
 
-        public static event Action<InputDeviceStyle> StyleChanged;
+        public static event Action<InputDeviceStyle> StyleChanged
+        {
+            add => Global.StyleChanged += value;
+            remove => Global.StyleChanged -= value;
+        }
 
-        public static event Action PromptsChanged;
+        public static event Action PromptsChanged
+        {
+            add => Global.PromptsChanged += value;
+            remove => Global.PromptsChanged -= value;
+        }
 
         public static bool PointerMotionSwitchesStyle { get; set; }
 
@@ -22,7 +29,13 @@ namespace Nekuzaky.InputPrompts
 
         public static bool PreferExactDevice { get; set; }
 
-        public static InputDevice ActiveDevice => _activeDevice;
+        public static Func<string, string, string> ControlNameTranslator { get; set; }
+
+        public static InputPromptContext Global => _global ??= CreateGlobal();
+
+        public static IReadOnlyList<InputPromptContext> Contexts => _contexts;
+
+        public static InputDevice ActiveDevice => Global.ActiveDevice;
 
         public static InputPromptDatabase Database
         {
@@ -35,37 +48,15 @@ namespace Nekuzaky.InputPrompts
             set
             {
                 _database = value;
-                PromptsChanged?.Invoke();
+                RefreshAll();
             }
         }
 
-        public static InputDeviceStyle CurrentStyle
-        {
-            get
-            {
-#if UNITY_EDITOR
-                if (UsesPreview)
-                    return EditorPreviewStyle.Value;
-#endif
-                return Database != null ? Database.GetStyle(_activeDevice) : InputDeviceStyle.KeyboardMouse;
-            }
-        }
+        public static InputDeviceStyle CurrentStyle => Global.CurrentStyle;
 
-        public static InputPromptSet CurrentSet
-        {
-            get
-            {
-                if (Database == null)
-                    return null;
-#if UNITY_EDITOR
-                if (UsesPreview)
-                    return Database.GetSet(EditorPreviewStyle.Value);
-#endif
-                return Database.GetSet(_activeDevice);
-            }
-        }
+        public static InputPromptSet CurrentSet => Global.CurrentSet;
 
-        public static TMP_SpriteAsset CurrentSpriteAsset => CurrentSet != null ? CurrentSet.m_spriteAsset : null;
+        public static TMP_SpriteAsset CurrentSpriteAsset => Global.CurrentSpriteAsset;
 
 #if UNITY_EDITOR
         public static InputDeviceStyle? EditorPreviewStyle { get; set; }
@@ -78,15 +69,16 @@ namespace Nekuzaky.InputPrompts
 
         private const string ResourcesPath = "SO_InputPromptDatabase";
         private const float ActuationThreshold = 0.15f;
-        private const int MaxFallbackDepth = 8;
+
+        private static readonly List<InputPromptContext> _contexts = new();
 
         private static InputPromptDatabase _database;
-        private static InputDevice _activeDevice;
+        private static InputPromptContext _global;
         private static bool _isInitialized;
         private static bool _hasWarnedAboutDatabase;
 
 #if UNITY_EDITOR
-        private static bool UsesPreview => !Application.isPlaying && EditorPreviewStyle.HasValue;
+        internal static bool UsesPreview => !Application.isPlaying && EditorPreviewStyle.HasValue;
 #endif
 
         #endregion
@@ -105,7 +97,8 @@ namespace Nekuzaky.InputPrompts
             InputSystem.onDeviceChange += OnDeviceChange;
             InputSystem.onActionChange += OnActionChange;
 
-            _activeDevice ??= Gamepad.current as InputDevice ?? Keyboard.current;
+            if (Global.ActiveDevice == null)
+                Global.SetActiveDevice(Gamepad.current as InputDevice ?? Keyboard.current);
 
             var database = Database;
             if (database == null)
@@ -130,127 +123,73 @@ namespace Nekuzaky.InputPrompts
             InputSystem.onActionChange -= OnActionChange;
         }
 
-        public static void SetActiveDevice(InputDevice device)
+        public static void Register(InputPromptContext context)
         {
-            if (device == _activeDevice)
-                return;
-
-            var previousStyle = CurrentStyle;
-            _activeDevice = device;
-            var style = CurrentStyle;
-
-            if (style != previousStyle)
-                StyleChanged?.Invoke(style);
-
-            PromptsChanged?.Invoke();
+            if (context != null && !_contexts.Contains(context))
+                _contexts.Add(context);
         }
 
-        public static void Refresh() => PromptsChanged?.Invoke();
+        public static void Unregister(InputPromptContext context)
+        {
+            if (context != null && context != _global)
+                _contexts.Remove(context);
+        }
+
+        public static void SetActiveDevice(InputDevice device) => Global.SetActiveDevice(device);
+
+        public static void Refresh() => RefreshAll();
 
         public static int ResolveBindingIndex(InputAction action, string compositePart = null) =>
-            ResolveBindingIndex(action, compositePart, allowAnyDevice: true);
+            Global.ResolveBindingIndex(action, compositePart);
 
-        public static int ResolveBindingIndex(InputAction action, string compositePart, bool allowAnyDevice)
-        {
-            if (action == null)
-                return -1;
+        public static int ResolveBindingIndex(InputAction action, string compositePart, bool allowAnyDevice) =>
+            Global.ResolveBindingIndex(action, compositePart, allowAnyDevice);
 
-            if (PreferExactDevice)
-            {
-                var exact = FindBinding(action, compositePart, MatchesCurrentDevice);
-                if (exact >= 0)
-                    return exact;
-            }
+        public static Sprite GetSprite(InputAction action, string compositePart = null) =>
+            Global.GetSprite(action, compositePart);
 
-            var layouts = Database != null ? Database.PreferredLayouts(CurrentStyle) : null;
-            var index = FindBinding(action, compositePart, path => MatchesAnyLayout(path, layouts));
-            if (index >= 0)
-                return index;
+        public static Sprite GetSprite(InputAction action, int bindingIndex) => Global.GetSprite(action, bindingIndex);
 
-            return allowAnyDevice ? FindBinding(action, compositePart, _ => true) : -1;
-        }
+        public static Sprite GetSpriteForPath(string path) => Global.GetSpriteForPath(path);
 
-        public static Sprite GetSprite(InputAction action, string compositePart = null)
-        {
-            var index = ResolveBindingIndex(action, compositePart);
-            return index < 0 ? null : GetSprite(action, index);
-        }
+        public static Sprite GetBlankSprite() => Global.GetBlankSprite();
 
-        public static Sprite GetSprite(InputAction action, int bindingIndex)
-        {
-            if (action == null || bindingIndex < 0 || bindingIndex >= action.bindings.Count)
-                return null;
-
-            return GetSpriteForPath(action.bindings[bindingIndex].effectivePath);
-        }
-
-        public static Sprite GetSpriteForPath(string path)
-        {
-            var set = CurrentSet;
-            if (set == null)
-                return null;
-
-            var key = KeyForPath(path);
-            return key == null ? null : set.Find(key);
-        }
-
-        public static Sprite GetBlankSprite()
-        {
-            var set = CurrentSet;
-            for (var depth = 0; set != null && depth < MaxFallbackDepth; depth++)
-            {
-                if (set.m_blankSprite != null)
-                    return set.m_blankSprite;
-                set = set.m_fallback != set ? set.m_fallback : null;
-            }
-
-            return null;
-        }
-
-        public static string GetDisplayString(InputAction action, string compositePart = null)
-        {
-            var index = ResolveBindingIndex(action, compositePart);
-            return index < 0 ? string.Empty : GetDisplayString(action, index);
-        }
-
-        public static string GetSpriteName(InputAction action, string compositePart = null)
-        {
-            var index = ResolveBindingIndex(action, compositePart);
-            if (index < 0)
-                return null;
-
-            var set = CurrentSet;
-            if (set == null || set.m_spriteAsset == null)
-                return null;
-
-            var key = KeyForPath(action.bindings[index].effectivePath);
-            return key != null && set.Contains(key) ? ControlPath.ToSpriteName(key) : null;
-        }
+        public static string GetDisplayString(InputAction action, string compositePart = null) =>
+            Global.GetDisplayString(action, compositePart);
 
         public static string GetDisplayString(InputAction action, int bindingIndex) =>
-            action.GetBindingDisplayString(
-                bindingIndex, out _, out _,
-                InputBinding.DisplayStringOptions.DontUseShortDisplayNames |
-                InputBinding.DisplayStringOptions.DontIncludeInteractions);
+            Global.GetDisplayString(action, bindingIndex);
 
-        public static bool MatchesCurrentStyle(string path) => MatchesStyle(path, CurrentStyle);
+        public static string GetSpriteName(InputAction action, string compositePart = null) =>
+            Global.GetSpriteName(action, compositePart);
 
-        internal static bool MatchesStyle(string path, InputDeviceStyle style) =>
-            Database != null && MatchesAnyLayout(path, Database.PreferredLayouts(style));
+        public static bool MatchesCurrentStyle(string path) => Global.MatchesCurrentStyle(path);
 
-        public static bool MatchesCurrentDevice(string path)
-        {
-#if UNITY_EDITOR
-            if (UsesPreview)
-                return MatchesStyle(path, EditorPreviewStyle.Value);
-#endif
-            return ControlPath.MatchesDevice(path, _activeDevice);
-        }
+        public static bool MatchesCurrentDevice(string path) => Global.MatchesCurrentDevice(path);
 
         #endregion
 
 
         #region Tools and Utilities
+
+        private static InputPromptContext CreateGlobal()
+        {
+            var context = new InputPromptContext();
+            _contexts.Insert(0, context);
+            return context;
+        }
+
+        private static void RefreshAll()
+        {
+            foreach (var context in Snapshot())
+                context.Refresh();
+        }
+
+        private static InputPromptContext[] Snapshot()
+        {
+            _ = Global;
+            return _contexts.ToArray();
+        }
 
         private static void WarnAboutMissingDatabase()
         {
@@ -263,80 +202,9 @@ namespace Nekuzaky.InputPrompts
                 + "empty until you generate one: Tools > Input Prompts > Dashboard, then Generate.");
         }
 
-        private static bool MatchesAnyLayout(string path, IReadOnlyList<string> layouts)
-        {
-            if (layouts == null)
-                return false;
-
-            for (var i = 0; i < layouts.Count; i++)
-            {
-                if (!string.IsNullOrEmpty(layouts[i]) && TargetsLayout(path, layouts[i]))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private static bool TargetsLayout(string path, string layout)
-        {
-            var pathLayout = ControlPath.LayoutOf(path);
-            if (string.IsNullOrEmpty(pathLayout))
-                return false;
-
-            return string.Equals(pathLayout, layout, StringComparison.OrdinalIgnoreCase) ||
-                   InputSystem.IsFirstLayoutBasedOnSecond(layout, pathLayout);
-        }
-
-        private static string KeyForPath(string path)
-        {
-            var key = ControlPath.ToKey(path);
-
-            if (UseKeyboardLayoutLabels &&
-                key != null &&
-                Keyboard.current != null &&
-                string.Equals(ControlPath.LayoutOf(path), "Keyboard", StringComparison.OrdinalIgnoreCase))
-            {
-                var label = (InputControlPath.TryFindControl(Keyboard.current, path) as KeyControl)?.displayName;
-                if (!string.IsNullOrEmpty(label) && label.Length == 1 && char.IsLetterOrDigit(label[0]))
-                    return char.ToLowerInvariant(label[0]).ToString();
-            }
-
-            return key;
-        }
-
-        private static int FindBinding(InputAction action, string compositePart, Func<string, bool> pathFilter)
-        {
-            var bindings = action.bindings;
-            var wantsPart = !string.IsNullOrEmpty(compositePart);
-
-            for (var i = 0; i < bindings.Count; i++)
-            {
-                var binding = bindings[i];
-                if (binding.isComposite)
-                    continue;
-
-                if (wantsPart)
-                {
-                    if (!binding.isPartOfComposite ||
-                        !string.Equals(binding.name, compositePart, StringComparison.OrdinalIgnoreCase))
-                        continue;
-                }
-                else if (binding.isPartOfComposite)
-                {
-                    continue;
-                }
-
-                var path = binding.effectivePath;
-                if (!string.IsNullOrEmpty(path) && pathFilter(path))
-                    return i;
-            }
-
-            return -1;
-        }
-
         private static void OnEvent(InputEventPtr eventPtr, InputDevice device)
         {
-            if (device == null || device == _activeDevice)
+            if (device == null || !AnyContextWants(device))
                 return;
 
             if (!eventPtr.IsA<StateEvent>() && !eventPtr.IsA<DeltaStateEvent>())
@@ -347,9 +215,22 @@ namespace Nekuzaky.InputPrompts
                 if (!PointerMotionSwitchesStyle && IsPointerNoise(control))
                     continue;
 
-                SetActiveDevice(device);
+                foreach (var context in Snapshot())
+                    context.NotifyDeviceUsed(device);
                 return;
             }
+        }
+
+        private static bool AnyContextWants(InputDevice device)
+        {
+            _ = Global;
+            for (var i = 0; i < _contexts.Count; i++)
+            {
+                if (_contexts[i].WantsDevice(device))
+                    return true;
+            }
+
+            return false;
         }
 
         private static bool IsPointerNoise(InputControl control)
@@ -379,13 +260,13 @@ namespace Nekuzaky.InputPrompts
             {
                 case InputDeviceChange.Removed:
                 case InputDeviceChange.Disconnected:
-                    if (device == _activeDevice)
-                        SetActiveDevice(Gamepad.current as InputDevice ?? Keyboard.current);
+                    foreach (var context in Snapshot())
+                        context.NotifyDeviceLost(device);
                     break;
 
                 case InputDeviceChange.Added:
                 case InputDeviceChange.Reconnected:
-                    PromptsChanged?.Invoke();
+                    RefreshAll();
                     break;
             }
         }
@@ -393,7 +274,7 @@ namespace Nekuzaky.InputPrompts
         private static void OnActionChange(object subject, InputActionChange change)
         {
             if (change == InputActionChange.BoundControlsChanged)
-                PromptsChanged?.Invoke();
+                RefreshAll();
         }
 
         #endregion

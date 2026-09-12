@@ -77,9 +77,8 @@ InputPromptService.Refresh();
 
 ## Local co-op
 
-Not supported as it stands. `InputPromptService` keeps one active device for the whole UI, so two
-players cannot see different prompts at the same time. Supporting it means turning the static
-service into per-player instances, which changes the whole API — a fork, not a setting.
+Supported through `InputPromptPlayer`, see [scripting.md](scripting.md). Each player gets its own
+`InputPromptContext`, fed only by the devices its `PlayerInput` is paired with.
 
 ## What is deliberately absent
 

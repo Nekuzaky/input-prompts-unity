@@ -17,6 +17,9 @@ namespace Nekuzaky.InputPrompts
         [Tooltip("Part of a composite to rebind, e.g. \"up\". Leave empty for a plain binding.")]
         [SerializeField] private string _compositePart;
 
+        [Tooltip("Player whose device is rebound and displayed. Leave empty to follow the last device used by anyone.")]
+        [SerializeField] private InputPromptPlayer _player;
+
         [Space(15), Header("Display")]
         [Tooltip("Icon showing the control currently bound. Hidden while listening.")]
         [SerializeField] private InputPromptIcon _icon;
@@ -55,6 +58,7 @@ namespace Nekuzaky.InputPrompts
         public UnityEvent m_rejected;
 
         private InputActionRebindingExtensions.RebindingOperation _operation;
+        private InputPromptContext _subscribed;
 
         #endregion
 
@@ -64,6 +68,8 @@ namespace Nekuzaky.InputPrompts
         public InputAction Action => _action != null ? _action.action : null;
 
         public bool IsListening => _operation != null;
+
+        public InputPromptContext Context => _player != null ? _player.Context : InputPromptService.Global;
 
         #endregion
 
@@ -84,7 +90,9 @@ namespace Nekuzaky.InputPrompts
             if (_button != null)
                 _button.onClick.AddListener(StartRebind);
 
-            InputPromptService.PromptsChanged += RefreshLabel;
+            InputPromptService.Initialize();
+            _subscribed = Context;
+            _subscribed.PromptsChanged += RefreshLabel;
             RefreshLabel();
         }
 
@@ -93,7 +101,10 @@ namespace Nekuzaky.InputPrompts
             if (_button != null)
                 _button.onClick.RemoveListener(StartRebind);
 
-            InputPromptService.PromptsChanged -= RefreshLabel;
+            if (_subscribed != null)
+                _subscribed.PromptsChanged -= RefreshLabel;
+
+            _subscribed = null;
             Cancel();
         }
 
@@ -108,7 +119,7 @@ namespace Nekuzaky.InputPrompts
             if (action == null || IsListening)
                 return;
 
-            var bindingIndex = InputPromptService.ResolveBindingIndex(action, _compositePart);
+            var bindingIndex = Context.ResolveBindingIndex(action, _compositePart);
             if (bindingIndex < 0)
                 return;
 
@@ -147,13 +158,13 @@ namespace Nekuzaky.InputPrompts
             if (action == null)
                 return;
 
-            var bindingIndex = InputPromptService.ResolveBindingIndex(action, _compositePart);
+            var bindingIndex = Context.ResolveBindingIndex(action, _compositePart);
             if (bindingIndex < 0)
                 return;
 
             action.RemoveBindingOverride(bindingIndex);
             Persist();
-            InputPromptService.Refresh();
+            Context.Refresh();
         }
 
         #endregion
@@ -174,7 +185,7 @@ namespace Nekuzaky.InputPrompts
                 action.Enable();
 
             SetListening(false);
-            InputPromptService.Refresh();
+            Context.Refresh();
 
             if (canceled)
                 m_canceled?.Invoke();
@@ -233,7 +244,7 @@ namespace Nekuzaky.InputPrompts
             _label.text = CurrentName();
         }
 
-        private string CurrentName() => InputPromptService.GetDisplayString(Action, _compositePart);
+        private string CurrentName() => Context.GetDisplayString(Action, _compositePart);
 
         #endregion
     }

@@ -18,6 +18,9 @@ namespace Nekuzaky.InputPrompts
         [Tooltip("Action asset the {Map/Action} tokens are resolved against.")]
         [SerializeField] private InputActionAsset _actions;
 
+        [Tooltip("Player whose device drives the sentence. Leave empty to follow the last device used by anyone.")]
+        [SerializeField] private InputPromptPlayer _player;
+
         [Space(15), Header("Content")]
         [Tooltip("Sentence to display. Tokens look like {Player/Jump}, or {Player/Move#up} for a composite part.")]
         [TextArea]
@@ -28,6 +31,8 @@ namespace Nekuzaky.InputPrompts
         [SerializeField] private bool _useIcons = true;
 
         private readonly StringBuilder _builder = new();
+
+        private InputPromptContext _subscribed;
 
         #endregion
 
@@ -44,6 +49,22 @@ namespace Nekuzaky.InputPrompts
             }
         }
 
+        public InputPromptPlayer Player
+        {
+            get => _player;
+            set
+            {
+                _player = value;
+                if (!isActiveAndEnabled)
+                    return;
+
+                Subscribe();
+                Refresh();
+            }
+        }
+
+        public InputPromptContext Context => _player != null ? _player.Context : InputPromptService.Global;
+
         #endregion
 
 
@@ -57,11 +78,11 @@ namespace Nekuzaky.InputPrompts
                 _target = GetComponent<TMP_Text>();
 
             InputPromptService.Initialize();
-            InputPromptService.PromptsChanged += Refresh;
+            Subscribe();
             Refresh();
         }
 
-        private void OnDisable() => InputPromptService.PromptsChanged -= Refresh;
+        private void OnDisable() => Unsubscribe();
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -91,7 +112,7 @@ namespace Nekuzaky.InputPrompts
 
             if (_useIcons)
             {
-                var spriteAsset = InputPromptService.CurrentSpriteAsset;
+                var spriteAsset = Context.CurrentSpriteAsset;
                 if (spriteAsset != null)
                     _target.spriteAsset = spriteAsset;
             }
@@ -123,6 +144,21 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
+        private void Subscribe()
+        {
+            Unsubscribe();
+            _subscribed = Context;
+            _subscribed.PromptsChanged += Refresh;
+        }
+
+        private void Unsubscribe()
+        {
+            if (_subscribed != null)
+                _subscribed.PromptsChanged -= Refresh;
+
+            _subscribed = null;
+        }
+
         private string Resolve(string token)
         {
             if (_actions == null || string.IsNullOrEmpty(token))
@@ -142,12 +178,12 @@ namespace Nekuzaky.InputPrompts
 
             if (_useIcons)
             {
-                var sprite = InputPromptService.GetSpriteName(action, part);
+                var sprite = Context.GetSpriteName(action, part);
                 if (!string.IsNullOrEmpty(sprite))
                     return $"<sprite name=\"{sprite}\">";
             }
 
-            var display = InputPromptService.GetDisplayString(action, part);
+            var display = Context.GetDisplayString(action, part);
             return string.IsNullOrEmpty(display) ? token : display;
         }
 
