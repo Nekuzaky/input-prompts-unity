@@ -21,7 +21,8 @@ namespace Nekuzaky.InputPrompts.Editor
 
         #region Main API
 
-        public static TMP_SpriteAsset Build(InputPromptSet set, string path)
+        public static TMP_SpriteAsset Build(InputPromptSet set, string path,
+            AtlasCompression compression = AtlasCompression.None)
         {
             if (set == null || set.Entries.Count == 0)
                 return null;
@@ -57,6 +58,8 @@ namespace Nekuzaky.InputPrompts.Editor
             foreach (var texture in textures)
                 Object.DestroyImmediate(texture);
 
+            Compress(atlas, compression);
+
             var asset = LoadOrCreate(path);
             FillTables(asset, sprites, keysBySprite, rects, atlas);
             Attach(asset, atlas, path);
@@ -71,6 +74,20 @@ namespace Nekuzaky.InputPrompts.Editor
 
 
         #region Tools and Utilities
+
+        private static void Compress(Texture2D atlas, AtlasCompression compression)
+        {
+            switch (compression)
+            {
+                case AtlasCompression.Desktop:
+                    EditorUtility.CompressTexture(atlas, TextureFormat.BC7, TextureCompressionQuality.Normal);
+                    break;
+
+                case AtlasCompression.Mobile:
+                    EditorUtility.CompressTexture(atlas, TextureFormat.ASTC_6x6, TextureCompressionQuality.Normal);
+                    break;
+            }
+        }
 
         private static Texture2D ReadTexture(Sprite sprite)
         {

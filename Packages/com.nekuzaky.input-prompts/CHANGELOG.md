@@ -121,3 +121,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 
 - `InputPromptService` is now a facade over a global context. Its whole public API is unchanged and
   keeps following whoever acted last, so existing projects need no change.
+
+## [1.6.0] - 2026-09-13
+
+### Added
+
+- `InputPromptPackDefinition`: folders, layouts, blank icon and `key -> file` mapping of every device
+  family, as an asset. The importer follows it, so another icon pack — official console glyphs
+  included — imports without code changes. **Export Kenney definition** writes the built-in table to
+  an editable asset.
+- `GenerationOptions`: the importer takes a plain options object, so it can run from a build script
+  or a test without touching the project settings.
+- Atlas compression for the TextMeshPro sprite assets: BC7 for desktop, ASTC 6x6 for mobile.
+
+### Changed
+
+- The Kenney table is now one definition among others, built in memory when no definition is set.
+  Generation output is unchanged: same 355 icons, same six sets.
+- `InputPromptGenerator.SupportedStyles` and `InputPromptSettings.FolderFor` are gone; families come
+  from the definition, see `InputPromptGenerator.DescribeFamilies`.

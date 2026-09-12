@@ -30,6 +30,8 @@ What to read, and how.
 | **Coloured face buttons** | Xbox A/B/X/Y and PlayStation cross/circle/square/triangle in brand colours instead of monochrome. |
 | **Fix texture settings** | Sets every PNG of the used folders to Sprite, no mipmaps, clamped, alpha is transparency. One reimport for the whole pack. |
 | **TMP sprite assets** | Builds one TextMeshPro sprite asset per family, packing its icons into an atlas, for inline `<sprite>` tags. |
+| **Atlas compression** | `None`, `Desktop` (BC7) or `Mobile` (ASTC 6x6) for the TextMeshPro atlases. |
+| **Pack definition** | The mapping the importer follows. Empty uses the built-in Kenney table; **Export Kenney definition** writes that table to an editable asset. See [extending.md](extending.md). |
 
 ## Output
 

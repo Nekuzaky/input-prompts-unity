@@ -3,7 +3,7 @@
 [![Unity](https://img.shields.io/badge/Unity-6000.3%2B-2b3038?logo=unity&logoColor=white)](https://unity.com/releases/editor/archive)
 [![Input System](https://img.shields.io/badge/Input%20System-1.14%2B-3a80e8)](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.14/manual/index.html)
 [![Release](https://img.shields.io/github/v/tag/Nekuzaky/input-prompts-unity?label=release&color=3ddc84)](https://github.com/Nekuzaky/input-prompts-unity/tags)
-[![Tests](https://img.shields.io/badge/tests-25%20passing-3ddc84)](#tests)
+[![Tests](https://img.shields.io/badge/tests-36%20passing-3ddc84)](#tests)
 [![License](https://img.shields.io/badge/license-MIT-9aa0ae)](Packages/com.nekuzaky.input-prompts/LICENSE.md)
 
 Unity package that shows the right key or button icon for an `InputAction`, and swaps it on its own
@@ -128,11 +128,13 @@ InputPromptService.PreferExactDevice = true;           // follow the exact devic
 InputPromptService.Refresh();                          // after a rebind done by hand
 ```
 
-## Adding a device
+## Your own icons
 
-1. Add the value to `InputDeviceStyle`.
-2. Fill in `KenneyNameTable` (`FolderFor`, `LayoutsFor`, `BlankFor`, and the name table).
-3. Hit *Generate* in the dashboard again.
+The importer follows an `InputPromptPackDefinition` asset: folders, layouts and a `key -> file` mapping
+per device family. **Export Kenney definition** in the dashboard writes the built-in table to an
+asset you can edit, and pointing the dashboard at your own definition imports any other pack —
+including the official console glyphs certification requires — without touching the code. See
+[extending.md](Packages/com.nekuzaky.input-prompts/Documentation~/extending.md).
 
 Set keys are control paths without the device, lower-cased: `space`, `buttonsouth`, `leftstick/up`,
 `dpad/left`, `scroll/y`.
@@ -150,21 +152,26 @@ Set keys are control paths without the device, lower-cased: `space`, `buttonsout
 
 ## Tests
 
-Twenty-five tests drive real devices through the Input System and read back what the package
+Thirty-six tests drive real devices through the Input System and read back what the package
 resolves, instead of trusting it.
 
-Twenty-one EditMode tests cover the service: which style a keyboard, an XInputController or an
+Thirty-one EditMode tests. The service: which style a keyboard, an XInputController or an
 unrecognised gamepad selects, that mouse movement alone does not steal the prompts from a gamepad
 while a click does, that an action resolves to the keyboard sprite and then to the gamepad one, and
 that a style change is raised once per switch rather than once per input. Three more cover the
 keyboard and mouse family, one the PreferExactDevice option, and one checks that applying a binding
 override moves the prompt to the new key on its own. Six more cover rebinding: duplicate detection
 across maps, the swap that leaves no action unbound, and the save and load round trip. Three check
-the generated TextMeshPro atlas resolves its sprites by name.
+the generated TextMeshPro atlas resolves its sprites by name. Six cover local co-op: each player follows
+only its own devices, sees its own icon for the same action, is not repainted by another player's
+gamepad, and falls back to a device it still owns when its gamepad is unplugged. Four cover pack
+definitions: a custom mapping imported from its own files, a disabled family left out, the Nintendo
+swap surviving the export, and a BC7 atlas that still resolves its names.
 
-Four PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
+Five PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
 with nothing calling `Refresh`, a composite showing four keys on keyboard and a single stick on
-gamepad, the blank key cap fallback, and a prompt hiding itself when the action has no binding.
+gamepad, the blank key cap fallback, and a prompt hiding itself when the action has no binding. The fifth instantiates two `PlayerInput`,
+one paired to a keyboard and one to a gamepad, and checks each sees its own icons.
 
 ```bash
 Unity -batchmode -nographics -runTests -testPlatform EditMode -projectPath . -testResults edit.xml

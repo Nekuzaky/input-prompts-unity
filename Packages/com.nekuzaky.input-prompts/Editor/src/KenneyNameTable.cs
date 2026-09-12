@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Nekuzaky.InputPrompts.Editor
 {
@@ -39,6 +41,40 @@ namespace Nekuzaky.InputPrompts.Editor
             InputDeviceStyle.SteamDeck => "steamdeck_button_a",
             _ => "generic_button",
         };
+
+        public static readonly InputDeviceStyle[] Families =
+        {
+            InputDeviceStyle.KeyboardMouse,
+            InputDeviceStyle.Xbox,
+            InputDeviceStyle.PlayStation,
+            InputDeviceStyle.Switch,
+            InputDeviceStyle.SteamDeck,
+            InputDeviceStyle.Generic,
+        };
+
+        public static InputPromptPackDefinition CreateDefinition(bool coloredFaceButtons)
+        {
+            var definition = ScriptableObject.CreateInstance<InputPromptPackDefinition>();
+            definition.name = "Kenney Input Prompts";
+
+            foreach (var style in Families)
+            {
+                definition.m_families.Add(new InputPromptPackDefinition.Family
+                {
+                    m_style = style,
+                    m_folder = FolderFor(style),
+                    m_layouts = LayoutsFor(style),
+                    m_blankIcon = BlankFor(style),
+                    m_fallsBackToGeneric = style != InputDeviceStyle.Generic && style != InputDeviceStyle.KeyboardMouse,
+                    m_mappings = For(style, coloredFaceButtons)
+                        .OrderBy(pair => pair.Key, System.StringComparer.Ordinal)
+                        .Select(pair => new InputPromptPackDefinition.Mapping { m_key = pair.Key, m_file = pair.Value })
+                        .ToList(),
+                });
+            }
+
+            return definition;
+        }
 
         public static Dictionary<string, string> For(InputDeviceStyle style, bool coloredFaceButtons)
         {

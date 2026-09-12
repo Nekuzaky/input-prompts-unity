@@ -22,6 +22,8 @@ namespace Nekuzaky.InputPrompts.Editor
         public bool m_coloredFaceButtons = true;
         public bool m_applyTextureSettings = true;
         public bool m_generateSpriteAssets = true;
+        public AtlasCompression m_atlasCompression = AtlasCompression.None;
+        public InputPromptPackDefinition m_packDefinition;
 
         public InputDeviceStyle m_gamepadFallbackStyle = InputDeviceStyle.Xbox;
         public InputDeviceStyle m_defaultStyle = InputDeviceStyle.KeyboardMouse;
@@ -37,18 +39,14 @@ namespace Nekuzaky.InputPrompts.Editor
 
         #region Main API
 
-        public string DatabasePath => $"{m_outputFolder}/Resources/{InputPromptGenerator.DatabaseName}.asset";
-
-        public string FolderFor(InputDeviceStyle style) =>
-            $"{m_packFolder}/{KenneyNameTable.FolderFor(style)}/{m_variant}";
+        public string DatabasePath => InputPromptGenerator.DatabasePathIn(m_outputFolder);
 
         public string PrefabPath => $"{m_prefabFolder}/P_InputPromptIcon.prefab";
 
-        public string SetPathFor(InputDeviceStyle style) =>
-            $"{m_outputFolder}/{InputPromptGenerator.SetPrefix}{style}.asset";
+        public string SetPathFor(InputDeviceStyle style) => InputPromptGenerator.SetPathIn(m_outputFolder, style);
 
         public string SpriteAssetPathFor(InputDeviceStyle style) =>
-            $"{m_outputFolder}/{InputPromptGenerator.SpriteAssetPrefix}{style}.asset";
+            InputPromptGenerator.SpriteAssetPathIn(m_outputFolder, style);
 
         public bool IsStyleEnabled(InputDeviceStyle style) => !m_disabledStyles.Contains(style);
 

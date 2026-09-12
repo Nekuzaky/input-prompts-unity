@@ -3,6 +3,7 @@
     "rootNamespace": "Nekuzaky.InputPrompts.Tests",
     "references": [
         "Nekuzaky.InputPrompts.Runtime",
+        "Nekuzaky.InputPrompts.Editor",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
         "Unity.TextMeshPro",

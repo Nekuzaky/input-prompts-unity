@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Nekuzaky.InputPrompts.Editor
@@ -209,6 +210,42 @@ namespace Nekuzaky.InputPrompts.Editor
                 _settings.SaveSettings();
             }));
 
+            content.Add(MakeDropdown("Atlas compression", Enum.GetNames(typeof(AtlasCompression)),
+                _settings.m_atlasCompression.ToString(), value =>
+                {
+                    _settings.m_atlasCompression = Enum.Parse<AtlasCompression>(value);
+                    _settings.SaveSettings();
+                }));
+
+            var definition = new ObjectField("Pack definition")
+            {
+                objectType = typeof(InputPromptPackDefinition),
+                allowSceneObjects = false,
+                value = _settings.m_packDefinition,
+            };
+            definition.AddToClassList("ip-field");
+            definition.RegisterValueChangedCallback(evt =>
+            {
+                _settings.m_packDefinition = evt.newValue as InputPromptPackDefinition;
+                _settings.SaveSettings();
+                RefreshDevices();
+            });
+            content.Add(definition);
+
+            var packActions = MakeRow();
+            packActions.Add(MakeButton(DashboardGlyphs.Output, "Export Kenney definition", () =>
+            {
+                var exported = InputPromptGenerator.ExportKenneyDefinition(_settings);
+                definition.value = exported;
+                EditorGUIUtility.PingObject(exported);
+            }, "ip-button", "ip-button--ghost"));
+            content.Add(packActions);
+
+            content.Add(MakeLabel(
+                "Empty definition: the built-in Kenney table is used. Export it to edit the mappings, or point "
+                + "at your own definition to import another icon pack, certified console glyphs included.",
+                "ip-note"));
+
             content.Add(MakeLabel("Default = 1x, Double = 2x. Settings are shared through ProjectSettings.",
                 "ip-note"));
 
@@ -414,12 +451,13 @@ namespace Nekuzaky.InputPrompts.Editor
 
             _deviceList.Clear();
 
-            foreach (var style in InputPromptGenerator.SupportedStyles)
-                _deviceList.Add(BuildDeviceRow(style));
+            foreach (var family in InputPromptGenerator.DescribeFamilies(_settings))
+                _deviceList.Add(BuildDeviceRow(family));
         }
 
-        private VisualElement BuildDeviceRow(InputDeviceStyle style)
+        private VisualElement BuildDeviceRow(InputPromptGenerator.FamilyInfo family)
         {
+            var style = family.m_style;
             var row = MakeRow("ip-device");
             row.EnableInClassList("ip-device--selected", style == _previewStyle);
 
@@ -435,11 +473,11 @@ namespace Nekuzaky.InputPrompts.Editor
             row.Add(DashboardGlyphs.Icon(icon, tint, "ip-device__badge"));
             row.Add(MakeLabel(ObjectNames.NicifyVariableName(style.ToString()), "ip-device__name"));
 
-            var layouts = KenneyNameTable.LayoutsFor(style);
+            var layouts = family.m_layouts;
             row.Add(MakeLabel(layouts.Length > 0 ? string.Join(", ", layouts) : "—", "ip-device__layout"));
 
             var count = InputPromptGenerator.CountIcons(_settings, style);
-            var hasFolder = AssetDatabase.IsValidFolder(_settings.FolderFor(style));
+            var hasFolder = AssetDatabase.IsValidFolder(family.m_folder);
             row.Add(MakeLabel(count >= 0 ? $"{count} icons" : hasFolder ? "to generate" : "folder?",
                 "ip-device__count"));
 
