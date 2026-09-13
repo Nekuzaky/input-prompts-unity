@@ -1,8 +1,8 @@
 # Components
 
-Seven components cover what a game needs on screen. They all subscribe to
-`InputPromptService.PromptsChanged` while enabled, so they repaint themselves on a device change or
-a rebind; nothing polls, nothing runs per frame.
+Six components and one UI Toolkit element cover what a game needs on screen. Each listens to the
+`PromptsChanged` event of its context — the global one, or a player's in local co-op — so it repaints
+itself on a device change or a rebind; nothing polls, nothing runs per frame.
 
 ---
 

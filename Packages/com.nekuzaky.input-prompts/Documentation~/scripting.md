@@ -1,7 +1,8 @@
 # Scripting
 
-Everything lives in `Nekuzaky.InputPrompts`. `InputPromptService` is a static class: one active
-device for the whole UI, no instance to wire.
+Everything lives in `Nekuzaky.InputPrompts`. `InputPromptService` is a static facade over a global
+`InputPromptContext` that follows whoever acted last, so a single-player game has no instance to
+wire. For local co-op, each player gets a context of its own, see [Local co-op](#local-co-op).
 
 ```csharp
 using Nekuzaky.InputPrompts;
