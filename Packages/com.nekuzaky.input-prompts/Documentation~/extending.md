@@ -90,7 +90,3 @@ InputPromptService.Refresh();
 Supported through `InputPromptPlayer`, see [scripting.md](scripting.md). Each player gets its own
 `InputPromptContext`, fed only by the devices its `PlayerInput` is paired with.
 
-## What is deliberately absent
-
-- No UI Toolkit or SpriteRenderer components. `InputPromptService` returns plain `Sprite` objects, so
-  either is a small component to write against the same API.

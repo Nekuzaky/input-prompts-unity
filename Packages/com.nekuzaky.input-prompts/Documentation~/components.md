@@ -1,6 +1,6 @@
 # Components
 
-Five components cover what a game needs on screen. They all subscribe to
+Seven components cover what a game needs on screen. They all subscribe to
 `InputPromptService.PromptsChanged` while enabled, so they repaint themselves on a device change or
 a rebind; nothing polls, nothing runs per frame.
 
@@ -110,6 +110,54 @@ it off to always print names.
 | `Tools > Input Prompts > Generate Prompt Sets` | Runs the import with the stored settings, no window. |
 | `Tools > Input Prompts > Create Demo Canvas` | Builds a canvas with one row per action of the selected `.inputactions` asset, each showing its icons. Creates the icon prefab if it does not exist yet. |
 | `GameObject > UI > Input Prompt Icon` | Creates a ready to use icon under the current canvas. |
+
+---
+
+## InputPromptSprite
+
+`Add Component > Input Prompts > Input Prompt Sprite`. Requires a `SpriteRenderer` on the same object.
+
+The world-space version of `InputPromptIcon`, for a prompt floating over a door, a chest or an NPC.
+
+| Field | Default | What it does |
+|---|---|---|
+| **Action** | none | The `InputActionReference` to display. |
+| **Composite part** | empty | Part of a composite to show. Empty for a plain binding. |
+| **Player** | none | An `InputPromptPlayer` in local co-op. Empty follows whoever acted last. |
+| **Renderer** | self | The `SpriteRenderer` that receives the sprite. |
+| **Hide When Unbound** | on | Disables the renderer when the action has no binding. |
+| **World Height** | 0 | Height of the icon in world units; the width follows the sprite ratio. 0 leaves the scale alone. |
+
+```csharp
+prompt.Action = interact;
+prompt.WorldHeight = 0.5f;     // half a unit tall, whatever the sprite resolution
+```
+
+---
+
+## InputPromptElement
+
+A UI Toolkit `VisualElement`, available in UI Builder under **Project > Custom Controls** and in UXML:
+
+```xml
+<Nekuzaky.InputPrompts.InputPromptElement action-reference="project://database/Assets/Controls.inputactions?fileID=...&amp;type=3#Player/Jump"
+                                          composite-part="" hide-when-unbound="true" />
+```
+
+| Attribute | Default | What it does |
+|---|---|---|
+| `action-reference` | none | The `InputActionReference` to display. Drag it in UI Builder rather than typing it. |
+| `composite-part` | empty | Part of a composite to show. |
+| `hide-when-unbound` | true | Hides the element when the action has no binding. The element keeps its place in the layout. |
+
+```csharp
+var prompt = new InputPromptElement { Action = playerInput.actions["Jump"] };
+prompt.Context = GetComponent<InputPromptPlayer>().Context;   // local co-op
+root.Add(prompt);
+```
+
+It subscribes when attached to a panel and unsubscribes when detached, so an element removed from the
+hierarchy holds no reference to the service. Style it through the `input-prompt` USS class.
 
 ---
 

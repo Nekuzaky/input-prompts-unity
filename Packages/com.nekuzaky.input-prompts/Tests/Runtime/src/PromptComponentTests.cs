@@ -161,6 +161,54 @@ namespace Nekuzaky.InputPrompts.Tests
         }
 
         [UnityTest]
+        public IEnumerator A_world_space_sprite_follows_the_device()
+        {
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var gamepad = InputSystem.AddDevice<XInputController>();
+
+            var action = new InputAction("Jump");
+            action.AddBinding("<Keyboard>/space");
+            action.AddBinding("<Gamepad>/buttonSouth");
+
+            var go = new GameObject("World Prompt", typeof(SpriteRenderer), typeof(InputPromptSprite));
+            _spawned.Add(go);
+            var prompt = go.GetComponent<InputPromptSprite>();
+            var spriteRenderer = go.GetComponent<SpriteRenderer>();
+            prompt.Action = action;
+
+            Press(keyboard.spaceKey);
+            yield return null;
+            Assert.That(spriteRenderer.sprite, Is.SameAs(_keyboardSprite));
+
+            Press(gamepad.buttonSouth);
+            yield return null;
+            Assert.That(spriteRenderer.sprite, Is.SameAs(_gamepadSprite));
+
+            action.Dispose();
+        }
+
+        [UnityTest]
+        public IEnumerator A_world_height_scales_the_sprite_to_that_size()
+        {
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var action = new InputAction("Jump", binding: "<Keyboard>/space");
+
+            var go = new GameObject("World Prompt", typeof(SpriteRenderer), typeof(InputPromptSprite));
+            _spawned.Add(go);
+            var prompt = go.GetComponent<InputPromptSprite>();
+            prompt.Action = action;
+            Press(keyboard.spaceKey);
+
+            prompt.WorldHeight = 2f;
+            yield return null;
+
+            var rendered = go.GetComponent<SpriteRenderer>().bounds.size.y;
+            Assert.That(rendered, Is.EqualTo(2f).Within(0.001f));
+
+            action.Dispose();
+        }
+
+        [UnityTest]
         public IEnumerator Two_players_paired_to_different_devices_see_their_own_icons()
         {
             var keyboard = InputSystem.AddDevice<Keyboard>();
