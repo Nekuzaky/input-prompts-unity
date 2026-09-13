@@ -88,15 +88,7 @@ namespace Nekuzaky.InputPrompts
 
         #region Tools and Utilities
 
-        private static bool TargetsLayout(string path, string layout)
-        {
-            var pathLayout = ControlPath.LayoutOf(path);
-            if (string.IsNullOrEmpty(pathLayout))
-                return false;
-
-            return string.Equals(pathLayout, layout, StringComparison.OrdinalIgnoreCase) ||
-                   InputSystem.IsFirstLayoutBasedOnSecond(layout, pathLayout);
-        }
+        private static bool TargetsLayout(string path, string layout) => ControlPath.TargetsLayout(path, layout);
 
         #endregion
     }

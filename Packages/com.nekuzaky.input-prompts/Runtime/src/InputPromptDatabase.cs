@@ -11,7 +11,7 @@ namespace Nekuzaky.InputPrompts
         #region Public
 
         [Header("Sets")]
-        [Tooltip("One set per device family. The first set matching a device wins.")]
+        [Tooltip("One set per device family. A family naming a specific layout wins over one that only names Gamepad.")]
         public List<InputPromptSet> m_sets = new();
 
         [Tooltip("Used for gamepads that match none of the sets above.")]
@@ -29,6 +29,13 @@ namespace Nekuzaky.InputPrompts
 
         [Tooltip("Resolve bindings against the exact device rather than its family. Off keeps keyboard and mouse as one.")]
         public bool m_preferExactDevice;
+
+        #endregion
+
+
+        #region Private and Protected
+
+        private const string RootGamepadLayout = "Gamepad";
 
         #endregion
 
@@ -53,12 +60,18 @@ namespace Nekuzaky.InputPrompts
 
             foreach (var set in m_sets)
             {
-                if (Covers(set, device))
+                if (!IsCatchAll(set) && Covers(set, device))
                     return set;
             }
 
             if (device is Gamepad && m_gamepadFallback != null)
                 return m_gamepadFallback;
+
+            foreach (var set in m_sets)
+            {
+                if (IsCatchAll(set) && Covers(set, device))
+                    return set;
+            }
 
             return GetSet(m_defaultStyle);
         }
@@ -68,6 +81,31 @@ namespace Nekuzaky.InputPrompts
             var set = GetSet(device);
             return set != null ? set.m_style : m_defaultStyle;
         }
+
+        public List<InputPromptSet> FindSetsFor(string bindingPath)
+        {
+            var result = new List<InputPromptSet>();
+
+            foreach (var set in m_sets)
+            {
+                if (set == null || set.m_layouts == null)
+                    continue;
+
+                foreach (var layout in set.m_layouts)
+                {
+                    if (!ControlPath.TargetsLayout(bindingPath, layout))
+                        continue;
+
+                    result.Add(set);
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public bool IsShadowedByFallback(InputPromptSet set) =>
+            IsCatchAll(set) && m_gamepadFallback != null && m_gamepadFallback != set;
 
         public IReadOnlyList<string> PreferredLayouts(InputDeviceStyle style)
         {
@@ -79,6 +117,20 @@ namespace Nekuzaky.InputPrompts
 
 
         #region Tools and Utilities
+
+        private static bool IsCatchAll(InputPromptSet set)
+        {
+            if (set == null || set.m_layouts == null || set.m_layouts.Length == 0)
+                return false;
+
+            foreach (var layout in set.m_layouts)
+            {
+                if (!string.Equals(layout, RootGamepadLayout, StringComparison.OrdinalIgnoreCase))
+                    return false;
+            }
+
+            return true;
+        }
 
         private static bool Covers(InputPromptSet set, InputDevice device)
         {

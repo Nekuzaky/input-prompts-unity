@@ -457,3 +457,22 @@
 .ip-columns--compact .ip-device__layout {
     display: none;
 }
+
+/* ---------------------------------------------------------------- validation */
+
+.ip-issue {
+    font-size: 10px;
+    color: rgb(139, 146, 162);
+    white-space: normal;
+    padding: 4px 8px;
+    margin-top: 3px;
+    border-radius: 5px;
+    background-color: rgb(26, 29, 35);
+    border-left-width: 2px;
+    border-left-color: rgb(70, 76, 90);
+}
+
+.ip-issue--missing {
+    color: rgb(255, 196, 92);
+    border-left-color: rgb(255, 176, 32);
+}

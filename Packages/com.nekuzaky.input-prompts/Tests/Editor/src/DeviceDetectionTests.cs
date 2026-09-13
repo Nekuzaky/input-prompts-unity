@@ -88,6 +88,51 @@ namespace Nekuzaky.InputPrompts.Tests
         }
 
         [Test]
+        public void A_catch_all_gamepad_set_does_not_override_the_configured_fallback()
+        {
+            var generic = ScriptableObject.CreateInstance<InputPromptSet>();
+            generic.m_style = InputDeviceStyle.Generic;
+            generic.m_layouts = new[] { "Gamepad" };
+            _database.m_sets.Add(generic);
+
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            Press(gamepad.buttonSouth);
+
+            Assert.That(InputPromptService.CurrentStyle, Is.EqualTo(InputDeviceStyle.Xbox),
+                "an unrecognised gamepad must take the fallback chosen in the dashboard");
+        }
+
+        [Test]
+        public void Without_a_fallback_the_catch_all_set_takes_unknown_gamepads()
+        {
+            var generic = ScriptableObject.CreateInstance<InputPromptSet>();
+            generic.m_style = InputDeviceStyle.Generic;
+            generic.m_layouts = new[] { "Gamepad" };
+            _database.m_sets.Add(generic);
+            _database.m_gamepadFallback = null;
+
+            var gamepad = InputSystem.AddDevice<Gamepad>();
+            Press(gamepad.buttonSouth);
+
+            Assert.That(InputPromptService.CurrentStyle, Is.EqualTo(InputDeviceStyle.Generic));
+        }
+
+        [Test]
+        public void A_known_gamepad_keeps_its_own_family_next_to_a_catch_all_set()
+        {
+            var generic = ScriptableObject.CreateInstance<InputPromptSet>();
+            generic.m_style = InputDeviceStyle.Generic;
+            generic.m_layouts = new[] { "Gamepad" };
+            _database.m_sets.Insert(0, generic);
+
+            var gamepad = InputSystem.AddDevice<XInputController>();
+            Press(gamepad.buttonSouth);
+
+            Assert.That(InputPromptService.CurrentStyle, Is.EqualTo(InputDeviceStyle.Xbox),
+                "a specific family wins over a catch-all one, whatever their order");
+        }
+
+        [Test]
         public void Moving_the_mouse_does_not_take_the_prompts_off_the_gamepad()
         {
             var mouse = InputSystem.AddDevice<Mouse>();

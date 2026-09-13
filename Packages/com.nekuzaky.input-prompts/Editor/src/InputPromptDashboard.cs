@@ -19,6 +19,7 @@ namespace Nekuzaky.InputPrompts.Editor
         private const string CoffeeUrl = "https://buymeacoffee.com/nekuzaky";
 
         private const float CompactWidth = 760f;
+        private const int MaxIssueRows = 40;
 
         private static readonly Color AccentColor = new(0.23f, 0.50f, 0.91f);
 
@@ -50,6 +51,9 @@ namespace Nekuzaky.InputPrompts.Editor
         private VisualElement _previewGrid;
         private Label _previewTitle;
         private TextField _report;
+        private ObjectField _validatedAsset;
+        private Label _validationSummary;
+        private VisualElement _issueList;
 
         #endregion
 
@@ -158,6 +162,7 @@ namespace Nekuzaky.InputPrompts.Editor
             right.AddToClassList("ip-column");
             right.Add(BuildDevicesCard());
             right.Add(BuildPreviewCard());
+            right.Add(BuildValidationCard());
 
             columns.Add(left);
             columns.Add(right);
@@ -357,6 +362,32 @@ namespace Nekuzaky.InputPrompts.Editor
             return card;
         }
 
+        private VisualElement BuildValidationCard()
+        {
+            var card = MakeCard(DashboardGlyphs.Ping, "Validation", "Bindings without an icon", out var content);
+
+            _validatedAsset = new ObjectField("Action asset")
+            {
+                objectType = typeof(UnityEngine.InputSystem.InputActionAsset),
+                allowSceneObjects = false,
+                value = FindFirstActionAsset(),
+            };
+            _validatedAsset.AddToClassList("ip-field");
+            content.Add(_validatedAsset);
+
+            var actions = MakeRow();
+            actions.Add(MakeButton(DashboardGlyphs.Ping, "Validate", RunValidation, "ip-button"));
+            content.Add(actions);
+
+            _validationSummary = MakeLabel("Pick an action asset and press Validate.", "ip-note");
+            content.Add(_validationSummary);
+
+            _issueList = new VisualElement();
+            content.Add(_issueList);
+
+            return card;
+        }
+
         private VisualElement BuildReportCard()
         {
             var card = MakeCard(DashboardGlyphs.Report, "Report", "Last generation", out var content);
@@ -531,6 +562,55 @@ namespace Nekuzaky.InputPrompts.Editor
             var result = InputPromptGenerator.Generate(_settings);
             _report.value = string.IsNullOrEmpty(result.m_report) ? "—" : result.m_report.TrimEnd();
             RefreshAll();
+        }
+
+        private void RunValidation()
+        {
+            _issueList.Clear();
+
+            var asset = _validatedAsset.value as UnityEngine.InputSystem.InputActionAsset;
+            var database = AssetDatabase.LoadAssetAtPath<InputPromptDatabase>(_settings.DatabasePath);
+            if (asset == null || database == null)
+            {
+                _validationSummary.text = database == null
+                    ? "Generate the database first."
+                    : "Pick an action asset first.";
+                return;
+            }
+
+            var issues = InputPromptValidator.Validate(asset, database);
+            var missing = issues.Count(issue => issue.m_kind == InputPromptValidator.IssueKind.MissingIcon);
+            var uncovered = issues.Count - missing;
+
+            _validationSummary.text = issues.Count == 0
+                ? "Every binding has an icon."
+                : $"{missing} missing icon(s) to fix, {uncovered} binding(s) on devices or usages no icon family covers.";
+            _validationSummary.EnableInClassList("ip-note--warn", missing > 0);
+
+            foreach (var issue in issues.OrderBy(issue => issue.m_kind).Take(MaxIssueRows))
+            {
+                var row = MakeLabel(issue.ToString(), "ip-issue");
+                row.EnableInClassList("ip-issue--missing", issue.m_kind == InputPromptValidator.IssueKind.MissingIcon);
+                _issueList.Add(row);
+            }
+
+            if (issues.Count > MaxIssueRows)
+                _issueList.Add(MakeLabel(
+                    $"… and {issues.Count - MaxIssueRows} more, see Tools > Input Prompts > Validate Action Assets.",
+                    "ip-note"));
+        }
+
+        private static UnityEngine.InputSystem.InputActionAsset FindFirstActionAsset()
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:InputActionAsset", new[] { "Assets" }))
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.InputSystem.InputActionAsset>(
+                    AssetDatabase.GUIDToAssetPath(guid));
+                if (asset != null)
+                    return asset;
+            }
+
+            return null;
         }
 
         private void PingDatabase()

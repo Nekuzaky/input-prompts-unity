@@ -109,6 +109,7 @@ it off to always print names.
 | `Tools > Input Prompts > Dashboard` | Opens the configuration window. |
 | `Tools > Input Prompts > Generate Prompt Sets` | Runs the import with the stored settings, no window. |
 | `Tools > Input Prompts > Create Demo Canvas` | Builds a canvas with one row per action of the selected `.inputactions` asset, each showing its icons. Creates the icon prefab if it does not exist yet. |
+| `Tools > Input Prompts > Validate Action Assets` | Checks every action asset of the project against the database and logs the bindings with no icon. |
 | `GameObject > UI > Input Prompt Icon` | Creates a ready to use icon under the current canvas. |
 
 ---

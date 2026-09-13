@@ -90,3 +90,31 @@ InputPromptService.Refresh();
 Supported through `InputPromptPlayer`, see [scripting.md](scripting.md). Each player gets its own
 `InputPromptContext`, fed only by the devices its `PlayerInput` is paired with.
 
+
+## Validation
+
+`Tools > Input Prompts > Validate Action Assets`, or the **Validation** card of the dashboard, checks
+every binding of an action asset against the database before a player ever sees a blank prompt.
+
+| Report | Meaning | What to do |
+|---|---|---|
+| `has no icon in Xbox (key "dpad/left")` | A family that will be shown for this binding has no icon for that control. | Add the mapping to the pack definition, or bind another control. |
+| `matches no device family` | No set covers the device, e.g. `<Joystick>/trigger` or `<XRController>/grip`. | Expected for devices you do not show prompts for; add a family otherwise. |
+| `cannot be turned into an icon key` | The path names a usage such as `*/{Submit}` rather than a control. | Bind concrete controls where the action needs a prompt. |
+
+Only the first kind is a defect of the prompts; the dashboard counts it apart from the others.
+
+A set that only names the root `Gamepad` layout, like the Kenney Generic family, is not reported when
+the database has a different gamepad fallback: unknown gamepads use that fallback, so the Generic set
+is never what the player sees for them.
+
+```csharp
+List<InputPromptValidator.Issue> issues = InputPromptValidator.Validate(actions, database);
+```
+
+`Validate` is a plain call, so a build script can fail the build on missing icons:
+
+```csharp
+if (InputPromptValidator.Validate(actions, database).Any(issue => issue.m_kind == InputPromptValidator.IssueKind.MissingIcon))
+    throw new BuildFailedException("Some bindings have no prompt icon.");
+```

@@ -63,6 +63,7 @@ settings, per device sets, a live preview of the generated icons and the runtime
 | **Devices** | One row per device family: enable it, see its layouts and its icon count, click to preview. |
 | **Preview** | The generated icons for the selected family, and a button to force that style in the editor. |
 | **Report** | What the last generation produced, missing icons included. |
+| **Validation** | Checks an action asset against the database: missing icons to fix, apart from bindings no family covers. |
 
 Settings live in `ProjectSettings/InputPromptsSettings.asset`, so a whole team shares the same import
 configuration. On a build machine, run the import headless:

@@ -38,6 +38,16 @@ namespace Nekuzaky.InputPrompts
             return close <= 1 ? null : path.Substring(1, close - 1);
         }
 
+        public static bool TargetsLayout(string path, string layout)
+        {
+            var pathLayout = LayoutOf(path);
+            if (string.IsNullOrEmpty(pathLayout) || string.IsNullOrEmpty(layout))
+                return false;
+
+            return string.Equals(pathLayout, layout, StringComparison.OrdinalIgnoreCase) ||
+                   InputSystem.IsFirstLayoutBasedOnSecond(layout, pathLayout);
+        }
+
         public static bool MatchesDevice(string path, InputDevice device)
         {
             if (device == null)
