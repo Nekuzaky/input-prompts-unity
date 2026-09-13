@@ -1,6 +1,6 @@
 {
   "name": "com.nekuzaky.input-prompts",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "displayName": "Input Prompts",
   "description": "Shows the right key or button icon for an InputAction and swaps it automatically when the player switches device (keyboard, Xbox, PlayStation, Switch, Steam Deck). Imports the icons from the Kenney Input Prompts pack.",
   "unity": "6000.3",
@@ -22,5 +22,12 @@
   "dependencies": {
     "com.unity.inputsystem": "1.14.0",
     "com.unity.ugui": "2.0.0"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Basic prompts",
+      "description": "An icon, a WASD group, a sentence with inline icons and a rebind button, all following the device in use. Generate the prompt database first.",
+      "path": "Samples~/Basic"
+    }
+  ]
 }

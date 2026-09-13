@@ -57,3 +57,9 @@ pack anywhere in `Assets/`, then generate the sets from the dashboard.
 - Unity 6000.3 or newer
 - Input System 1.14 or newer, with actions defined in an `.inputactions` asset
 - uGUI for the components; TextMeshPro only for `InputPromptText` and the optional fallback label
+
+## Sample
+
+`Window > Package Manager > Input Prompts > Samples > Basic prompts > Import` copies a scene into
+`Assets/Samples`: an icon, a WASD group, a sentence with inline icons, and a rebind button with a reset,
+all following the device in use. Generate the prompt database from the dashboard before pressing Play.

@@ -140,3 +140,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
   Generation output is unchanged: same 355 icons, same six sets.
 - `InputPromptGenerator.SupportedStyles` and `InputPromptSettings.FolderFor` are gone; families come
   from the definition, see `InputPromptGenerator.DescribeFamilies`.
+
+## [1.7.0] - 2026-09-13
+
+### Added
+
+- `InputPromptSprite`: prompts in world space on a `SpriteRenderer`, with an optional height in world
+  units.
+- `InputPromptElement`: a UI Toolkit element declared with `[UxmlElement]`, available in UI Builder,
+  with an `action-reference` attribute.
+- `InputPromptValidator`: checks every binding of an action asset against the database and reports
+  missing icons, devices no family covers, and usage paths. Available from
+  `Tools > Input Prompts > Validate Action Assets`, as a Validation card in the dashboard, and as a
+  plain call for build scripts.
+- `Samples~/Basic`: a scene importable from the Package Manager, with an icon, a WASD group, a
+  sentence with inline icons, a rebind button and a reset.
+- `ControlPath.TargetsLayout` and `InputPromptDatabase.FindSetsFor`.
+
+### Fixed
+
+- An unrecognised gamepad took the Generic set instead of the fallback chosen in the dashboard,
+  because a set naming only the root `Gamepad` layout matched every gamepad. The setting had no
+  effect. Worse, a known controller took Generic too whenever that set came earlier in the list.
+  Sets naming a specific layout are now tried first, then the gamepad fallback, then catch-all sets.

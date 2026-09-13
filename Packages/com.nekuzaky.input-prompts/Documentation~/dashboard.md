@@ -97,3 +97,10 @@ Unity -batchmode -quit -nographics -projectPath . \
 
 It uses the stored settings, which is why they live in `ProjectSettings`: a build machine generates
 exactly what a developer's machine does.
+
+## Validation
+
+Checks an action asset against the database. Pick the asset, press **Validate**: the card counts the
+missing icons to fix apart from the bindings no icon family covers, such as XR controllers or usage
+paths like `*/{Submit}`, and lists each one. See [extending.md](extending.md) for what every kind of
+report means.

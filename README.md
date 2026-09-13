@@ -3,7 +3,7 @@
 [![Unity](https://img.shields.io/badge/Unity-6000.3%2B-2b3038?logo=unity&logoColor=white)](https://unity.com/releases/editor/archive)
 [![Input System](https://img.shields.io/badge/Input%20System-1.14%2B-3a80e8)](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.14/manual/index.html)
 [![Release](https://img.shields.io/github/v/tag/Nekuzaky/input-prompts-unity?label=release&color=3ddc84)](https://github.com/Nekuzaky/input-prompts-unity/tags)
-[![Tests](https://img.shields.io/badge/tests-36%20passing-3ddc84)](#tests)
+[![Tests](https://img.shields.io/badge/tests-51%20passing-3ddc84)](#tests)
 [![License](https://img.shields.io/badge/license-MIT-9aa0ae)](Packages/com.nekuzaky.input-prompts/LICENSE.md)
 
 Unity package that shows the right key or button icon for an `InputAction`, and swaps it on its own
@@ -153,10 +153,10 @@ Set keys are control paths without the device, lower-cased: `space`, `buttonsout
 
 ## Tests
 
-Thirty-six tests drive real devices through the Input System and read back what the package
+Fifty-one tests drive real devices through the Input System and read back what the package
 resolves, instead of trusting it.
 
-Thirty-one EditMode tests. The service: which style a keyboard, an XInputController or an
+Forty-four EditMode tests. The service: which style a keyboard, an XInputController or an
 unrecognised gamepad selects, that mouse movement alone does not steal the prompts from a gamepad
 while a click does, that an action resolves to the keyboard sprite and then to the gamepad one, and
 that a style change is raised once per switch rather than once per input. Three more cover the
@@ -167,12 +167,15 @@ the generated TextMeshPro atlas resolves its sprites by name. Six cover local co
 only its own devices, sees its own icon for the same action, is not repainted by another player's
 gamepad, and falls back to a device it still owns when its gamepad is unplugged. Four cover pack
 definitions: a custom mapping imported from its own files, a disabled family left out, the Nintendo
-swap surviving the export, and a BC7 atlas that still resolves its names.
+swap surviving the export, and a BC7 atlas that still resolves its names. Seven cover the validator: missing icons,
+uncovered devices, usage paths, composite parts, and a catch-all family hidden behind a fallback. Three
+more reproduce the gamepad fallback bug it uncovered. The UI Toolkit element has three of its own.
 
-Five PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
+Seven PlayMode tests cover the components in a scene: an icon repainting itself on a device switch
 with nothing calling `Refresh`, a composite showing four keys on keyboard and a single stick on
 gamepad, the blank key cap fallback, and a prompt hiding itself when the action has no binding. The fifth instantiates two `PlayerInput`,
-one paired to a keyboard and one to a gamepad, and checks each sees its own icons.
+one paired to a keyboard and one to a gamepad, and checks each sees its own icons. Two more cover the
+world-space sprite: following the device, and fitting a requested height.
 
 ```bash
 Unity -batchmode -nographics -runTests -testPlatform EditMode -projectPath . -testResults edit.xml
